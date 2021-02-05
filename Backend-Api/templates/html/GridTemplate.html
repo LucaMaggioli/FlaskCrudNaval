@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grid Template</title>
+</head>
+<body>
+    <div class="Content">
+        <div class="Form">
+            <form action="/getGrid" method="GET">
+              <div>
+                <label for="GridId">What Grid you want to get?</label>
+                <input name="GridId" id="GridId" value="0">
+              </div>
+              <div>
+                <button>Get the Grid</button>
+              </div>
+            </form>
+        </div>
+        <div class="GridResult">
+            <p>{{Grid}}</p>
+        </div>
+    </div>
+</body>
+</html>

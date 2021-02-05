@@ -8,3 +8,7 @@ NavalCrudApp.secret_key = '_TPD?nonPDT,ah_PDT!Patate._)?^'  #secret key to avoid
 def my_index():
     
     return flask.render_template("index.html", token="Hello from flask")
+
+@NavalCrudApp.route("/gridTemplate")
+def gridTemplatePage():
+    return flask.render_template("html/GridTemplate.html", token="Hello from flask")

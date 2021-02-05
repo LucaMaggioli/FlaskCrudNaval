@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test template</title>
+</head>
+<body>
+    <div class="Form">
+        <form action="/getGreetings" method="GET">
+          <div>
+            <label for="say">What greeting do you want to say?</label>
+            <input name="say" id="say" value="Hi">
+          </div>
+          <div>
+            <label for="to">Who do you want to say it to?</label>
+            <input name="to" id="to" value="Mom">
+          </div>
+          <div>
+            <button>Send my greetings</button>
+          </div>
+        </form>
+        <div class="Greetings">
+            {{token}}
+        </div>
+    </div>
+</body>
+</html>
