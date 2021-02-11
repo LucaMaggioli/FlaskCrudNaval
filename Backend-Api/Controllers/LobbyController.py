@@ -39,7 +39,7 @@ def startGame():
 
         lobby = Lobby()
         lobby.addGame(_game)
-        __Context.SaveLobby(lobby)
+        #__Context.SaveLobby(lobby)
         #dictGame = json.dumps(_game.__dict__)
         dictGame = _game.__dict__()
 
