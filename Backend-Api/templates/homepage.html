@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to BattleNaval !</h1>
+    <br>
+    <h2>Insert your Nickname!</h2>
+    <form action="/players/add" method="POST">
+        <div>
+            <label for="pNickname">Nickname:</label>
+            <input name="pNickname" id="pNickname">
+        </div>
+        <div>
+            <button>Ok this is my Nickname!</button>
+        </div>
+    </form>
+    <p>{{message}}</p>
+</body>
+</html>
