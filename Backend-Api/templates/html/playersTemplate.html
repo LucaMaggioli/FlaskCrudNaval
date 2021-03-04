@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Players</title>
+</head>
+<body>
+    <h1>this is the template for players</h1>
+    <a href="/players/all">get all players</a>
+    <br>
+    <h2>Get a Player By Id:</h2>
+    <form action="/players/player" method="GET">
+        <div>
+            <label for="Id">What player you want to get?</label>
+            <input name="Id" id="Id">
+        </div>
+        <div>
+            <button>Get the player by Id</button>
+        </div>
+    </form>
+    <br>
+
+    <h2>Create a new Player</h2>
+    <form action="/players/player/save" method="POST">
+        <div>
+            <label for="pId">Id: </label>
+            <input name="pId" id="pId">
+        </div>
+        <div>
+            <label for="pNickname">Nickname:</label>
+            <input name="pNickname" id="pNickname">
+        </div>
+        <div>
+            <button>Save new Player</button>
+        </div>
+    </form>
+</body>
+</html>
