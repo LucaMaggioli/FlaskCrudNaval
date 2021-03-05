@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Player</title>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </head>
 <body>
     <h1>Hello {{player['nickname']}}</h1>
     <br>
-    <button>Create your Lobby</button>
+    <button onclick="createLobby()">Create your Lobby</button>
     <br>
-    <button>Join a Lobby</button>
+    <button onclick="joinLobby()">Join a Lobby</button>
 </body>
 </html>
