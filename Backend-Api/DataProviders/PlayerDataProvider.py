@@ -12,9 +12,16 @@ def getPlayerById(id):
 def addPlayer(_nickname):
     id = len(_Context.Players) + 1
     nickname = _nickname
-    player = {'id': id, 'nickname': nickname}
+    player = {'id': id, 'nickname': nickname, 'lobbyOwner': False}
     _Context.Players.append(player)
     return player
+
+def setLobbyOwner(playerId):
+    print(type(playerId))
+    print(playerId)
+    intoPlayerId = int(playerId)
+    player = getPlayerById(intoPlayerId)
+    player['lobbyOwner'] = True
 
 def getAllPlayers():
     return _Context.Players

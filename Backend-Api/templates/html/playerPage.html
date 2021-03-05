@@ -8,8 +8,29 @@
 <body>
     <h1>Hello {{player['nickname']}}</h1>
     <br>
-    <button onclick="createLobby()">Create your Lobby</button>
+    <div>
+        <button onclick="createLobby({{player}})">Create Lobby (fetch)</button>
+    </div>
+
     <br>
-    <button onclick="joinLobby()">Join a Lobby</button>
+    <form action="/lobby/new" method="POST">
+        <button type="submit">Create your Lobby</button>
+        <div>
+        <input type="hidden" name="player" id="player" value="{{player}}"/>
+        </div>
+    </form>
+
+
+
+    <br>
+        <form action="/lobby/join" method="GET">
+        <div>
+            <button type="submit">Join a Lobby</button>
+        </div>
+        <div>
+            <label for="lobbyId">Lobby Id: </label>
+            <input name="lobbyId" id="lobbyId">
+        </div>
+    </form>
 </body>
 </html>
