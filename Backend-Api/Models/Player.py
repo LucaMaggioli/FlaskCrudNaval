@@ -7,27 +7,32 @@ class Player(object):
     __Grid = Grid(0)
 
     def __init__(self, nickname):
-        self.__Id = self.__id+1
         self.__Nickname = nickname
-        self.__Board = Grid(0)
+        self.__Grid = Grid()
+        self.__GridPlay = Grid()
 
     def __dict__(self):
-        return {"Id":self.Id, "Nickname": self.__Nickname, "Grid":self.__Board.__dict__()}
+        return {"Id":self.__id, "Nickname": self.__Nickname, "Grid": self.__Grid.__dict__()}
 
-
-    @property
-    def Id(self):
-        return self.__Id
-
+    # Getters
     @property
     def Nickname(self):
         return self.__Nickname
-
     @property
-    def Board(self):
+    def Grid(self):
         return self.__Grid
+    @property
+    def GridPlay(self):
+        return self.__GridPlay
 
-    @Board.setter
-    def Board(self, value):
-        self.__Board = value
+    # Setters
+    @Nickname.setter
+    def Nickname(self, newValue):
+        self.__Nickname = newValue
+    @Grid.setter
+    def Grid(self, newValue):
+        self.__Grid = newValue
+    @GridPlay.setter
+    def GridPlay(self, newValue):
+        self.__Grid = newValue
 

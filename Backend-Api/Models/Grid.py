@@ -1,18 +1,30 @@
-#from Models.Cordinate import Cordinate
+from Models.Cordinate import Cordinate
+
 
 class Grid(object):
 
-
-    def __init__(self, cordMax):
-        self.__CordinateMax = cordMax
-        #self.__CordinateMax = Cordinate(10, 10)
-        #self.__AllCordinates = self.__getAllCoordinates()
+    def __init__(self, size = 10):
+        cordinate = Cordinate(size, size)
+        self.__CordinateMax = cordinate
+        self.__Boats = []
 
     def __dict__(self):
-        return {"Id": self.__CordinateMax}
+        boatsToDict = []
+        for boat in self.__Boats:
+            boatsToDict.append(boat.__dict__())
+        return {"CordMax": self.__CordinateMax.__dict__(), "Boats": boatsToDict}
 
     @property
     def CordinateMax(self):
-        print("coridnate max is : {}".format(self.__CordinateMax))
         return self.__CordinateMax
 
+    @CordinateMax.setter
+    def CordinateMax(self, newValue):
+        self.__CordinateMax = newValue
+
+    @property
+    def Boats(self):
+        return self.__Boats
+    @Boats.setter
+    def Boats(self, newValue):
+        self.__Boats = newValue
