@@ -21,5 +21,5 @@ class Game(object):
         json = {"Id":self.Id, "Player1":self.__Player1.ToJSON, "Player2":self.__Player2.ToJSON}
         return json
 
-    def __dict__(self):
-        return {"Id":self.Id, "Player1":self.__Player1.__dict__(), "Player2":self.__Player2.__dict__()}
+    def ToJson(self):
+        return {"Id":self.Id, "Player1":self.__Player1.ToJson(), "Player2":self.__Player2.ToJson()}

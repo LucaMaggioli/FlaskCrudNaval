@@ -8,6 +8,14 @@
     <h1>Hello from lobby</h1>
     <h2>Lobby is :</h2>
     <p>{{lobby}}</p>
-    <p>{{player}}</p>
+    <h2>Hello Welcome <span style="color:blue">{{lobby['player1']['nickname']}}</span> you are player1!</h2>
+
+    <form action="/game/new/2/vs/ia" method="POST">
+        <button type="submit">Start a Game vs IA</button>
+    </form>
+
+    <form action="/game/new/xx/vs/{{player2}}" method="POST">
+        <button type="submit">Start a Game vs {{lobby['player2']['nickname']}}</button>
+    </form>
 </body>
 </html>

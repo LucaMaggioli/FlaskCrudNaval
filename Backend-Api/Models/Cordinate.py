@@ -4,7 +4,7 @@ class Cordinate (object):
         self.__Y = y
 
     # def __str__(self):
-    def __dict__(self):
+    def ToJson(self):
         return {"X": self.__X, "Y": self.__Y}
 
     @property

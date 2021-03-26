@@ -24,8 +24,8 @@ class Boat(object):
                 allCordinates.append(Cordinate(self.__StartCordinate.X, y))
         return allCordinates
 
-    def __dict__(self):
+    def ToJson(self):
         cordsToDict = []
         for cordinate in self.__Cordinates:
-            cordsToDict.append(cordinate.__dict__())
+            cordsToDict.append(cordinate.ToJson())
         return { "boatName": self.__BoatName, "Cordinates": cordsToDict}

@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Hello {{player['nickname']}}</h1>
+    <h2>{{player}}</h2>
     <br>
     <div>
         <button onclick="createLobby({{player}})">Create Lobby (fetch)</button>
@@ -16,7 +17,17 @@
     <form action="/lobby/new" method="POST">
         <button type="submit">Create your Lobby</button>
         <div>
-        <input type="hidden" name="player" id="player" value="{{player}}"/>
+        <input type="hidden" name="player" id="player" value="{{player}}"/>{{player}}<br>
+        <input type="hidden" name="playerId" id="playerId" value="{{player['id']}}"/>{{player['id']}}<br>
+        <input type="hidden" name="playerNickname" id="playerNickname" value="{{player['nickname']}}"/>{{player['nickname']}}<br>
+        <input type="hidden" name="playerLobbyOwner" id="playerLobbyOwner" value="{{player['lobbyOwner']}}"/>
+        </div>
+    </form>
+
+    <form action="/lobby/new" method="POST">
+        <button type="submit">Create your Lobby with js</button>
+        <div>
+        <input type="hidden" name="playerr" id="playerr" value="{{player}}"/>
         </div>
     </form>
 

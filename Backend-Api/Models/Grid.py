@@ -8,11 +8,11 @@ class Grid(object):
         self.__CordinateMax = cordinate
         self.__Boats = []
 
-    def __dict__(self):
+    def ToJson(self):
         boatsToDict = []
         for boat in self.__Boats:
-            boatsToDict.append(boat.__dict__())
-        return {"CordMax": self.__CordinateMax.__dict__(), "Boats": boatsToDict}
+            boatsToDict.append(boat.ToJson())
+        return {"CordMax": self.__CordinateMax.ToJson(), "Boats": boatsToDict}
 
     @property
     def CordinateMax(self):

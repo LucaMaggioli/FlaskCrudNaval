@@ -25,6 +25,8 @@ player1.Grid.Boats.append(greatBoat)
 print(player1.__dict__())
 player1.Grid.Boats.append(greatBoat)
 
+player1.Id = 3
+id = player1.Id
 
 
 # Player 2
