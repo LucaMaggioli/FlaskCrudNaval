@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Game</title>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </head>
-<body>
+<body onload="createGrid({{grid['CordMax']['X']}}, {{grid['CordMax']['Y']}})">
 <h1>Ici s'affichent les 2 tableaux</h1>
 <div>
     <div>
         {{grid}}
     </div>
     <h2>Placer les bateaux sur la grille</h2>
-    <div>
-        {% for i in range( grid['CordMax']['X'] ) %}
-            <div style="display:flex; flex-direction:row">
-            {% for i in range( grid['CordMax']['Y'] ) %}
-                <div style="padding:10px; border:solid 1px"></div>
-            {% endfor %}
-            </div>
-        {% endfor %}
-    </div>
+    <div id="gridContainer"></div>
 </div>
 <div>
     <h2>le deuxieme celui ou le joueur envoye des missiles</h2>
