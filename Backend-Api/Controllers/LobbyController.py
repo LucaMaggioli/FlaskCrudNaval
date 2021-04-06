@@ -43,4 +43,3 @@ def gameTemplate():
 
 
 
-        # return flask.render_template("html/game.html", gridSize=gridSize, dictGame=dictGame)

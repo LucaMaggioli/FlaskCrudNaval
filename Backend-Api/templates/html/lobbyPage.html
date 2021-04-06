@@ -10,7 +10,8 @@
     <p>{{lobby}}</p>
     <h2>Hello Welcome <span style="color:blue">{{lobby['player1']['nickname']}}</span> you are player1!</h2>
 
-    <form action="/game/new/2/vs/ia" method="POST">
+    <form action="/game/startGameVsIa" method="POST">
+        <input type="hidden" name="player1Id" id="player1Id" value="{{lobby['player1']['id']}}"/>
         <button type="submit">Start a Game vs IA</button>
     </form>
 
