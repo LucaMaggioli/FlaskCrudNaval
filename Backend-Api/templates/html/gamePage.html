@@ -7,9 +7,18 @@
 <body>
 <h1>Ici s'affichent les 2 tableaux</h1>
 <div>
-    <h2>le Premier celui du joueur</h2>
     <div>
-         {{grid}}
+        {{grid}}
+    </div>
+    <h2>Placer les bateaux sur la grille</h2>
+    <div>
+        {% for i in range( grid['CordMax']['X'] ) %}
+            <div style="display:flex; flex-direction:row">
+            {% for i in range( grid['CordMax']['Y'] ) %}
+                <div style="padding:10px; border:solid 1px"></div>
+            {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 </div>
 <div>
