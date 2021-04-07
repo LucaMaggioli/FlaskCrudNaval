@@ -6,6 +6,7 @@ class Game(object):
         self.__Id = id
         self.__Player1 = player1
         self.__Player2 = player2
+        self.__GameBoats = [{"lenght": 3, "quantity": 3}, {"lenght": 4, "quantity": 2}, {"lenght": 5, "quantity": 1}]
 
     def ToJson(self):
         return {"Id": self.Id, "Player1": self.__Player1.ToJson(), "Player2": self.__Player2.ToJson()}
@@ -29,3 +30,11 @@ class Game(object):
     @Player2.setter
     def Player2(self, newValue):
         self.__Player2 = newValue
+
+    @property
+    def GameBoats(self):
+        return self.__GameBoats
+
+    @GameBoats.setter
+    def GameBoats(self, newValue):
+        self.__GameBoats = newValue

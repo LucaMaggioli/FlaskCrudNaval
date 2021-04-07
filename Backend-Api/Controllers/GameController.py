@@ -22,4 +22,9 @@ def startGamevsIa():
 
         game = _gameDataProvider.Add(player1, player2)
 
-        return flask.render_template("html/gamePage.html", grid=player1.Grid.ToJson(), gridPlay=player1.GridPlay.ToJson())
+        return flask.render_template("html/gamePage.html", grid=player1.Grid.ToJson(), availableBoats=game.GameBoats)
+
+@NavalCrudApp.route("/game/placeboats")
+def placeboats():
+    print("Hello from Placeboats ")
+    return {'boat':True}
