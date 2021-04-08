@@ -1,4 +1,6 @@
 var dBoats = [];
+var BoatToPlace;
+
 
 
 
@@ -112,6 +114,7 @@ function showBoatsToPlace(boats){
                 console.log(cell2);
                 boatV.appendChild(cell);
                 boatH.appendChild(cell2);
+                boatV.addEventListener("click", function(){selectBoatToPlace(boat, boatV);})
         }
         let nBoats = document.createElement("p");
         nBoats.textContent = "x" + boat["quantity"];
@@ -123,6 +126,20 @@ function showBoatsToPlace(boats){
     });
 
 }
+
+function selectBoatToPlace(boat, self){
+    boatToPlace = boat;
+    changeColorToChilds(self, "green")
+}
+function changeColorToChilds(item, color){
+    var nodes = item.childNodes;
+    for(var i=0; i<nodes.length; i++) {
+        if (nodes[i].nodeName.toLowerCase() == 'div') {
+             nodes[i].style.background = color;
+         }
+    }
+}
+
 function giveBoats(){
     console.log(dBoats);
 }
