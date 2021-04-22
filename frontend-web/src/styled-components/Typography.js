@@ -1,0 +1,28 @@
+import styled from "styled-components";
+
+export const TitleH1 = styled.h1`
+  font-size: 48px;
+  margin: 8px;
+  color: white;
+  text-align: center;
+`;
+
+export const TitleH2 = styled.h2`
+  font-size: 32px;
+  margin: 4px;
+  color: ${(props) => props.theme.textPrimary};
+  text-align: center;
+`;
+
+export const TitleH3 = styled.h2`
+  font-size: 24px;
+  margin: 2px;
+  color: ${(props) => props.theme.textPrimary};
+  text-align: center;
+`;
+
+export const Body = styled.p`
+  font-size: 16px;
+  margin: ${(props) => props.margin || "2px"};
+  color: ${(props) => props.theme.textPrimary};
+`;

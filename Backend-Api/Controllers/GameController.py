@@ -27,4 +27,4 @@ def startGamevsIa():
 @NavalCrudApp.route("/game/placeboats")
 def placeboats():
     print("Hello from Placeboats ")
-    return {'boat':True}
+    return {'boat': True}
