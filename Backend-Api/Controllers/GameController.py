@@ -1,5 +1,6 @@
 import flask
 from flask import request
+from flask_cors import cross_origin
 
 from DataProviders import PlayerDataProvider
 from DataProviders.GameDataprovider import GameDataprovider
@@ -28,3 +29,11 @@ def startGamevsIa():
 def placeboats():
     print("Hello from Placeboats ")
     return {'boat': True}
+
+@NavalCrudApp.route("/game",  methods=['POST'])
+@cross_origin()
+def createGame():
+    game = request.json
+    print(type(game))
+    print(game)
+    return game
