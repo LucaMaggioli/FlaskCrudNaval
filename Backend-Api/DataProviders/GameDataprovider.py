@@ -12,10 +12,10 @@ class GameDataprovider(object):
 
     _Context = Context
 
-    def Add(self, player1, player2):
+    def Add(self, gameName, player1, player2):
         id = len(self._Context.Games)
 
-        newGame = Game(id, player1, player2)
+        newGame = Game(id, gameName, player1, player2)
         self._Context.Games.append(newGame)
         return newGame
 

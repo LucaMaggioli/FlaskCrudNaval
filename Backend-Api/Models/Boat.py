@@ -28,4 +28,4 @@ class Boat(object):
         cordsToDict = []
         for cordinate in self.__Cordinates:
             cordsToDict.append(cordinate.ToJson())
-        return { "boatName": self.__BoatName, "Cordinates": cordsToDict}
+        return { "boatName": self.__BoatName, "cordinates": cordsToDict}

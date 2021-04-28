@@ -12,7 +12,7 @@ class Grid(object):
         boatsToDict = []
         for boat in self.__Boats:
             boatsToDict.append(boat.ToJson())
-        return {"CordMax": self.__CordinateMax.ToJson(), "Boats": boatsToDict}
+        return {"cordMax": self.__CordinateMax.ToJson(), "boats": boatsToDict}
 
     @property
     def CordinateMax(self):

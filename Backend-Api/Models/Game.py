@@ -2,14 +2,16 @@
 
 class Game(object):
 
-    def __init__(self, id, player1, player2):
+    def __init__(self, id, gameName, player1, player2):
         self.__Id = id
         self.__Player1 = player1
         self.__Player2 = player2
         self.__GameBoats = [{"lenght": 3, "quantity": 3}, {"lenght": 4, "quantity": 2}, {"lenght": 5, "quantity": 1}]
+        self.__GameName = gameName
+        self.__GameState = -1
 
     def ToJson(self):
-        return {"Id": self.Id, "Player1": self.__Player1.ToJson(), "Player2": self.__Player2.ToJson()}
+        return {"id": self.Id, "name": self.GameName, "gameState": self.GameState, "player1": self.__Player1.ToJson(), "player2": self.__Player2.ToJson()}
 
     @property
     def Id(self):
@@ -38,3 +40,19 @@ class Game(object):
     @GameBoats.setter
     def GameBoats(self, newValue):
         self.__GameBoats = newValue
+
+    @property
+    def GameName(self):
+        return self.__GameName
+
+    @GameName.setter
+    def GameName(self, newValue):
+        self.__GameName = newValue
+
+    @property
+    def GameState(self):
+        return self.__GameState
+
+    @GameState.setter
+    def GameState(self, newValue):
+        self.__GameState = newValue
