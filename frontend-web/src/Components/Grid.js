@@ -3,7 +3,6 @@ import Cell from "./Cell";
 export default function Grid({
   maxCordX,
   maxCordY,
-  // onCellClick,
   onCellClick = (cellId) => {},
 }) {
   let rows = [];

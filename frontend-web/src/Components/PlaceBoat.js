@@ -1,22 +1,19 @@
+import React, { useState } from "react";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
-import Cell from "./Cell";
 import Grid from "./Grid";
-// import { Body } from "../styled-components/Typography";
 
-// const Container = styled.div({
-//   maxWidth: 310,
-// });
-function clickCell(cellId) {
-  console.log(`cell ${cellId} clicked`);
+function addCellToCurrentBoat(cellId) {
+  // setCurrentBoat(currentBoat + cellId);
 }
 
 export default function PlaceBoat() {
   const { currentGame } = useNavalBattleContext();
   const player1 = currentGame.player1;
-  console.log(currentGame.player1.grid.cordMax.x);
 
   const maxCordX = currentGame.player1.grid.cordMax.x;
   const maxCordY = currentGame.player1.grid.cordMax.y;
+
+  const [currentBoat, setCurrentBoat] = useState([]);
 
   return (
     <div>
@@ -27,8 +24,17 @@ export default function PlaceBoat() {
       <Grid
         maxCordX={maxCordX}
         maxCordY={maxCordY}
-        onCellClick={(cellId) => clickCell(cellId)}
-      ></Grid>
+        // onCellClick={(cellId) => addCellToCurrentBoat(cellId)}
+        onCellClick={(cellId) => {
+          setCurrentBoat((currentBoat) => [...currentBoat, cellId]);
+          console.log(currentBoat);
+        }}
+      />
+      {/* <PlaceBoatConfirm
+        remainingBoat={remainingBoat}
+        currentBoat={currentBoat}
+        confirmActions={confirmActions}
+      /> */}
     </div>
   );
 }

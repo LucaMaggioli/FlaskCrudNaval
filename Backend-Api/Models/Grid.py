@@ -7,12 +7,23 @@ class Grid(object):
         cordinate = Cordinate(size, size)
         self.__CordinateMax = cordinate
         self.__Boats = []
+        self.__Cordinates = []
+        self.setCordinates()
 
     def ToJson(self):
         boatsToDict = []
         for boat in self.__Boats:
             boatsToDict.append(boat.ToJson())
-        return {"cordMax": self.__CordinateMax.ToJson(), "boats": boatsToDict}
+        return {"cordMax": self.CordinateMax.ToJson(), "boats": boatsToDict, "cordinates": self.Cordinates}
+
+    def setCordinates(self):
+        for x in range(0,10):
+            for y in range(0, 10):
+                self.__Cordinates.append(Cordinate(x,y))
+
+    @property
+    def Cordinates(self):
+        return self.__Cordinates
 
     @property
     def CordinateMax(self):
