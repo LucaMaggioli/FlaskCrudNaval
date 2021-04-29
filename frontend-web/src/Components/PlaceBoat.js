@@ -1,21 +1,22 @@
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
+import Cell from "./Cell";
+import Grid from "./Grid";
 // import { Body } from "../styled-components/Typography";
 
 // const Container = styled.div({
 //   maxWidth: 310,
 // });
+function clickCell(cellId) {
+  console.log(`cell ${cellId} clicked`);
+}
+
 export default function PlaceBoat() {
   const { currentGame } = useNavalBattleContext();
   const player1 = currentGame.player1;
   console.log(currentGame.player1.grid.cordMax.x);
 
-  let cells = [];
-  for (let x = 0; x < currentGame.player1.grid.cordMax.x; x++) {
-    for (let y = 0; y < currentGame.player1.grid.cordMax.y; y++) {
-      cells.push(<p key={`x${x}y${y}`}>O</p>);
-    }
-  }
-  console.log(cells);
+  const maxCordX = currentGame.player1.grid.cordMax.x;
+  const maxCordY = currentGame.player1.grid.cordMax.y;
 
   return (
     <div>
@@ -23,7 +24,11 @@ export default function PlaceBoat() {
         Place your boats by clicking on the grey boats then click on "add this
         boat" when you have finished one.
       </p>
-      <div>{cells}</div>
+      <Grid
+        maxCordX={maxCordX}
+        maxCordY={maxCordY}
+        onCellClick={(cellId) => clickCell(cellId)}
+      ></Grid>
     </div>
   );
 }
