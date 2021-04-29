@@ -7,13 +7,13 @@ function addCellToCurrentBoat(cellId) {
 }
 
 export default function PlaceBoat() {
-  const { currentGame } = useNavalBattleContext();
+  const { currentGame, currentBoat } = useNavalBattleContext();
   const player1 = currentGame.player1;
 
   const maxCordX = currentGame.player1.grid.cordMax.x;
   const maxCordY = currentGame.player1.grid.cordMax.y;
 
-  const [currentBoat, setCurrentBoat] = useState([]);
+  // const [currentBoat, setCurrentBoat] = useState([]);
 
   return (
     <div>
@@ -24,9 +24,9 @@ export default function PlaceBoat() {
       <Grid
         maxCordX={maxCordX}
         maxCordY={maxCordY}
-        // onCellClick={(cellId) => addCellToCurrentBoat(cellId)}
         onCellClick={(cellId) => {
-          setCurrentBoat((currentBoat) => [...currentBoat, cellId]);
+          // setCurrentBoat((currentBoat) => [...currentBoat, cellId]);
+          currentBoat = [...currentBoat, cellId];
           console.log(currentBoat);
         }}
       />

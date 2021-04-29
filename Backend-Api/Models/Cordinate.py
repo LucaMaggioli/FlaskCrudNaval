@@ -9,7 +9,7 @@ class Cordinate (object):
 
     # def __str__(self):
     def ToJson(self):
-        return {"x": self.__X, "y": self.__Y, "status": self.Status}
+        return {"x": self.__X, "y": self.__Y, "status": self.Status.value}
 
     @property
     def X(self):

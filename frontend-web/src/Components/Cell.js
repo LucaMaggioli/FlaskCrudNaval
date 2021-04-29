@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Cell({ cellId, onClick }) {
+function Cell({ cellStatus, cellId, onClick }) {
   // const [hovered, setHovered] = useState(false);
   let hover = false;
 
