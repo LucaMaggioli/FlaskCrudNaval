@@ -2,8 +2,11 @@ import flask
 from flask import request
 from flask_cors import cross_origin
 
+from DataProviders.GameDataprovider import GameDataprovider
 from FlaskApp import NavalCrudApp
 from Models.Grid import Grid
+
+_gameDataProvider = GameDataprovider()
 
 @NavalCrudApp.route("/gridTemplate")
 def gridTemplate():
@@ -34,4 +37,6 @@ def addBoat():
 @NavalCrudApp.route('/grid/cell/ceck/<cellId>')
 @cross_origin()
 def getAvailableBoatsForCell():
-    
+    gameId = request.args.get('GameId')
+    game = _gameDataProvider.GetGameById(gameId)
+    game.
