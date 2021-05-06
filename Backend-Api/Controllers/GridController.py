@@ -30,3 +30,8 @@ def getGrid():
 @cross_origin()
 def addBoat():
     return True
+
+@NavalCrudApp.route('/grid/cell/ceck/<cellId>')
+@cross_origin()
+def getAvailableBoatsForCell():
+    
