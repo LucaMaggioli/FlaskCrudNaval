@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
 import Grid from "./Grid";
 
@@ -8,8 +9,16 @@ function addCellToCurrentBoat(currentBoat, cellId) {
   return currentBoat;
 }
 
-function ceckCell(cellId) {
-  fetch(`http://localhost:5001/cell/check/${cellId}`)
+function checkCell(cellId, currentGameId) {
+  console.log(currentGameId);
+  fetch(`${API_URL}/grid/cell/check/${cellId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ gameId: currentGameId }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
@@ -17,10 +26,16 @@ function ceckCell(cellId) {
     });
 }
 
-export default function PlaceBoat() {
-  const { currentGame, currentBoat, setCurrentBoat } = useNavalBattleContext();
+export default function PlaceBoat(props) {
+  const {
+    currentGame,
+    currentGameId,
+    currentBoat,
+    setCurrentBoat,
+  } = useNavalBattleContext();
   const player1 = currentGame.player1;
-
+  const allal = props.currentGame;
+  console.log(allal);
   const maxCordX = currentGame.player1.grid.cordMax.x;
   const maxCordY = currentGame.player1.grid.cordMax.y;
 
@@ -38,6 +53,7 @@ export default function PlaceBoat() {
         maxCordY={maxCordY}
         onCellClick={(cellId) => {
           setCurrentBoat(addCellToCurrentBoat(currentBoat, cellId));
+          checkCell(cellId, currentGameId);
         }}
       />
       {/* <PlaceBoatConfirm

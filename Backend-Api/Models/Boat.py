@@ -29,3 +29,11 @@ class Boat(object):
         for cordinate in self.__Cordinates:
             cordsToDict.append(cordinate.ToJson())
         return { "boatName": self.__BoatName, "cordinates": cordsToDict}
+
+    @property
+    def Lenght(self):
+        return self.__Lenght
+
+    @Lenght.setter
+    def Lenght(self, newValue):
+        self.__Lenght = newValue

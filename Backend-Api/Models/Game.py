@@ -1,3 +1,4 @@
+from Models.Boat import Boat
 
 
 class Game(object):
@@ -6,6 +7,7 @@ class Game(object):
         self.__Id = id
         self.__Player1 = player1
         self.__Player2 = player2
+        self.__AvailableBoats = [Boat(lenght=3), Boat(lenght=3), Boat(lenght=4),Boat(lenght=5)]
         self.__GameBoats = [{"lenght": 3, "quantity": 3}, {"lenght": 4, "quantity": 2}, {"lenght": 5, "quantity": 1}]
         self.__GameName = gameName
         self.__GameState = -1
@@ -40,6 +42,14 @@ class Game(object):
     @GameBoats.setter
     def GameBoats(self, newValue):
         self.__GameBoats = newValue
+
+    @property
+    def AvailableBoats(self):
+        return self.__AvailableBoats
+
+    @AvailableBoats.setter
+    def AvailableBoats(self, newValue):
+        self.__AvailableBoats = newValue
 
     @property
     def GameName(self):

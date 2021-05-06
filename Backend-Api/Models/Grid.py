@@ -22,6 +22,8 @@ class Grid(object):
             jsonCord.append(cordinate.ToJson())
         return jsonCord
 
+    def canContain(self, cordinate):
+        return cordinate.X <= self.CordinateMax.X and cordinate.Y <= self.CordinateMax.Y
 
     def setCordinates(self):
         for x in range(0,10):

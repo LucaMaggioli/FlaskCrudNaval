@@ -28,7 +28,11 @@ export default function Game() {
       <h1>Naval Battle {currentGame.id}</h1>
       <button onClick={stopGame}>Stop</button>
       <React.Suspense fallback={<Loader />}>
-        {gameState === GameStates.PLACE_BOAT ? <PlaceBoat /> : <GameView />}
+        {gameState === GameStates.PLACE_BOAT ? (
+          <PlaceBoat currendGame={currentGame} />
+        ) : (
+          <GameView />
+        )}
       </React.Suspense>
     </Box>
   );
