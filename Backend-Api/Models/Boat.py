@@ -30,6 +30,14 @@ class Boat(object):
             cordsToDict.append(cordinate.ToJson())
         return { "boatName": self.__BoatName, "cordinates": cordsToDict}
 
+    def Overlap(self, boat):#i have to do a class from where boat and missiles extends and define this method there
+        result = False
+        for cordinate in self.Cordinates:
+            for boatToPlaceCord in boat.Cordinates:
+                if cordinate.__eq__(boatToPlaceCord):
+                    result = True
+        return result
+
     @property
     def Lenght(self):
         return self.__Lenght
@@ -37,3 +45,7 @@ class Boat(object):
     @Lenght.setter
     def Lenght(self, newValue):
         self.__Lenght = newValue
+
+    @property
+    def Cordinates(self):
+        return self.__Cordinates

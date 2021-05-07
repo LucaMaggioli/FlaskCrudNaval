@@ -1,5 +1,6 @@
 import flask
 from flask import request
+from flask import Response
 from flask_cors import cross_origin
 
 from DataProviders.GameDataprovider import GameDataprovider
@@ -43,13 +44,15 @@ def getAvailableBoatsForCell(cellId):
     data = request.json
     gameId = data['gameId']
     game = _gameDataProvider.GetGameById(gameId)
+    if game is None:
+        return Response("Game not found", status=201, mimetype='application/json')
     print(game.ToJson())
     availableBoats = game.GameBoats
     grid = game.Player1.Grid
 
     cordinateFound = Cordinate(0,0)
 
-    availableCords=[]
+    availableCords={}
 
     for cordinate in grid.Cordinates:
         if cordinate.Id == cellId:
@@ -60,11 +63,13 @@ def getAvailableBoatsForCell(cellId):
         for l in range (0, availableBoat.Lenght):
             availableCord = Cordinate(cordinateFound.X + l, cordinateFound.Y)
             if grid.canContain(availableCord):
-                availableCords.append(availableCord.ToJson())
+                # availableCords.append({"cord":availableCord.ToJson()})
+                availableCords[availableCord.Id] = availableCord.ToJson()
         for l in range (0, availableBoat.Lenght):
             availableCord = Cordinate(cordinateFound.X, cordinateFound.Y + l)
             if grid.canContain(availableCord):
-                availableCords.append(availableCord.ToJson())
+                # availableCords.append({"cord":availableCord.ToJson()})
+                availableCords[availableCord.Id] = availableCord.ToJson()
 
     print(availableCords)
-    return "yes"
+    return availableCords

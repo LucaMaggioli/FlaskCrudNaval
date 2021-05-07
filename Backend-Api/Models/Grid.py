@@ -1,3 +1,4 @@
+from Models.Boat import Boat
 from Models.Cordinate import Cordinate
 
 
@@ -22,8 +23,21 @@ class Grid(object):
             jsonCord.append(cordinate.ToJson())
         return jsonCord
 
-    def canContain(self, cordinate):
+    def IsCordinateInsideGrid(self, cordinate):
         return cordinate.X <= self.CordinateMax.X and cordinate.Y <= self.CordinateMax.Y
+
+    def CanPlaceBoat(self, boatToPlace=Boat()):
+        response = True
+
+        for boatToPlaceCordinate in boatToPlace.Cordinates:
+            if self.IsCordinateInsideGrid(boatToPlaceCordinate):
+                response = False
+
+        for gridBoat in self.Boats:
+            if boatToPlace.Overlap(gridBoat):
+                response = False
+
+        return response
 
     def setCordinates(self):
         for x in range(0,10):
