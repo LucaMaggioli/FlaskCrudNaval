@@ -1,10 +1,11 @@
 import flask
-from flask import request
+from flask import request, jsonify
 from flask import Response
 from flask_cors import cross_origin
 
 from DataProviders.GameDataprovider import GameDataprovider
 from FlaskApp import NavalCrudApp
+from Models.Boat import Boat
 from Models.Cordinate import Cordinate
 from Models.Grid import Grid
 
@@ -47,29 +48,35 @@ def getAvailableBoatsForCell(cellId):
     if game is None:
         return Response("Game not found", status=201, mimetype='application/json')
     print(game.ToJson())
-    availableBoats = game.GameBoats
     grid = game.Player1.Grid
-
-    cordinateFound = Cordinate(0,0)
 
     availableCords={}
 
-    for cordinate in grid.Cordinates:
-        if cordinate.Id == cellId:
-            cordinateFound = cordinate
+    startCordinate = grid.GetCordById(cellId)
 
-    print(cordinateFound)
-    for availableBoat in game.AvailableBoats:
-        for l in range (0, availableBoat.Lenght):
-            availableCord = Cordinate(cordinateFound.X + l, cordinateFound.Y)
-            if grid.canContain(availableCord):
-                # availableCords.append({"cord":availableCord.ToJson()})
-                availableCords[availableCord.Id] = availableCord.ToJson()
-        for l in range (0, availableBoat.Lenght):
-            availableCord = Cordinate(cordinateFound.X, cordinateFound.Y + l)
-            if grid.canContain(availableCord):
-                # availableCords.append({"cord":availableCord.ToJson()})
-                availableCords[availableCord.Id] = availableCord.ToJson()
-
-    print(availableCords)
-    return availableCords
+    print(startCordinate)
+    possibleBoats = game.GetPossibleBoatsForCord(startCordinate)
+    jsonPossibleBoats = []
+    for boat in possibleBoats:
+        print("possible boat is: {}".format(boat.ToJson()))
+        if grid.CanPlaceBoat(boat):
+            jsonPossibleBoats.append(boat.ToJson())
+    #
+    #
+    # for availableBoat in game.AvailableBoats:
+    #     possibleBoatVertical = Boat(startCordinate=startCordinate, lenght=availableBoat.Lenght, orientation=VERTICAL)
+    #     possibleBoatHorizontal = Boat(startCordinate=startCordinate, lenght=availableBoat.Lenght, orientation=HORIZONTAL)
+    #
+    #     for x in range (0, availableBoat.Lenght):
+    #         availableCord = Cordinate(startCordinate.X + l, startCordinate.Y)
+    #         if grid.canContain(availableCord):
+    #             # availableCords.append({"cord":availableCord.ToJson()})
+    #             availableCords[availableCord.Id] = availableCord.ToJson()
+    #     for l in range (0, availableBoat.Lenght):
+    #         availableCord = Cordinate(startCordinate.X, startCordinate.Y + l)
+    #         if grid.canContain(availableCord):
+    #             # availableCords.append({"cord":availableCord.ToJson()})
+    #             availableCords[availableCord.Id] = availableCord.ToJson()
+    #
+    # print(availableCords)
+    return jsonify(jsonPossibleBoats)

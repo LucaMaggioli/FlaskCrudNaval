@@ -24,20 +24,31 @@ class Grid(object):
         return jsonCord
 
     def IsCordinateInsideGrid(self, cordinate):
-        return cordinate.X <= self.CordinateMax.X and cordinate.Y <= self.CordinateMax.Y
+        print("cordinates: x{} y{}, max x{} y{}".format(cordinate.X, cordinate.Y, self.CordinateMax.X, self.CordinateMax.Y))
+        return cordinate.X <= self.CordinateMax.X and cordinate.Y <= self.CordinateMax.Y and cordinate.X >= 0 and cordinate.Y >= 0
 
     def CanPlaceBoat(self, boatToPlace=Boat()):
-        response = True
-
+        result = True
+        print(boatToPlace.ToJson())
         for boatToPlaceCordinate in boatToPlace.Cordinates:
-            if self.IsCordinateInsideGrid(boatToPlaceCordinate):
-                response = False
+            # print("cordinate of boat x{}, y{}, id {}, is inside grid".format(boatToPlaceCordinate.X, boatToPlaceCordinate.Y, boatToPlaceCordinate.Id))
+            if not self.IsCordinateInsideGrid(boatToPlaceCordinate):
+                result = False
+            # print(result)
 
         for gridBoat in self.Boats:
             if boatToPlace.Overlap(gridBoat):
-                response = False
+                result = False
+        print('can place boat {} : {}'.format(boatToPlace.ToJson(), result))
+        return result
 
-        return response
+    def GetCordById(self, cordId):
+        cordFound = Cordinate()
+        for cordinate in self.Cordinates:
+            if cordinate.Id == cordId:
+                cordFound = cordinate
+        return cordFound
+
 
     def setCordinates(self):
         for x in range(0,10):
