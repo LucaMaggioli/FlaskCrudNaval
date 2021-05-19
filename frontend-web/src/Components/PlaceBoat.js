@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
+import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
 import BoatToBePlaced from "./AvailableBoats/boatToPlace";
 import Grid from "./Grid";
 
@@ -49,6 +50,7 @@ export default function PlaceBoat(props) {
         boat" when you have finished one.
       </p>
       <BoatToBePlaced lenght={4} orientation={1} />
+      <AvailableBoatsContainer availableBoats={currentGame.availableBoats} />
       <Grid
         // key={maxCordX + maxCordY}
         maxCordX={maxCordX}

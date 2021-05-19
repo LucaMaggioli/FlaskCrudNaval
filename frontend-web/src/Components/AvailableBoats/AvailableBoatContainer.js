@@ -10,5 +10,9 @@ export default function AvailableBoatsContainer({
       <BoatToBePlaced lenght={boat.lenght} orientation={boat.orientation} />
     );
   });
-  return <div style={{ display: "flex", flexDirection: "row" }}>{boats}</div>;
+  return (
+    <div style={{ display: "flex", flexDirection: "row", margin: "50px" }}>
+      {boats}
+    </div>
+  );
 }
