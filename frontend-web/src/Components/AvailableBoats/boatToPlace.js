@@ -1,10 +1,18 @@
 import React from "react";
 
-export default function BoatToBePlaced({ lenght, orientation }) {
-  let boat = [];
-  for (let i = 0; i < lenght; i++) {
-    console.log(`Boat cell: ${i}`);
-    boat.push(
+export default function BoatToBePlaced({
+  boat,
+  boatToBePlaced,
+  onBoatClick = (boat) => {},
+}) {
+  const isSelected =
+    boatToBePlaced != null &&
+    boat.lenght === boatToBePlaced.lenght &&
+    boat.orientation === boatToBePlaced.orientation &&
+    boat.boatName === boatToBePlaced.boatName;
+  let boatHtml = [];
+  for (let i = 0; i < boat.lenght; i++) {
+    boatHtml.push(
       <div
         key={i}
         style={{
@@ -20,10 +28,14 @@ export default function BoatToBePlaced({ lenght, orientation }) {
     <div
       style={{
         display: "flex",
-        flexDirection: (orientation = 0 ? "column" : "row"),
+        flexDirection: boat.orientation === 0 ? "column" : "row",
+        border: isSelected ? "2px solid green" : "",
+      }}
+      onClick={() => {
+        onBoatClick();
       }}
     >
-      {boat}
+      {boatHtml}
     </div>
   );
 }
