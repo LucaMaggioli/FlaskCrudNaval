@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
-import BoatToBePlaced from "./boatToPlace";
+import BoatToBePlaced from "./AvailableBoats/boatToPlace";
 import Grid from "./Grid";
 
 function addCellToCurrentBoat(currentBoat, cellId) {
@@ -48,7 +48,7 @@ export default function PlaceBoat(props) {
         Place your boats by clicking on the grey boats then click on "add this
         boat" when you have finished one.
       </p>
-      <BoatToBePlaced lenght={4} />
+      <BoatToBePlaced lenght={4} orientation={1} />
       <Grid
         // key={maxCordX + maxCordY}
         maxCordX={maxCordX}
