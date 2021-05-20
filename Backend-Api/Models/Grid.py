@@ -11,11 +11,22 @@ class Grid(object):
         self.__Cordinates = []
         self.setCordinates()
 
+        self.__AvailableBoats = [Boat(boatName="torpilleur-1", lenght=3), Boat(boatName="torpilleur-2", lenght=3), Boat(boatName="contre-avion", lenght=4), Boat(boatName="porte-avion", lenght=5)]
+        self.SetAvailableBoatsJson()
+
     def ToJson(self):
         boatsToDict = []
-        for boat in self.__Boats:
+        availableBoatsToDict = []
+        for boat in self.Boats:
             boatsToDict.append(boat.ToJson())
-        return {"cordMax": self.CordinateMax.ToJson(), "boats": boatsToDict, "cordinates": self.CordinatesToJson()}
+        for boat in self.AvailableBoats:
+            availableBoatsToDict.append(boat.ToJson())
+        return {"cordMax": self.CordinateMax.ToJson(), "boats": boatsToDict, "availableBoats": availableBoatsToDict, "cordinates": self.CordinatesToJson()}
+
+    def SetAvailableBoatsJson(self):
+        self.__AvailableBoatsJson = []
+        for boat in self.AvailableBoats:
+            self.__AvailableBoatsJson.append(boat.ToJson())
 
     def CordinatesToJson(self):
         jsonCord = []
@@ -73,3 +84,11 @@ class Grid(object):
     @Boats.setter
     def Boats(self, newValue):
         self.__Boats = newValue
+
+    @property
+    def AvailableBoats(self):
+        return self.__AvailableBoats
+
+    @AvailableBoats.setter
+    def AvailableBoats(self, newValue):
+        self.__AvailableBoats = newValue

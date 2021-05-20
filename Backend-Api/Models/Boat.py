@@ -5,7 +5,7 @@ HORIZONTAL = 1
 
 class Boat(object):
 
-    def __init__(self, boatName = "", startCordinate=Cordinate(0, 0), lenght=0, orientation=VERTICAL):
+    def __init__(self, boatName = "", startCordinate=Cordinate(-1, -1), lenght=0, orientation=VERTICAL):
         self.__BoatName = boatName
         self.__StartCordinate = startCordinate
         self.__Lenght = lenght
@@ -28,7 +28,7 @@ class Boat(object):
         cordsToDict = []
         for cordinate in self.__Cordinates:
             cordsToDict.append(cordinate.ToJson())
-        return { "boatName": self.__BoatName, "lenght": self.Lenght, "orientation": self.Orientation, "startCordinate": self.StartCordinate, "cordinates": cordsToDict}
+        return { "boatName": self.__BoatName, "lenght": self.Lenght, "orientation": self.Orientation, "startCordinate": self.StartCordinate.ToJson(), "cordinates": cordsToDict}
 
     def Overlap(self, boat):#i have to do a class from where boat and missiles extends and define this method there
         result = False
@@ -61,6 +61,14 @@ class Boat(object):
     @StartCordinate.setter
     def StartCordinate(self, newValue):
         self.__StartCordinate = newValue
+
+    @property
+    def BoatName(self):
+        return self.__BoatName
+
+    @BoatName.setter
+    def BoatName(self, newValue):
+        self.__BoatName = newValue
 
     @property
     def Cordinates(self):

@@ -12,19 +12,13 @@ class Game(object):
         self.__Player1 = player1
         self.__Player2 = player2
         # self.__AvailableBoats = [Boat(boatName="torpilleur-1", lenght=3, orientation=VERTICAL), Boat(boatName="torpilleur-1", lenght=3, orientation=HORIZONTAL), Boat(boatName="torpilleur-2", lenght=3, orientation=VERTICAL), Boat(boatName="torpilleur-2", lenght=3, orientation=HORIZONTAL), Boat(boatName="contre-avion", lenght=4, orientation=VERTICAL), Boat(boatName="contre-avion", lenght=4, orientation=HORIZONTAL), Boat(boatName="porte-avion", lenght=5, orientation=VERTICAL), Boat(boatName="porte-avion", lenght=5, orientation=HORIZONTAL)]
-        self.__AvailableBoats = [Boat(boatName="torpilleur-1", lenght=3), Boat(boatName="torpilleur-2", lenght=3), Boat(boatName="contre-avion", lenght=4), Boat(boatName="porte-avion", lenght=5)]
-        self.SetAvailableBoatsJson()
+
         self.__GameBoats = [{"lenght": 3, "quantity": 3}, {"lenght": 4, "quantity": 2}, {"lenght": 5, "quantity": 1}]
         self.__GameName = gameName
         self.__GameState = -1
 
-    def SetAvailableBoatsJson(self):
-        self.__AvailableBoatsJson = []
-        for boat in self.AvailableBoats:
-            self.__AvailableBoatsJson.append(boat.ToJson())
-
     def ToJson(self):
-        return {"id": self.Id, "name": self.GameName, "gameState": self.GameState, "availableBoats": self.__AvailableBoatsJson, "player1": self.__Player1.ToJson(), "player2": self.__Player2.ToJson()}
+        return {"id": self.Id, "name": self.GameName, "gameState": self.GameState, "player1": self.Player1.ToJson(), "player2": self.Player2.ToJson()}
 
     def GetPossibleBoatsForCord(self, startCordinate=Cordinate()):
         availableBoats = []
@@ -76,14 +70,6 @@ class Game(object):
     @GameBoats.setter
     def GameBoats(self, newValue):
         self.__GameBoats = newValue
-
-    @property
-    def AvailableBoats(self):
-        return self.__AvailableBoats
-
-    @AvailableBoats.setter
-    def AvailableBoats(self, newValue):
-        self.__AvailableBoats = newValue
 
     @property
     def GameName(self):

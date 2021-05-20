@@ -22,7 +22,6 @@ class GameDataprovider(object):
     def GetGameById(self, id):
         findedGame = None
         for game in self._Context.Games:
-            print(game)
             if game.Id == id:
                 findedGame = game
         return findedGame

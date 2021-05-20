@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
 import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
@@ -31,6 +31,7 @@ function checkCell(cellId, currentGameId) {
 export default function PlaceBoat(props) {
   const {
     currentGame,
+    setCurrentGame,
     currentGameId,
     currentBoat,
     setCurrentBoat,
@@ -44,20 +45,33 @@ export default function PlaceBoat(props) {
 
   const [boatToPlace, setBoatToPlace] = useState();
 
-  function checkCanPlaceBoat(boatToCheck) {
-    console.log(`can place the boat : ${boatToCheck}`);
-    console.log(boatToCheck);
-    setBoatToPlace(boatToCheck);
+  function addBoatToPlaceAtPosition(cellJson) {
+    if (boatToPlace != null) {
+      fetch(`${API_URL}/game/${currentGameId}/grid/check/boat`, {
+        method: "POST",
+        body: JSON.stringify({ boatToPlace: boatToPlace, cellJson: cellJson }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setCurrentGame(data);
+          return data;
+        });
+    } else {
+      window.alert("Select a boat to place in that cordinate");
+    }
   }
 
   function addStartCordToBoat(cellId) {
-    boatToPlace.cellId = cellId;
     setBoatToPlace(boatToPlace);
+
     console.log(`boat to add is`);
     console.log(boatToPlace);
   }
-
-  // const [currentBoat, setCurrentBoat] = useState([]);
 
   return (
     <div>
@@ -65,28 +79,20 @@ export default function PlaceBoat(props) {
         Place your boats by clicking on the grey boats then click on "add this
         boat" when you have finished one.
       </p>
-      {/* <BoatToBePlaced lenght={4} orientation={1} /> */}
       <div style={{ display: "flex", flexDirection: "row" }}>
         <Grid
-          // key={maxCordX + maxCordY}
           maxCordX={maxCordX}
           maxCordY={maxCordY}
-          onCellClick={(cellId) => {
-            addStartCordToBoat(cellId);
+          onCellClick={(cellJson) => {
+            addBoatToPlaceAtPosition(cellJson);
           }}
         />
         <AvailableBoatsContainer
-          availableBoats={currentGame.availableBoats}
+          availableBoats={currentGame.player1.grid.availableBoats}
           boatToBePlaced={boatToPlace}
           onBoatToPlaceClick={(boatToPlace) => setBoatToPlace(boatToPlace)}
         />
       </div>
-
-      {/* <PlaceBoatConfirm
-        remainingBoat={remainingBoat}
-        currentBoat={currentBoat}
-        confirmActions={confirmActions}
-      /> */}
     </div>
   );
 }

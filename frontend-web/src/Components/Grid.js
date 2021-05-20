@@ -3,7 +3,7 @@ import Cell from "./Cell";
 export default function Grid({
   maxCordX,
   maxCordY,
-  onCellClick = (cellId) => {},
+  onCellClick = (cellJson) => {},
 }) {
   let rows = [];
 
@@ -11,8 +11,9 @@ export default function Grid({
     let row = [];
     for (let y = 0; y < maxCordY; y++) {
       let cellId = `x${maxCordX - (x + 1)}y${y}`;
+      let cellJson = { x: x, y: y };
       row.push(
-        <Cell cellId={cellId} onClick={() => onCellClick(cellId)}></Cell>
+        <Cell cellId={cellId} onClick={() => onCellClick(cellJson)}></Cell>
       );
     }
     rows.push(

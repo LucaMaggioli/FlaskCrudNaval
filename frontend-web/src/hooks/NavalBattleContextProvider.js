@@ -23,6 +23,7 @@ export function NavalBattleContextProvider({ children }) {
 
   const values = {
     currentGame,
+    setCurrentGame,
     currentGameId,
     currentBoat,
     setCurrentBoat,
