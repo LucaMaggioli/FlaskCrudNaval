@@ -43,8 +43,6 @@ export default function PlaceBoat(props) {
   const maxCordY = currentGame.player1.grid.cordMax.y;
 
   const [boatToPlace, setBoatToPlace] = useState();
-  console.log(`boat to place in PlaceBoat is:`);
-  console.log(boatToPlace);
 
   function checkCanPlaceBoat(boatToCheck) {
     console.log(`can place the boat : ${boatToCheck}`);
@@ -55,7 +53,8 @@ export default function PlaceBoat(props) {
   function addStartCordToBoat(cellId) {
     boatToPlace.cellId = cellId;
     setBoatToPlace(boatToPlace);
-    console.log(`boat to add is ${boatToPlace}`);
+    console.log(`boat to add is`);
+    console.log(boatToPlace);
   }
 
   // const [currentBoat, setCurrentBoat] = useState([]);
@@ -79,7 +78,7 @@ export default function PlaceBoat(props) {
         <AvailableBoatsContainer
           availableBoats={currentGame.availableBoats}
           boatToBePlaced={boatToPlace}
-          onBoatToPlaceClick={(boatToPlace) => checkCanPlaceBoat(boatToPlace)}
+          onBoatToPlaceClick={(boatToPlace) => setBoatToPlace(boatToPlace)}
         />
       </div>
 
