@@ -2,7 +2,7 @@ from Models.CordinateStatus import CordinateStatus
 
 
 class Cordinate(object):
-    def __init__(self, x=-1, y=-1):
+    def __init__(self, x=0, y=0):
         self.__Id = "x{}y{}".format(x, y)
         self.__X = x
         self.__Y = y
@@ -28,7 +28,7 @@ class Cordinate(object):
     @property
     def Y(self):
         return self.__Y
-    @X.setter
+    @Y.setter
     def Y(self, newValue):
         self.__Y = newValue
     @property

@@ -56,7 +56,7 @@ def addBoatToGrid(currentGameId):
     boatToAdd = Boat(boatName=boatToAddJson['boatName'], lenght=boatToAddJson['lenght'], orientation=boatToAddJson['orientation'], startCordinate=Cordinate(cellJson['x'], cellJson['y']))
 
     if game.Player1.Grid.CanPlaceBoat(boatToAdd):
-        game.Player1.Grid.Boats.append(boatToAdd)
+        game.Player1.Grid.AddBoat(boatToAdd)
         for availableBoat in game.Player1.Grid.AvailableBoats:
             if availableBoat.BoatName == boatToAdd.BoatName:
                 game.Player1.Grid.AvailableBoats.remove(availableBoat)

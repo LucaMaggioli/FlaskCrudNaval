@@ -1,10 +1,11 @@
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
+from Models.CordinateStatus import CordinateStatus
 
 
 class Grid(object):
 
-    def __init__(self, size = 10):
+    def __init__(self, size=10):
         cordinate = Cordinate(size, size)
         self.__CordinateMax = cordinate
         self.__Boats = []
@@ -62,9 +63,17 @@ class Grid(object):
 
 
     def setCordinates(self):
-        for x in range(0,10):
+        for x in range(0, 10):
             for y in range(0, 10):
-                self.__Cordinates.append(Cordinate(x,y))
+                self.__Cordinates.append(Cordinate(x, y))
+                print("{},{}".format(x, y))
+
+    def AddBoat(self, boat=Boat()):
+        for boatCordinate in boat.Cordinates:
+            for gridCordinate in self.Cordinates:
+                if gridCordinate.__eq__(boatCordinate):
+                    gridCordinate.Status = CordinateStatus.BOAT
+        self.Boats.append(boat)
 
     @property
     def Cordinates(self):

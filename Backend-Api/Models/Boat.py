@@ -5,7 +5,7 @@ HORIZONTAL = 1
 
 class Boat(object):
 
-    def __init__(self, boatName = "", startCordinate=Cordinate(-1, -1), lenght=0, orientation=VERTICAL):
+    def __init__(self, boatName = "", startCordinate=Cordinate(0, 0), lenght=0, orientation=VERTICAL):
         self.__BoatName = boatName
         self.__StartCordinate = startCordinate
         self.__Lenght = lenght

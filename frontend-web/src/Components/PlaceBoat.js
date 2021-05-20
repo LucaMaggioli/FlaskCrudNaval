@@ -42,6 +42,7 @@ export default function PlaceBoat(props) {
   console.log(allal);
   const maxCordX = currentGame.player1.grid.cordMax.x;
   const maxCordY = currentGame.player1.grid.cordMax.y;
+  const cordinates = currentGame.player1.grid.cordinates;
 
   const [boatToPlace, setBoatToPlace] = useState();
 
@@ -81,6 +82,7 @@ export default function PlaceBoat(props) {
       </p>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <Grid
+          cordinates={cordinates}
           maxCordX={maxCordX}
           maxCordY={maxCordY}
           onCellClick={(cellJson) => {
