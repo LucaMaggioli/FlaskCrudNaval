@@ -1,29 +1,29 @@
 import React, { useState } from "react";
-import { CordinateStatus } from "./CordinateStatus";
+import { CordinateStatus } from "./Constants";
 
 function Cell({ cellStatus, cellId, onClick }) {
   // const [hovered, setHovered] = useState(false);
   let hover = false;
-  let borderColor;
+  let bgColor;
 
   switch (cellStatus) {
     case CordinateStatus.WATER:
-      borderColor = "blue";
+      bgColor = "blue";
       break;
     case CordinateStatus.BOAT:
-      borderColor = "brown";
+      bgColor = "green";
       break;
     case CordinateStatus.HIT:
-      borderColor = "red";
+      bgColor = "red";
       break;
     case CordinateStatus.MISS:
-      borderColor = "yellow";
+      bgColor = "yellow";
       break;
     case CordinateStatus.SUNK:
-      borderColor = "black";
+      bgColor = "black";
       break;
     default:
-      borderColor = "pink";
+      bgColor = "blue";
     // do nothing
   }
 
@@ -36,7 +36,8 @@ function Cell({ cellStatus, cellId, onClick }) {
       key={cellId}
       onClick={onClick}
       style={{
-        border: `solid 1px ${borderColor}`,
+        border: `solid 1px`,
+        backgroundColor: bgColor,
         padding: "10px",
         width: "10px",
         height: "10px",

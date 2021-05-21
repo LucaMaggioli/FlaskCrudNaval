@@ -5,3 +5,6 @@ export const CordinateStatus = {
   MISS: 4,
   SUNK: 5,
 };
+
+export const VERTICAL = 0;
+export const HORIZONTAL = 1;
