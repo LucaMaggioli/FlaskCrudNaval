@@ -1,38 +1,35 @@
 import Cell from "./Cell";
 
-export default function Grid({
-  cordinates,
-  maxCordX,
-  maxCordY,
-  onCellClick = (cellJson) => {},
-}) {
-  const grid = [];
+function sortCordinates(cordinates) {
+  cordinates.sort((a, b) => parseFloat(a.x) - parseFloat(b.x));
+  cordinates.sort((a, b) => parseFloat(b.y) - parseFloat(a.y));
+  return cordinates;
+}
 
-  for (let x = 0; x < maxCordX; x++) {
-    let row = [];
-    for (let y = 0; y < maxCordY; y++) {
-      let xInGrid = maxCordX - (x + 1);
-      let cellId = `x${xInGrid}y${y}`;
-      let cellJson = { x: xInGrid, y: y };
-      let status;
-      cordinates.forEach((cordinate) => {
-        if (cordinate.id === cellId) {
-          status = cordinate.status;
-        }
-      });
-      row.push(
-        <Cell
-          cellId={cellId}
-          cellStatus={status}
-          onClick={() => {
-            onCellClick(cellJson);
-          }}
-        ></Cell>
-      );
-    }
+export default function Grid({ cordinates, onCellClick = (cellJson) => {} }) {
+  const grid = [];
+  cordinates = sortCordinates(cordinates);
+
+  cordinates.forEach((cordinate) => {
     grid.push(
-      <div style={{ display: "flex", flexDirection: "row" }}>{row}</div>
+      <Cell
+        cellId={cordinate.id}
+        cellStatus={cordinate.status}
+        onClick={() => {
+          onCellClick(cordinate);
+        }}
+      />
     );
-  }
-  return <div style={{ display: "flex", flexDirection: "column" }}>{grid}</div>;
+  });
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(10, 1fr)",
+        height: "fit-content",
+      }}
+    >
+      {grid}
+    </div>
+  );
 }
