@@ -63,8 +63,8 @@ class Grid(object):
 
 
     def setCordinates(self):
-        for x in range(0, 10):
-            for y in range(0, 10):
+        for x in range(1, 11):
+            for y in range(1, 11):
                 self.__Cordinates.append(Cordinate(x, y))
                 print("{},{}".format(x, y))
 

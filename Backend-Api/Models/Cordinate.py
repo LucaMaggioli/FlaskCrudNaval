@@ -2,11 +2,11 @@ from Models.CordinateStatus import CordinateStatus
 
 
 class Cordinate(object):
-    def __init__(self, x=0, y=0):
+    def __init__(self, x=0, y=0, status=CordinateStatus.WATER):
         self.__Id = "x{}y{}".format(x, y)
         self.__X = x
         self.__Y = y
-        self.__Status = CordinateStatus.WATER
+        self.__Status = status
 
     # def __str__(self):
     def ToJson(self):
