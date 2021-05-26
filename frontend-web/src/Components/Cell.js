@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { CordinateStatus } from "./Constants";
 
 function Cell({ cellStatus, cellId, onClick }) {
-  // const [hovered, setHovered] = useState(false);
   let hover = false;
   let bgColor;
 
@@ -29,10 +28,6 @@ function Cell({ cellStatus, cellId, onClick }) {
 
   return (
     <div
-      onMouseHover={(hover = !hover)}
-      // onMouseEnter={console.log("hover")}
-      // setHovered(true)
-      // onMouseLeave={console.log("not hover")}
       key={cellId}
       onClick={onClick}
       style={{
