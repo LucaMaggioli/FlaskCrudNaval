@@ -63,3 +63,17 @@ def addBoatToGrid(currentGameId):
         return "can't add boat {}".format(boatToAdd), 400
 
     return (game.ToJson()), 200
+
+@NavalCrudApp.route("/game/<int:currentGameId>/player/<int:playernumber>/grid/addRandomBoats", methods=['PATCH'])
+@cross_origin()
+def placeRandomBoats(currentGameId, playernumber):
+    game = _gameDataProvider.GetGameById(currentGameId)
+
+    if playernumber == 1:
+        game.player1.Grid.PlaceRandomBoats()
+        # player = game.player1
+    if playernumber == 2:
+        game.player2.Grid.PlaceRandomBoats()
+        # player = game.player2
+
+    return (game.ToJson()), 200
