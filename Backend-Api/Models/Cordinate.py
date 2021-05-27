@@ -8,7 +8,6 @@ class Cordinate(object):
         self.__Y = y
         self.__Status = status
 
-    # def __str__(self):
     def ToJson(self):
         return {"id": self.Id, "x": self.X, "y": self.Y, "status": self.Status.value}
 

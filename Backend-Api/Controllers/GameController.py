@@ -1,5 +1,5 @@
 import flask
-from flask import request, jsonify
+from flask import request
 from flask_cors import cross_origin
 
 from DataProviders import PlayerDataProvider
@@ -11,7 +11,6 @@ from Models.Game import Game
 from Models.Player import Player
 
 
-# _gameDataProvider = GameDataprovider(BattleshipContext)
 _gameDataProvider = GameDataprovider()
 _playerDataProvider = PlayerDataProvider
 
@@ -33,6 +32,7 @@ def placeboats():
     print("Hello from Placeboats ")
     return {'boat': True}
 
+# for now only this below 2 controllers are Used
 # for now players are hardcoded, this should be /game/ia
 @NavalCrudApp.route("/game",  methods=['POST'])
 @cross_origin()
@@ -47,9 +47,7 @@ def createGame():
 @cross_origin()
 def addBoatToGrid(currentGameId):
     game = _gameDataProvider.GetGameById(currentGameId)
-    result = False
     data = request.json
-    print(data)
     boatToAddJson = data['boatToPlace']
     cellJson = data['cellJson']
 
@@ -61,16 +59,7 @@ def addBoatToGrid(currentGameId):
             if availableBoat.BoatName == boatToAdd.BoatName:
                 game.Player1.Grid.AvailableBoats.remove(availableBoat)
                 print("removing boat '{}' from available".format(boatToAdd.ToJson()))
-
-        result = "Boat succesfully added"
     else:
         return "can't add boat {}".format(boatToAdd), 400
 
-    print(boatToAdd)
-    print(game.ToJson())
-    print(game.Player1.Grid.AvailableBoats)
-
-    # game.Player1.Grid.CanPlaceBoat()
-    # flask.Response(status=201)
     return (game.ToJson()), 200
-# , {'ContentType': 'application/json'}

@@ -32,8 +32,3 @@ class Lobby(object):
     @Games.setter
     def Games(self, newValue):
         self.__Games = newValue
-
-
-    # def addGame(self, game):
-#     self.__CurrentGame = game
-#     self.__Games.append(game)

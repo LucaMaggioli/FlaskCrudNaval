@@ -5,7 +5,7 @@ HORIZONTAL = 1
 
 class Boat(object):
 
-    def __init__(self, boatName = "", startCordinate=Cordinate(0, 0), lenght=0, orientation=VERTICAL):
+    def __init__(self, boatName="", startCordinate=Cordinate(0, 0), lenght=0, orientation=VERTICAL):
         self.__BoatName = boatName
         self.__StartCordinate = startCordinate
         self.__Lenght = lenght
@@ -30,7 +30,7 @@ class Boat(object):
             cordsToDict.append(cordinate.ToJson())
         return { "boatName": self.__BoatName, "lenght": self.Lenght, "orientation": self.Orientation, "startCordinate": self.StartCordinate.ToJson(), "cordinates": cordsToDict}
 
-    def Overlap(self, boat):#i have to do a class from where boat and missiles extends and define this method there
+    def Overlap(self, boat):#TODO: a class from where boat and missiles extends and define this method there
         result = False
         for cordinate in self.Cordinates:
             for boatToPlaceCord in boat.Cordinates:
