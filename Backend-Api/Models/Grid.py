@@ -1,4 +1,4 @@
-from random import random
+import random
 
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
@@ -71,21 +71,32 @@ class Grid(object):
             for gridCordinate in self.Cordinates:
                 if gridCordinate.__eq__(boatCordinate):
                     gridCordinate.Status = CordinateStatus.BOAT
+        for availableBoat in self.AvailableBoats:
+            if availableBoat.BoatName == boat.BoatName:
+                self.AvailableBoats.remove(availableBoat)
         self.Boats.append(boat)
 
     def PlaceRandomBoats(self):
-        for availableBoat in self.__AvailableBoats:
-            randOrientation = random.randrange(VERTICAL, HORIZONTAL)
+        boats = []
+        for availableBoat in self.AvailableBoats:
+            randOrientation = random.randrange(VERTICAL, HORIZONTAL+1)
             print(randOrientation)
-            if randOrientation == VERTICAL:
-                cordY = random.randrange(1, self.CordinateMax.Y - availableBoat.Lenght)
-                cordX = random.randrange(1,11)
-                randBoat = Boat(startCordinate=Cordinate(cordX, cordY), lenght=availableBoat.Lenght, orientation=randOrientation)
-            else:
-                cordY = random.randrange(1, 11)
-                cordX = random.randrange(1, self.CordinateMax.X - availableBoat.Lenght)
-                randBoat = Boat(startCordinate=Cordinate(cordX, cordY), lenght=availableBoat.Lenght, orientation=randOrientation)
-            self.AddBoat(randBoat)
+            randBoat = self.__createRandomBoat(boatName=availableBoat.BoatName, lenght=availableBoat.Lenght, orientation=randOrientation)
+            boats.append(randBoat)
+
+        for boat in boats:
+            while not self.CanPlaceBoat(boat):
+                boat = self.__createRandomBoat(boatName=availableBoat.BoatName, lenght=availableBoat.Lenght, orientation=randOrientation)
+            self.AddBoat(boat)
+
+    def __createRandomBoat(self, boatName="", lenght=0, orientation=VERTICAL):
+        if orientation == VERTICAL:
+            cordY = random.randrange(1, self.CordinateMax.Y - lenght)
+            cordX = random.randrange(1, 11)
+        else:
+            cordY = random.randrange(1, 11)
+            cordX = random.randrange(1, self.CordinateMax.X - lenght)
+        return Boat(boatName=boatName, startCordinate=Cordinate(cordX, cordY), lenght=lenght, orientation=orientation)
 
     @property
     def Cordinates(self):

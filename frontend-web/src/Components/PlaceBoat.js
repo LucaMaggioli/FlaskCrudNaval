@@ -15,6 +15,30 @@ export default function PlaceBoat() {
 
   const [boatToPlace, setBoatToPlace] = useState();
 
+  function placeRandomBoats() {
+    if (window.confirm(`Do you really want to place random boats?'`)) {
+      fetch(
+        `${API_URL}/game/${currentGameId}/player/${1}/grid/addRandomBoats`,
+        {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setCurrentGame(data);
+          // return data;
+        })
+        .catch(() => {
+          window.alert(`Can't place boat randomly!`);
+        });
+    }
+  }
+
   function addBoatAtPosition(cellJson) {
     if (boatToPlace != null) {
       if (
@@ -69,6 +93,7 @@ export default function PlaceBoat() {
           onBoatToPlaceClick={(boatToPlace) => setBoatToPlace(boatToPlace)}
         />
       </div>
+      <button onClick={placeRandomBoats}>Place Random Boats</button>
     </div>
   );
 }
