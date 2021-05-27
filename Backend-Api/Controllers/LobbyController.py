@@ -23,41 +23,23 @@ _lobbyDataProvider = LobbyDataProvider
 def gameTemplate():
 
     if request.method == 'POST':
-        player = request.form['player']
+        player_str = request.form['player']
+        playerId = request.form['playerId']
+        playerNickname = request.form['playerNickname']
+        playerLobbyOwner = request.form['playerLobbyOwner']
+        print(playerId)
+        # player = None
+        player = _playerDataProvider.setLobbyOwner(playerId)
         print(player)
+        # player = dict({"id":playerId, "nickname":playerNickname, "lobbyOwner":playerLobbyOwner})
+
+            
         #here you have to set the player as owner
         #then you have to create the lobby as u did for player, and add lobby to context
-        lobby = {'id': 1, 'player1': player, 'player2': None}
-        return flask.render_template("html/lobbyPage.html", lobby=lobby)
-#playerId = player[0]
-        #print(playerId)
+        lobby = _lobbyDataProvider.newLobby(player)
+        return flask.render_template("html/lobbyPage.html", lobby=lobby.ToJson())
         #_playerDataProvider.setLobbyOwner(playerId)
         #lobby =_lobbyDataProvider.createLobby(player)
 
 
 
-@NavalCrudApp.route('/startGame', methods=['POST'])
-def startGame():
-    if request.method == "POST":
-
-        gridSize = request.form["gridSize"]
-        gridP1 = Grid(gridSize)
-        gridP2 = Grid(gridSize)
-
-        playerNickname = request.form["nickName"]
-        player1 = Player(playerNickname)
-        player1.Board = gridP1
-
-        player2 = Player("IA")
-        player2.Board = gridP2
-
-        newGameId = request.form['newGameId']
-        _game = Game(newGameId, player1, player2)
-
-        lobby = Lobby()
-        lobby.addGame(_game)
-        #__Context.SaveLobby(lobby)
-        #dictGame = json.dumps(_game.__dict__)
-        dictGame = _game.__dict__()
-
-        return flask.render_template("html/game.html", gridSize=gridSize, dictGame=dictGame)
