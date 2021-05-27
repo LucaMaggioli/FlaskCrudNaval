@@ -1,7 +1,11 @@
+from random import random
+
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
 from Models.CordinateStatus import CordinateStatus
 
+VERTICAL = 0
+HORIZONTAL = 1
 
 class Grid(object):
 
@@ -10,7 +14,7 @@ class Grid(object):
         self.__CordinateMax = cordinate
         self.__Boats = []
         self.__Cordinates = []
-        self.setCordinates()
+        self.__SetCordinates()
 
         self.__AvailableBoats = [Boat(boatName="torpilleur-1", lenght=3), Boat(boatName="torpilleur-2", lenght=3), Boat(boatName="contre-avion", lenght=4), Boat(boatName="porte-avion", lenght=5)]
         self.SetAvailableBoatsJson()
@@ -57,7 +61,7 @@ class Grid(object):
         return cordFound
 
 
-    def setCordinates(self):
+    def __SetCordinates(self):
         for x in range(1, 11):
             for y in range(1, 11):
                 self.__Cordinates.append(Cordinate(x, y))
@@ -68,6 +72,20 @@ class Grid(object):
                 if gridCordinate.__eq__(boatCordinate):
                     gridCordinate.Status = CordinateStatus.BOAT
         self.Boats.append(boat)
+
+    def PlaceRandomBoats(self):
+        for availableBoat in self.__AvailableBoats:
+            randOrientation = random.randrange(VERTICAL, HORIZONTAL)
+            print(randOrientation)
+            if randOrientation == VERTICAL:
+                cordY = random.randrange(1, self.CordinateMax.Y - availableBoat.Lenght)
+                cordX = random.randrange(1,11)
+                randBoat = Boat(startCordinate=Cordinate(cordX, cordY), lenght=availableBoat.Lenght, orientation=randOrientation)
+            else:
+                cordY = random.randrange(1, 11)
+                cordX = random.randrange(1, self.CordinateMax.X - availableBoat.Lenght)
+                randBoat = Boat(startCordinate=Cordinate(cordX, cordY), lenght=availableBoat.Lenght, orientation=randOrientation)
+            self.AddBoat(randBoat)
 
     @property
     def Cordinates(self):
