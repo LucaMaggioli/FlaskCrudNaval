@@ -5,73 +5,47 @@ import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
 import BoatToBePlaced from "./AvailableBoats/boatToPlace";
 import Grid from "./Grid";
 
-function addCellToCurrentBoat(currentBoat, cellId) {
-  currentBoat = [...currentBoat, cellId];
-  console.log(currentBoat);
-  return currentBoat;
-}
+export default function PlaceBoat() {
+  const { currentGame, setCurrentGame, currentGameId } =
+    useNavalBattleContext();
 
-function checkCell(cellId, currentGameId) {
-  console.log(currentGameId);
-  fetch(`${API_URL}/grid/cell/check/${cellId}`, {
-    method: "PATCH",
-    body: JSON.stringify({ gameId: currentGameId }),
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      return data;
-    });
-}
-
-export default function PlaceBoat(props) {
-  const {
-    currentGame,
-    setCurrentGame,
-    currentGameId,
-    currentBoat,
-    setCurrentBoat,
-  } = useNavalBattleContext();
-
-  const player1 = currentGame.player1;
-  const allal = props.currentGame;
-  console.log(allal);
   const maxCordX = currentGame.player1.grid.cordMax.x;
   const maxCordY = currentGame.player1.grid.cordMax.y;
   const cordinates = currentGame.player1.grid.cordinates;
 
   const [boatToPlace, setBoatToPlace] = useState();
 
-  function addBoatToPlaceAtPosition(cellJson) {
+  function addBoatAtPosition(cellJson) {
     if (boatToPlace != null) {
-      fetch(`${API_URL}/game/${currentGameId}/grid/check/boat`, {
-        method: "POST",
-        body: JSON.stringify({ boatToPlace: boatToPlace, cellJson: cellJson }),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setCurrentGame(data);
-          return data;
-        });
+      if (
+        window.confirm(
+          `Confirm place boat on cordinate 'x:${cellJson.x},y:${cellJson.y}'`
+        )
+      ) {
+        fetch(`${API_URL}/game/${currentGameId}/grid/addboat`, {
+          method: "POST",
+          body: JSON.stringify({
+            boatToPlace: boatToPlace,
+            cellJson: cellJson,
+          }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setCurrentGame(data);
+            return data;
+          })
+          .catch(() => {
+            window.alert(`Can't place boat at that position!`);
+          });
+      }
     } else {
       window.alert("Select a boat to place in that cordinate");
     }
-  }
-
-  function addStartCordToBoat(cellId) {
-    setBoatToPlace(boatToPlace);
-
-    console.log(`boat to add is`);
-    console.log(boatToPlace);
   }
 
   return (
@@ -86,7 +60,7 @@ export default function PlaceBoat(props) {
           maxCordX={maxCordX}
           maxCordY={maxCordY}
           onCellClick={(cellJson) => {
-            addBoatToPlaceAtPosition(cellJson);
+            addBoatAtPosition(cellJson);
           }}
         />
         <AvailableBoatsContainer

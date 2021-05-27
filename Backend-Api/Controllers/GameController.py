@@ -43,7 +43,7 @@ def createGame():
     game = _gameDataProvider.Add(gameName, player1, player2)
     return game.ToJson()
 
-@NavalCrudApp.route("/game/<int:currentGameId>/grid/check/boat", methods=['GET', 'POST'])
+@NavalCrudApp.route("/game/<int:currentGameId>/grid/addboat", methods=['GET', 'POST'])
 @cross_origin()
 def addBoatToGrid(currentGameId):
     game = _gameDataProvider.GetGameById(currentGameId)
@@ -64,7 +64,7 @@ def addBoatToGrid(currentGameId):
 
         result = "Boat succesfully added"
     else:
-        result = "Can't add boat"
+        return "can't add boat {}".format(boatToAdd), 400
 
     print(boatToAdd)
     print(game.ToJson())
