@@ -55,11 +55,22 @@ def addBoatToGrid(currentGameId):
 
     if game.Player1.Grid.CanPlaceBoat(boatToAdd):
         game.Player1.Grid.AddBoat(boatToAdd)
-        for availableBoat in game.Player1.Grid.AvailableBoats:
-            if availableBoat.BoatName == boatToAdd.BoatName:
-                game.Player1.Grid.AvailableBoats.remove(availableBoat)
-                print("removing boat '{}' from available".format(boatToAdd.ToJson()))
     else:
         return "can't add boat {}".format(boatToAdd), 400
 
+    return (game.ToJson()), 200
+
+@NavalCrudApp.route("/game/<int:currentGameId>/player/<int:playernumber>/grid/addRandomBoats", methods=['PATCH'])
+@cross_origin()
+def placeRandomBoats(currentGameId, playernumber):
+    game = _gameDataProvider.GetGameById(currentGameId)
+
+    print(game.ToJson())
+    if playernumber == 1:
+        game.Player1.Grid.PlaceRandomBoats()
+        # player = game.player1
+    if playernumber == 2:
+        game.Player2.Grid.PlaceRandomBoats()
+        # player = game.player2
+    print(game.ToJson())
     return (game.ToJson()), 200
