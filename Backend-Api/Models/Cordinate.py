@@ -1,4 +1,4 @@
-from Models.CordinateStatus import CordinateStatus
+from Models.Constants import CordinateStatus
 
 
 class Cordinate(object):

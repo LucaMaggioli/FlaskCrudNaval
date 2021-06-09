@@ -6,8 +6,7 @@ const NavalBattleContext = React.createContext({});
 
 export function NavalBattleContextProvider({ children }) {
   const [currentGame, setCurrentGame] = React.useState();
-  const [currentBoat, setCurrentBoat] = React.useState([]);
-  const [currentGameId, setCurrentGameId] = React.useState();
+  const [currentPlayer, setCurrentPlayer] = React.useState();
   const history = useHistory();
 
   function startNewGame() {
@@ -15,7 +14,6 @@ export function NavalBattleContextProvider({ children }) {
     console.log("new Game");
     createGame().then((result) => {
       console.log(result);
-      setCurrentGameId(result.id);
       setCurrentGame(result);
       history.push("/game");
     });
@@ -24,10 +22,9 @@ export function NavalBattleContextProvider({ children }) {
   const values = {
     currentGame,
     setCurrentGame,
-    currentGameId,
-    currentBoat,
-    setCurrentBoat,
     startNewGame,
+    currentPlayer,
+    setCurrentPlayer,
   };
   return (
     <NavalBattleContext.Provider value={values}>

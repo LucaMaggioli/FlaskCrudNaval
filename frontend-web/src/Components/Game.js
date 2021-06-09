@@ -21,6 +21,7 @@ export default function Game() {
     history.push("/");
     return null;
   }
+
   const { gameState } = currentGame;
 
   return (
@@ -29,9 +30,11 @@ export default function Game() {
       <button onClick={stopGame}>Stop</button>
       <React.Suspense fallback={<Loader />}>
         {gameState === GameStates.PLACE_BOAT ? (
-          <PlaceBoat currendGame={currentGame} />
-        ) : (
+          <PlaceBoat />
+        ) : gameState === GameStates.PLAYER1_TURN ? (
           <GameView />
+        ) : (
+          <h2>waiting</h2>
         )}
       </React.Suspense>
     </Box>

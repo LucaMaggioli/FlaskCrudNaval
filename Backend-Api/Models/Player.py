@@ -8,9 +8,10 @@ class Player(object):
         self.__Grid = Grid()
         self.__GridPlay = Grid()
         self.__LobbyOwner = False
+        self.__Ready = False
 
     def ToJson(self):
-        return {"id": self.__Id, "nickname": self.__Nickname, "lobbyOwner": self.__LobbyOwner, "grid": self.__Grid.ToJson()}
+        return {"id": self.__Id, "nickname": self.__Nickname, "lobbyOwner": self.__LobbyOwner, "grid": self.__Grid.ToJson(), "ready": self.__Ready}
 
     # Properties
     @property
@@ -43,3 +44,9 @@ class Player(object):
     @LobbyOwner.setter
     def LobbyOwner(self, newValue):
         self.__LobbyOwner = newValue
+    @property
+    def Ready(self):
+        return self.__Ready
+    @Ready.setter
+    def Ready(self, newValue):
+        self.__Ready = newValue
