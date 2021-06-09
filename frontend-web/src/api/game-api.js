@@ -18,10 +18,26 @@ export function createGame(name = "random-game") {
   });
 }
 
-export function StartGameVsIa(playerName) {
-  return fetch(`${API_URL}/game/vsia`, {
+export function AddPlayer(playerName) {
+  return fetch(`${API_URL}/player/add`, {
     method: "POST",
     body: JSON.stringify({ playerName }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((result) => {
+    if (ACCEPTED_STATUS.includes(result.status)) {
+      return result.json();
+    } else {
+      return result;
+    }
+  });
+}
+
+export function StartGameVsIa(playerId) {
+  return fetch(`${API_URL}/game/player/${playerId}/VsIa`, {
+    method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

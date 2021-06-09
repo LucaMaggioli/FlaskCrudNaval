@@ -14,18 +14,16 @@ from Models.Constants import GameStates, GameMode
 _gameDataProvider = GameDataprovider()
 _playerDataProvider = PlayerDataProvider
 
-@NavalCrudApp.route('/game/startGameVsIa', methods=['POST'])
-def startGamevsIa():
-
-    if request.method == 'POST':
-        player1Id = request.form['player1Id']
-        player1 = _playerDataProvider.getPlayerById(player1Id)
-        player1 = Player()
-        player2 = Player(nickname="IA")
-
-        game = _gameDataProvider.Add(player1, player2)
-
-        return flask.render_template("html/gamePage.html", grid=player1.Grid.ToJson(), availableBoats=game.GameBoats)
+@NavalCrudApp.route('/game/player/<int:playerId>/VsIa', methods=['POST'])
+@cross_origin()
+def startGamevsIa(playerId):
+    print("entering startGameVsIA")
+    # player = request.json
+    player = _playerDataProvider.getPlayerById(playerId)
+    print(player.ToJson())
+    game = _gameDataProvider.Add(player1 = player)
+    print(game.ToJson())
+    return game.ToJson(), 200
 
 @NavalCrudApp.route("/game/placeboats")
 def placeboats():
