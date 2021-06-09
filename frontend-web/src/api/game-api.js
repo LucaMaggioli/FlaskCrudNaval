@@ -17,3 +17,20 @@ export function createGame(name = "random-game") {
     }
   });
 }
+
+export function StartGameVsIa(playerName) {
+  return fetch(`${API_URL}/game/vsia`, {
+    method: "POST",
+    body: JSON.stringify({ playerName }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((result) => {
+    if (ACCEPTED_STATUS.includes(result.status)) {
+      return result.json();
+    } else {
+      return result;
+    }
+  });
+}

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { createGame } from "../api/game-api";
+import React from "react";
+import { createGame, StartGameVsIa } from "../api/game-api";
 import { useHistory } from "react-router-dom";
 
 const NavalBattleContext = React.createContext({});
@@ -19,10 +19,20 @@ export function NavalBattleContextProvider({ children }) {
     });
   }
 
+  function startNewGameVsIa(playerName) {
+    console.log(playerName);
+    StartGameVsIa().then((result) => {
+      console.log(result);
+      setCurrentGame(result);
+      history.push("/game");
+    });
+  }
+
   const values = {
     currentGame,
     setCurrentGame,
     startNewGame,
+    startNewGameVsIa,
     currentPlayer,
     setCurrentPlayer,
   };
