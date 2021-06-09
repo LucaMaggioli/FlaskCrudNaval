@@ -18,7 +18,7 @@ function Routes() {
         <Route path="/game" component={Game} />
         <Route path="/UserPage" component={UserPage} />
         <Route path="/loading" component={Loader} />
-        <Route path="/" component={Home} />
+        <Route path="/" component={UserPage} />
       </Switch>
     </React.Suspense>
   );

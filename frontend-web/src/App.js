@@ -3,6 +3,7 @@ import { ThemeProvider } from "styled-components";
 import Routes from "./Routes";
 import { NavalBattleContextProvider } from "./hooks/NavalBattleContextProvider";
 import Box from "./styled-components/Box";
+import "@fontsource/roboto";
 
 const theme = {
   textPrimary: "#ffffff",
