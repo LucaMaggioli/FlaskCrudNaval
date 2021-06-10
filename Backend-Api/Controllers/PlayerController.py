@@ -14,7 +14,7 @@ _PlayerDataProvider = PlayerDataProvider
 @NavalCrudApp.route("/player/add", methods=['POST'])
 @cross_origin()
 def addNewPlayer():
-    playerNickname = request.json
+    playerNickname = request.json["nickname"]
     player = _PlayerDataProvider.addPlayer(playerNickname)
     print(player.ToJson())
     return player.ToJson(), 200

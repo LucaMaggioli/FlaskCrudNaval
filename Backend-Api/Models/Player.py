@@ -11,7 +11,7 @@ class Player(object):
         self.__Ready = False
 
     def ToJson(self):
-        return {"id": self.__Id, "nickname": self.__Nickname, "lobbyOwner": self.__LobbyOwner, "grid": self.__Grid.ToJson(), "ready": self.__Ready}
+        return {"id": self.Id, "nickname": self.Nickname, "lobbyOwner": self.LobbyOwner, "grid": self.Grid.ToJson(), "gridPlay":self.GridPlay.ToJson(), "ready": self.Ready}
 
     # Properties
     @property
@@ -37,10 +37,10 @@ class Player(object):
         return self.__GridPlay
     @GridPlay.setter
     def GridPlay(self, newValue):
-        self.__Grid = newValue
+        self.__GridPlay = newValue
     @property
     def LobbyOwner(self):
-        return self.__GridPlay
+        return self.__LobbyOwner
     @LobbyOwner.setter
     def LobbyOwner(self, newValue):
         self.__LobbyOwner = newValue

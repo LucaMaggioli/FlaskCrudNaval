@@ -5,6 +5,9 @@ import Loader from "./Loader";
 const Game = React.lazy(() =>
   import(/* webpackChunkName: "Game" */ "./Components/Game")
 );
+const HomePage = React.lazy(() =>
+  import(/* webpackChunkName: "HomePage" */ "./Components/Pages/HomePage")
+);
 const PlayerPage = React.lazy(() =>
   import(/* webpackChunkName: "PlayerPage" */ "./Components/Pages/PlayerPage")
 );
@@ -16,9 +19,10 @@ function Routes() {
     <React.Suspense fallback={<Loader />}>
       <Switch>
         <Route path="/game" component={Game} />
-        <Route path="/UserPage" component={PlayerPage} />
+        <Route path="/UserPage" component={HomePage} />
         <Route path="/loading" component={Loader} />
-        <Route path="/" component={PlayerPage} />
+        <Route path="/player" component={PlayerPage} />
+        <Route path="/" component={HomePage} />
       </Switch>
     </React.Suspense>
   );

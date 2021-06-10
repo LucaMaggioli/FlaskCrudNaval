@@ -17,12 +17,9 @@ _playerDataProvider = PlayerDataProvider
 @NavalCrudApp.route('/game/player/<int:playerId>/VsIa', methods=['POST'])
 @cross_origin()
 def startGamevsIa(playerId):
-    print("entering startGameVsIA")
-    # player = request.json
-    player = _playerDataProvider.getPlayerById(playerId)
-    print(player.ToJson())
-    game = _gameDataProvider.Add(player1 = player)
-    print(game.ToJson())
+    player1 = _playerDataProvider.getPlayerById(playerId)
+    player2 = _playerDataProvider.addPlayer("IA")
+    game = _gameDataProvider.Add(player1=player1, player2=player2)#TODO: add the game name from the frontend
     return game.ToJson(), 200
 
 @NavalCrudApp.route("/game/placeboats")

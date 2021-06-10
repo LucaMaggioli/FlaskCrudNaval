@@ -7,6 +7,7 @@ const NavalBattleContext = React.createContext({});
 export function NavalBattleContextProvider({ children }) {
   const [currentGame, setCurrentGame] = React.useState();
   const [currentPlayer, setCurrentPlayer] = React.useState();
+  const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
 
   function startNewGame() {
@@ -28,7 +29,17 @@ export function NavalBattleContextProvider({ children }) {
 
   function createPlayer(playerName) {
     AddPlayer(playerName).then((result) => {
+      console.log("result from backend after adding player is:");
+      console.log(result);
+      console.log("new player ID is:");
+      console.log(result.playerId);
+      setCurrentPlayerId(result["id"]);
+      console.log("currentPlayer ID is");
+      console.log(currentPlayerId);
       setCurrentPlayer(result);
+      console.log("currentPlayer is");
+      console.log(currentPlayer);
+      history.push("/player");
     });
   }
 
