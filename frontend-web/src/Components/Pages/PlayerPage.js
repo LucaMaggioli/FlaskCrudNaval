@@ -2,10 +2,8 @@ import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
 import { Box, Button } from "@material-ui/core";
 
 export default function PlayerPage() {
-  const { startNewGameVsIa, currentPlayer, currentPlayerId } =
-    useNavalBattleContext();
+  const { startNewGameVsIa, currentPlayer } = useNavalBattleContext();
 
-  let actualPlayer = currentPlayer ? currentPlayer : { nickname: "defaultCP" };
   console.log("current player in PlayerPage");
   console.log(currentPlayer);
   return (
@@ -15,19 +13,13 @@ export default function PlayerPage() {
         <Box style={{ display: "flex", flexDirection: "row", gridGap: "5px" }}>
           <Button
             variant="contained"
-            // disabled={!ready}
             onClick={() => {
               startNewGameVsIa(currentPlayer["id"]);
             }}
           >
             Play vs Ia
           </Button>
-          <Button
-            variant="contained"
-            // disabled={!ready}
-          >
-            Invite Friend (todo)
-          </Button>
+          <Button variant="contained">Invite Friend (todo)</Button>
         </Box>
       </Box>
     </>

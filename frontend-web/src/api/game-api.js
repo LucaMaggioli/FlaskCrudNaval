@@ -1,4 +1,3 @@
-// import { stringifyJson } from "../utils/localStorage";
 import { ACCEPTED_STATUS, API_URL } from "./api-settings";
 
 export function createGame(name = "random-game") {
@@ -22,7 +21,6 @@ export function AddPlayer(nickname) {
   return fetch(`${API_URL}/player/add`, {
     method: "POST",
     body: JSON.stringify({ nickname }),
-    // body: playerName,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

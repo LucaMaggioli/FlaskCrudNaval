@@ -15,8 +15,7 @@ const columnStyle = {
   flexDirection: "column",
 };
 export default function HomePage() {
-  const { startNewGameVsIa, createPlayer, currentPlayer } =
-    useNavalBattleContext();
+  const { createPlayer } = useNavalBattleContext();
   const [playerName, setPlayerName] = useState("");
   const [ready, setReady] = useState(false);
 
