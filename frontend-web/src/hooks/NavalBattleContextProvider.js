@@ -1,33 +1,56 @@
-import React, { useEffect } from "react";
-import { createGame } from "../api/game-api";
+import React from "react";
+import { createGame, StartGameVsIa, AddPlayer } from "../api/game-api";
 import { useHistory } from "react-router-dom";
 
 const NavalBattleContext = React.createContext({});
 
 export function NavalBattleContextProvider({ children }) {
   const [currentGame, setCurrentGame] = React.useState();
-  const [currentBoat, setCurrentBoat] = React.useState([]);
-  const [currentGameId, setCurrentGameId] = React.useState();
+  const [currentPlayer, setCurrentPlayer] = React.useState();
+  const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
 
   function startNewGame() {
     setCurrentGame("newGame");
-    console.log("new Game");
     createGame().then((result) => {
       console.log(result);
-      setCurrentGameId(result.id);
       setCurrentGame(result);
       history.push("/game");
+    });
+  }
+
+  function startNewGameVsIa(playerId) {
+    StartGameVsIa(playerId).then((result) => {
+      console.log(result);
+      setCurrentGame(result);
+      history.push("/game");
+    });
+  }
+
+  function createPlayer(playerName) {
+    AddPlayer(playerName).then((result) => {
+      console.log("result from backend after adding player is:");
+      console.log(result);
+      console.log("new player ID is:");
+      console.log(result.playerId);
+      setCurrentPlayerId(result["id"]);
+      console.log("currentPlayer ID is");
+      console.log(currentPlayerId);
+      setCurrentPlayer(result);
+      console.log("currentPlayer is");
+      console.log(currentPlayer);
+      history.push("/player");
     });
   }
 
   const values = {
     currentGame,
     setCurrentGame,
-    currentGameId,
-    currentBoat,
-    setCurrentBoat,
     startNewGame,
+    startNewGameVsIa,
+    createPlayer,
+    currentPlayer,
+    setCurrentPlayer,
   };
   return (
     <NavalBattleContext.Provider value={values}>

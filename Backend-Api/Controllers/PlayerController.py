@@ -1,5 +1,7 @@
 import flask
 from flask import request, jsonify, flash
+from flask_cors import cross_origin
+
 from FlaskApp import NavalCrudApp
 
 from Models import Context
@@ -7,6 +9,16 @@ from DataProviders import PlayerDataProvider
 
 
 _PlayerDataProvider = PlayerDataProvider
+
+
+@NavalCrudApp.route("/player/add", methods=['POST'])
+@cross_origin()
+def addNewPlayer():
+    playerNickname = request.json["nickname"]
+    player = _PlayerDataProvider.addPlayer(playerNickname)
+    print(player.ToJson())
+    return player.ToJson(), 200
+
 
 @NavalCrudApp.route("/players")
 def playersHomepage():
@@ -25,13 +37,3 @@ def getPlayersById():
         return "Error: No id field provided. Please specify an id."
     return jsonify(player)
 
-@NavalCrudApp.route("/players/add", methods=['POST'])
-def addNewPlayer():
-    if request.method == "POST":
-        pNickname = request.form["pNickname"]
-        if pNickname:
-            player = _PlayerDataProvider.addPlayer(pNickname)
-            
-            return flask.render_template("html/playerPage.html", player=player.ToJson())
-        else:
-            return flask.render_template("homepage.html", message="Nickname could not be null")

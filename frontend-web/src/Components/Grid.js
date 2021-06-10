@@ -21,6 +21,7 @@ export default function Grid({ cordinates, onCellClick = (cellJson) => {} }) {
       />
     );
   });
+
   return (
     <div
       style={{
