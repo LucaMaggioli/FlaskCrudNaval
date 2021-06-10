@@ -26,7 +26,7 @@ export default function PlayerPage() {
             variant="contained"
             // disabled={!ready}
           >
-            Play vs Player
+            Invite Friend (todo)
           </Button>
         </Box>
       </Box>

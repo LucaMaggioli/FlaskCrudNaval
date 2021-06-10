@@ -47,6 +47,16 @@ export default function HomePage() {
         >
           Create my Lobby!
         </Button>
+        <Button
+          variant="contained"
+          disabled={playerName === "" || ready}
+          onClick={() => {
+            setReady(true);
+            console.log("Work in progress to join a lobby");
+          }}
+        >
+          Join a Friend Lobby!
+        </Button>
       </Box>
     </Box>
   );
