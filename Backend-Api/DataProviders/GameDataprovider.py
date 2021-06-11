@@ -56,9 +56,7 @@ class GameDataprovider(object):
         # print('entering randomBoat, grid id is {}'.format(self.Id))
 
         for availableBoat in grid.AvailableBoats:
-            randOrientation = random.randrange(VERTICAL, HORIZONTAL + 1)
-            randBoat = grid.GetRandomBoat(boatName=availableBoat.BoatName, lenght=availableBoat.Lenght,
-                                          orientation=randOrientation)
+            randBoat = grid.GetRandomBoat(boatName=availableBoat.BoatName, lenght=availableBoat.Lenght)
             boats.append(randBoat)
 
         for boat in boats:

@@ -1,7 +1,9 @@
 from flask import jsonify
+import random
 
 from Models import Context
 from Models.Player import Player
+from Models.Constants import VERTICAL, HORIZONTAL
 
 _Context = Context
 
@@ -19,6 +21,20 @@ def addPlayer(_nickname):
     player = Player(id, nickname)
     _Context.Players.append(player)
     return player
+
+def AddRandomBoats(playerId):
+    player = getPlayerById(playerId)
+    player.Grid.ResetBoats()
+
+    for availableBoat in player.Grid.AvailableBoats:
+        randBoat = player.Grid.GetRandomBoat(boatName=availableBoat.BoatName, lenght=availableBoat.Lenght)
+
+        while not player.Grid.CanPlaceBoat(randBoat):
+            randBoat = player.Grid.GetRandomBoat(boatName=randBoat.BoatName, lenght=randBoat.Lenght)
+        player.Grid.AddBoat(randBoat)
+
+    return player
+
 
 def setLobbyOwner(playerId):
     print(type(playerId))

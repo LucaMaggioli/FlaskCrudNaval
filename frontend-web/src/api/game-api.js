@@ -38,13 +38,37 @@ export function StartGameVsIa(playerId) {
   if (!playerId) {
     return "error";
   } else {
-    return fetch(`${API_URL}/game/player/${playerId}/VsIa`, {
+    return fetch(`${API_URL}/game/player/${playerId}/vsia`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
     }).then((result) => {
+      if (ACCEPTED_STATUS.includes(result.status)) {
+        return result.json();
+      } else {
+        return result;
+      }
+    });
+  }
+}
+
+export function PlaceRandomBoats(gameId, playerId) {
+  // fetch(`${API_URL}/player/${playerId}/grid/addRandomBoats`, {
+  if (!playerId) {
+    return "error player Id must not be null";
+  } else {
+    return fetch(
+      `${API_URL}/game/${gameId}/player/${playerId}/grid/addRandomBoats`,
+      {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((result) => {
       if (ACCEPTED_STATUS.includes(result.status)) {
         return result.json();
       } else {
