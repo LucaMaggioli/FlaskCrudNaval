@@ -55,12 +55,11 @@ export function StartGameVsIa(playerId) {
 }
 
 export function PlaceRandomBoats(gameId, playerId) {
-  // fetch(`${API_URL}/player/${playerId}/grid/addRandomBoats`, {
   if (!playerId) {
     return "error player Id must not be null";
   } else {
     return fetch(
-      `${API_URL}/game/${gameId}/player/${playerId}/grid/addRandomBoats`,
+      `${API_URL}/game/${gameId}/player/${playerId}/grid/placeRandomBoats`,
       {
         method: "PATCH",
         headers: {

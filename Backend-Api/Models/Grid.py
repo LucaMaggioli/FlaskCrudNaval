@@ -21,7 +21,6 @@ class Grid(object):
         self.__Id = self._id
         self._id = self._id + 1
         self.__SetAvailableBoats()
-        #self.__AvailableBoats = Constants.AVAILABLEGAMEBOATS
 
     def ToJson(self):
         boatsToDict = []

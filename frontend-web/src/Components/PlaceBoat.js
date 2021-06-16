@@ -1,46 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
 import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
 import Grid from "./Grid";
 
 export default function PlaceBoat() {
-  const {
-    currentGame,
-    setCurrentGame,
-    currenPlayer,
-    setCurrentPlayer,
-    placeRandomBoats,
-  } = useNavalBattleContext();
+  const { currentGame, setCurrentGame, currenPlayer, placeRandomBoats } =
+    useNavalBattleContext();
 
-  const maxCordX = currentGame.player1.grid.cordMax.x;
-  const maxCordY = currentGame.player1.grid.cordMax.y;
   const cordinates = currentGame.player1.grid.cordinates;
   const [boatToPlace, setBoatToPlace] = useState();
 
   console.log("Player in PlaceBoats");
   console.log(currenPlayer);
-
-  // function placeRandomBoats() {
-  //   if (window.confirm(`Do you really want to place random boats?'`)) {
-  //     fetch(`${API_URL}/player/${currenPlayer["id"]}/grid/addRandomBoats`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log(data);
-  //         setCurrentPlayer(data);
-  //         // return data;
-  //       })
-  //       .catch(() => {
-  //         window.alert(`Can't place boat randomly!`);
-  //       });
-  //   }
-  // }
 
   function playVsIa() {
     fetch(`${API_URL}/game/${currentGame.id}/start`, {
@@ -55,7 +27,6 @@ export default function PlaceBoat() {
         console.log(`game is`);
         console.log(game);
         setCurrentGame(game);
-        // return data;
       })
       .catch(() => {
         window.alert(`Can't Start Game Vs Ia!`);
