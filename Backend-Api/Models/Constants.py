@@ -3,6 +3,9 @@ from enum import Enum
 VERTICAL = 0
 HORIZONTAL = 0
 
+#AVAILABLEGAMEBOATS = [Boat(boatName="torpilleur-1", lenght=3), Boat(boatName="torpilleur-2", lenght=3), Boat(boatName="contre-avion", lenght=4), Boat(boatName="porte-avion", lenght=5)]
+AVAILABLEGAMEBOATS = [{"boatName": "torpilleur-1", "lenght": 3}, {"boatName": "torpilleur-2", "lenght": 3}, {"boatName": "contre-avion", "lenght": 4}, {"boatName": "porte-avion", "lenght": 5}]
+
 class CordinateStatus(Enum):
      WATER = 1
      BOAT = 2

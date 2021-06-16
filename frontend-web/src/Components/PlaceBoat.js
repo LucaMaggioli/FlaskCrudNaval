@@ -1,43 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
 import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
 import Grid from "./Grid";
 
 export default function PlaceBoat() {
-  const { currentGame, setCurrentGame } = useNavalBattleContext();
+  const { currentGame, setCurrentGame, currenPlayer, placeRandomBoats } =
+    useNavalBattleContext();
 
-  const maxCordX = currentGame.player1.grid.cordMax.x;
-  const maxCordY = currentGame.player1.grid.cordMax.y;
   const cordinates = currentGame.player1.grid.cordinates;
   const [boatToPlace, setBoatToPlace] = useState();
 
-  function placeRandomBoats() {
-    if (window.confirm(`Do you really want to place random boats?'`)) {
-      fetch(
-        `${API_URL}/game/${currentGame.id}/player/${1}/grid/addRandomBoats`,
-        {
-          method: "PATCH",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setCurrentGame(data);
-          // return data;
-        })
-        .catch(() => {
-          window.alert(`Can't place boat randomly!`);
-        });
-    }
-  }
+  console.log("Player in PlaceBoats");
+  console.log(currenPlayer);
 
   function playVsIa() {
-    fetch(`${API_URL}/game/${currentGame.id}/start/vsIA`, {
+    fetch(`${API_URL}/game/${currentGame.id}/start`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -49,7 +27,6 @@ export default function PlaceBoat() {
         console.log(`game is`);
         console.log(game);
         setCurrentGame(game);
-        // return data;
       })
       .catch(() => {
         window.alert(`Can't Start Game Vs Ia!`);
@@ -112,7 +89,7 @@ export default function PlaceBoat() {
         <div>
           <button onClick={placeRandomBoats}>Place Random Boats</button>
           <button enabled={true} onClick={playVsIa}>
-            Play Vs IA
+            Play !
           </button>
         </div>
         <div>
