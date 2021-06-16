@@ -15,7 +15,7 @@ _gameDataProvider = GameDataprovider()
 _playerDataProvider = PlayerDataProvider
 
 #Call this endpoint to start a game vs IA
-@NavalCrudApp.route('/game/player/<int:playerId>/vsia', methods=['POST'])
+@NavalCrudApp.route('/game/create/player/<int:playerId>/vsia', methods=['POST'])
 @cross_origin()
 def startGamevsIa(playerId):
     player1 = _playerDataProvider.getPlayerById(playerId)
@@ -68,7 +68,10 @@ def addBoatToGrid(currentGameId):
     boatToAdd = Boat(boatName=boatToAddJson['boatName'], lenght=boatToAddJson['lenght'], orientation=boatToAddJson['orientation'], startCordinate=Cordinate(cellJson['x'], cellJson['y']))
 
     if game.Player1.Grid.CanPlaceBoat(boatToAdd):
-        game.Player1.Grid.AddBoat(boatToAdd)
+        for availableBoat in game.Player1.Grid.AvailableBoats:
+            if boatToAdd.Lenght == availableBoat.Lenght:
+                game.Player1.Grid.AvailableBoats.remove(availableBoat)
+                game.Player1.Grid.AddBoat(boatToAdd)
         if game.Player1.Grid.AvailableBoats == []:
             game.Player1.Ready = True
     else:
@@ -79,7 +82,6 @@ def addBoatToGrid(currentGameId):
 @NavalCrudApp.route("/game/<int:currentGameId>/start", methods=['POST'])
 @cross_origin()
 def startGame(currentGameId):
-    print(currentGameId)
     game = _gameDataProvider.GetGameById(currentGameId)
     print(game.Id)
     print(game.Player2.Grid.Boats)

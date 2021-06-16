@@ -55,6 +55,9 @@ export function NavalBattleContextProvider({ children }) {
       console.log(currentGame);
     });
   }
+  function stopGame() {
+    history.push("/");
+  }
 
   const values = {
     currentGame,
@@ -65,6 +68,7 @@ export function NavalBattleContextProvider({ children }) {
     currentPlayer,
     setCurrentPlayer,
     placeRandomBoats,
+    stopGame,
   };
   return (
     <NavalBattleContext.Provider value={values}>

@@ -32,6 +32,7 @@ def AddRandomBoats(playerId):
         while not player.Grid.CanPlaceBoat(randBoat):
             randBoat = player.Grid.GetRandomBoat(boatName=randBoat.BoatName, lenght=randBoat.Lenght)
         player.Grid.AddBoat(randBoat)
+    player.Grid.AvailableBoats = []
 
     return player
 

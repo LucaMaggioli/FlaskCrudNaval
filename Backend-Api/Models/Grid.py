@@ -1,5 +1,6 @@
 import random
 
+from Models import Constants
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
 from Models.Constants import CordinateStatus
@@ -19,13 +20,14 @@ class Grid(object):
         self.__SetCordinates()
         self.__Id = self._id
         self._id = self._id + 1
-
-        self.__AvailableBoats = [Boat(boatName="torpilleur-1", lenght=3), Boat(boatName="torpilleur-2", lenght=3), Boat(boatName="contre-avion", lenght=4), Boat(boatName="porte-avion", lenght=5)]
-        self.SetAvailableBoatsJson()
+        self.__SetAvailableBoats()
+        #self.__AvailableBoats = Constants.AVAILABLEGAMEBOATS
 
     def ToJson(self):
         boatsToDict = []
         availableBoatsToDict = []
+        self.SetAvailableBoatsJson()
+
         for boat in self.Boats:
             boatsToDict.append(boat.ToJson())
         for boat in self.AvailableBoats:
@@ -36,6 +38,14 @@ class Grid(object):
         self.__AvailableBoatsJson = []
         for boat in self.AvailableBoats:
             self.__AvailableBoatsJson.append(boat.ToJson())
+    def __SetCordinates(self):
+        for x in range(1, 11):
+            for y in range(1, 11):
+                self.__Cordinates.append(Cordinate(x, y))
+    def __SetAvailableBoats(self):
+        self.AvailableBoats = []
+        for boat in Constants.AVAILABLEGAMEBOATS:
+            self.AvailableBoats.append(Boat(boatName=boat["boatName"], lenght=boat["lenght"]))
 
     def CordinatesToJson(self):
         jsonCord = []
@@ -64,12 +74,6 @@ class Grid(object):
                 cordFound = cordinate
         return cordFound
 
-
-    def __SetCordinates(self):
-        for x in range(1, 11):
-            for y in range(1, 11):
-                self.__Cordinates.append(Cordinate(x, y))
-
     def ResetBoats(self):
         for boat in self.Boats:
             for boatCordinate in boat.Cordinates:
@@ -77,12 +81,15 @@ class Grid(object):
                     if gridCordinate.__eq__(boatCordinate):
                         gridCordinate.Status = CordinateStatus.WATER
         self.Boats = []
+        self.__SetAvailableBoats()
 
     def AddBoat(self, boat=Boat()):
+
         for boatCordinate in boat.Cordinates:
             for gridCordinate in self.Cordinates:
                 if gridCordinate.__eq__(boatCordinate):
                     gridCordinate.Status = CordinateStatus.BOAT
+
         self.__Boats.append(boat)
 
     def GetRandomBoat(self, boatName="", lenght=0):

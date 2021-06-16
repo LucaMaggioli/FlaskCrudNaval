@@ -41,34 +41,3 @@ class GameDataprovider(object):
             games.append(game.ToJson())
 
         return games
-
-    def AddRandomBoats(self, id, player):
-        # def PlaceRandomBoats(self):
-        global grid
-        game = self.GetGameById(id)
-        print(game.Player1.Grid.Boats)
-        print(game.Player2.Grid.Boats)
-        if player == 1:
-            grid = game.Player1.Grid
-        if player == 2:
-            grid = game.Player2.Grid
-        boats = []
-        # print('entering randomBoat, grid id is {}'.format(self.Id))
-
-        for availableBoat in grid.AvailableBoats:
-            randBoat = grid.GetRandomBoat(boatName=availableBoat.BoatName, lenght=availableBoat.Lenght)
-            boats.append(randBoat)
-
-        for boat in boats:
-            while not grid.CanPlaceBoat(boat):
-                randOrientation = random.randrange(VERTICAL, HORIZONTAL + 1)
-                boat = grid.GetRandomBoat(boatName=boat.BoatName, lenght=boat.Lenght,
-                                          orientation=randOrientation)
-            grid.AddBoat(boat)
-
-        for boat in grid.Boats:
-            print(boat.ToJson())
-
-        print(game.Player1.Grid.Boats)
-        print(game.Player2.Grid.Boats)
-        return game

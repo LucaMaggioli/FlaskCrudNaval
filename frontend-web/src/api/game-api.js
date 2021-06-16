@@ -38,7 +38,7 @@ export function StartGameVsIa(playerId) {
   if (!playerId) {
     return "error";
   } else {
-    return fetch(`${API_URL}/game/player/${playerId}/vsia`, {
+    return fetch(`${API_URL}/game/create/player/${playerId}/vsia`, {
       method: "POST",
       headers: {
         Accept: "application/json",
