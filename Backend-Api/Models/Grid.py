@@ -4,22 +4,20 @@ from Models import Constants
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
 from Models.Constants import CordinateStatus
+from Models.Missile import Missile
 
 VERTICAL = 0
 HORIZONTAL = 1
 
 class Grid(object):
-
-    _id = 0
-
-    def __init__(self, size=10):
+    def __init__(self, size=10, id=-1):
         cordinate = Cordinate(size, size)
         self.__CordinateMax = cordinate
         self.__Boats = []
+        self.__Missiles = []
         self.__Cordinates = []
         self.__SetCordinates()
-        self.__Id = self._id
-        self._id = self._id + 1
+        self.__Id = id
         self.__SetAvailableBoats()
 
     def ToJson(self):
@@ -91,6 +89,71 @@ class Grid(object):
 
         self.__Boats.append(boat)
 
+    def AddMissile(self, missileToAdd=Missile()):
+        print("entering in Add Missile, missile cord is : {}".format(missileToAdd.StartCordinate.ToJson()))
+        for gridCordinate in self.Cordinates:
+            if gridCordinate.__eq__(missileToAdd.StartCordinate):
+                print("find the grid cordinate of missileCordinate")
+                if gridCordinate.Status == CordinateStatus.WATER:
+                    gridCordinate.Status = CordinateStatus.MISS
+                if gridCordinate.Status == CordinateStatus.BOAT:
+                    gridCordinate.Status = CordinateStatus.HIT
+                print("GridCOrdinate status after adding missile: {}".format(gridCordinate.Status))
+
+        self.Missiles.append(missileToAdd)
+
+    def SetCordinateStatus(self, cordinate, status):
+        print("Status in setcordinateStatus : {}".format(status))
+        for gridCord in self.Cordinates:
+            if gridCord.__eq__(cordinate):
+                gridCord.Status = status
+                print("gridplay cordinate new status {}".format(gridCord.Status))
+
+
+    def AddMissile2(self, missileToAdd=Missile()):
+        print("adding a missile!")
+        if self.IsCordinateInsideGrid(missileToAdd.StartCordinate):
+            print("missile inside grid !")
+            self.Missiles.append(missileToAdd)
+            if self.CheckIfOverlapAnyBoat(missileToAdd):
+                print("missile overlap a boat!")
+                self.SetCordinateStatus(missileToAdd.StartCordinate, Constants.CordinateStatus.HIT)
+            else:
+                self.SetCordinateStatus(missileToAdd.StartCordinate, Constants.CordinateStatus.MISS)
+
+
+
+        #self.Missiles.append(missileToAdd)
+     #   for cordinate in self.Cordinates:
+    #        if cordinate.__eq__(missileToAdd.StartCordinate):
+   #             if cordinate.Status == Boat
+  #      for cordinate in self.Cordinates:
+ #           if cordinate.__eq__(missileToAdd.StartCordinate):
+#                pass
+
+    def GetBoatOverlappedBy(self, shape):
+        boatOverlapped = None
+        for boat in self.Boats:
+            if shape.Overlap(boat):
+                boatOverlapped = boat
+        return boatOverlapped
+
+    def CheckIfOverlapAnyBoat(self, shape):
+        overlap = False
+        for boat in self.Boats:
+            if shape.Overlap(boat):
+                overlap = True
+        return overlap
+
+    def IsBoatSunk(self, boat):
+        hits = 0
+        for bCord in boat.Cordinates:
+            for cord in self.Cordinates:
+                if cord.__eq__(bCord):
+                    if cord.Status == Constants.CordinateStatus.HIT:
+                        hits += 1
+        return hits == boat.Lenght
+
     def GetRandomBoat(self, boatName="", lenght=0):
         randOrientation = random.randrange(VERTICAL, HORIZONTAL + 1)
         if randOrientation == VERTICAL:
@@ -100,6 +163,12 @@ class Grid(object):
             cordY = random.randrange(1, 11)
             cordX = random.randrange(1, self.CordinateMax.X - lenght)
         return Boat(boatName=boatName, startCordinate=Cordinate(cordX, cordY), lenght=lenght, orientation=randOrientation)
+
+    def GetStatusForExtCordinate(self, extCordinate):
+        for cordinate in self.Cordinates:
+            if cordinate.__eq__(extCordinate):
+                return cordinate.Status
+
 
     @property
     def Id(self):
@@ -122,6 +191,14 @@ class Grid(object):
     @Boats.setter
     def Boats(self, newValue):
         self.__Boats = newValue
+
+    @property
+    def Missiles(self):
+        return self.__Missiles
+
+    @Missiles.setter
+    def Missiles(self, newValue):
+        self.__Missiles = newValue
 
     @property
     def AvailableBoats(self):

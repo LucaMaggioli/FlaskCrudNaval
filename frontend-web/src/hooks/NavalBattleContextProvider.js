@@ -4,6 +4,7 @@ import {
   StartGameVsIa,
   AddPlayer,
   PlaceRandomBoats,
+  SendMissile,
 } from "../api/game-api";
 import { useHistory } from "react-router-dom";
 
@@ -51,10 +52,20 @@ export function NavalBattleContextProvider({ children }) {
   function placeRandomBoats() {
     PlaceRandomBoats(currentGame.id, currentPlayer.id).then((result) => {
       setCurrentGame(result);
-      console.log("new Game is ");
+    });
+  }
+
+  function sendMissile(gameId, playerId, cordinate) {
+    console.log(gameId);
+    console.log(playerId);
+    console.log(cordinate);
+    SendMissile(gameId, playerId, cordinate).then((result) => {
+      // setCurrentPlayer(result);
+      setCurrentGame(result);
       console.log(currentGame);
     });
   }
+
   function stopGame() {
     history.push("/");
   }
@@ -68,6 +79,7 @@ export function NavalBattleContextProvider({ children }) {
     currentPlayer,
     setCurrentPlayer,
     placeRandomBoats,
+    sendMissile,
     stopGame,
   };
   return (

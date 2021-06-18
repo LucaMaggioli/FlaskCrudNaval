@@ -3,6 +3,7 @@ import random
 
 from Models import Context
 from Models.Player import Player
+from Models.Missile import Missile
 from Models.Constants import VERTICAL, HORIZONTAL
 
 _Context = Context
@@ -63,7 +64,18 @@ def savePlayer(player):
     print(_Context.Players[playerIndex])
     _Context.Players[playerIndex] = player
 
-# def getLastPlayer():
+def sendMissile(game, playerId, cordinate):
+    print("into sendMissile PlayerDataPRovider")
+    if playerId == game.Player1.Id:
+        print("player 1 is attacking")
+        if game.Player2.Grid.IsCordinateInsideGrid(cordinate):
+            print("cordinate is inside grid")
+            game.Player2.Grid.AddMissile(Missile(startCordinate=cordinate))
+        #print("status of cord with missile = {}".format(game.Player2.Grid.GetCordById(cordinate.Id).Status))
+            game.Player1.GridPlay.SetCordinateStatus(cordinate, game.Player2.Grid.GetCordById(cordinate.Id).Status)
+    if playerId == game.Player2.Id:
+        print("player 2 is attacking")
+        game.Player1.Grid.AddMissile(Missile(cordinate))
+        game.Player2.GridPlay.SetCordinateStatus(cordinate, game.Player1.Grid.GetCordById(cordinate.Id).Status)
 
-# def getLastPlayerId():
-#     return _Context.Players[len(_Context.Players)]['id']
+    return game

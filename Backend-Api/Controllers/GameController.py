@@ -58,7 +58,7 @@ def createGame():
     game = _gameDataProvider.Add(gameName, player1)
     return game.ToJson()
 
-@NavalCrudApp.route("/game/<int:currentGameId>/grid/addboat", methods=['GET', 'POST'])
+@NavalCrudApp.route("/game/<int:currentGameId>/grid/addboat", methods=['POST'])
 @cross_origin()
 def addBoatToGrid(currentGameId):
     game = _gameDataProvider.GetGameById(currentGameId)
@@ -86,3 +86,23 @@ def startGame(currentGameId):
     game = _gameDataProvider.GetGameById(currentGameId)
     game.GameState = GameStates.PLAYER1TURN
     return game.ToJson(), 200
+
+@NavalCrudApp.route("/game/<int:gameId>/player/<int:playerId>/sendMissile", methods=['POST'])
+@cross_origin()
+def sendMissile(gameId, playerId):
+    print("entering into add Missile endpoint")
+    game = _gameDataProvider.GetGameById(gameId)
+    print("get data from front")
+    data = request.json
+#    cordinate = data["cordinate"]
+    print(data)
+    cordinate = Cordinate(data["cordinate"]["x"], data["cordinate"]["y"])
+    print("cordinate in controller is {}".format(cordinate.ToJson()))
+    #player = _playerDataProvider.getPlayerById(playerId)
+
+    #if game.Player1.Id == playerId:
+    game = _playerDataProvider.sendMissile(game, playerId, cordinate)
+    #if game.Player2.Id == playerId:
+    #    game.Player2 = player
+    print("returning the game gridplay is: {}".format(game.Player1.GridPlay))
+    return (game.ToJson()), 200

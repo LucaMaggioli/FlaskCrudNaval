@@ -76,3 +76,24 @@ export function PlaceRandomBoats(gameId, playerId) {
     });
   }
 }
+
+export function SendMissile(gameId, playerId, cordinate) {
+  if (!playerId && !gameId) {
+    return "error player Id or GameId must not be null";
+  } else {
+    return fetch(`${API_URL}/game/${gameId}/player/${playerId}/sendMissile`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cordinate }),
+    }).then((result) => {
+      if (ACCEPTED_STATUS.includes(result.status)) {
+        return result.json();
+      } else {
+        return result;
+      }
+    });
+  }
+}
