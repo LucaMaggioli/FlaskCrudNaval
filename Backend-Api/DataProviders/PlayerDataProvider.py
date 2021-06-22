@@ -15,7 +15,7 @@ def getPlayerById(id):
             playerToReturn = player
     return playerToReturn
 
-def addPlayer(_nickname):
+def AddPlayer(_nickname):
     id = len(_Context.Players) + 1
     nickname = _nickname
     # player = dict({"id": id, "nickname": nickname, "lobbyOwner": False})
@@ -34,7 +34,8 @@ def AddRandomBoats(playerId):
             randBoat = player.Grid.GetRandomBoat(boatName=randBoat.BoatName, lenght=randBoat.Lenght)
         player.Grid.AddBoat(randBoat)
     player.Grid.AvailableBoats = []
-
+    print("adding random boats for player with Id {}".format(player.Id))
+    print(player.Grid.Boats)
     return player
 
 
@@ -65,17 +66,15 @@ def savePlayer(player):
     _Context.Players[playerIndex] = player
 
 def sendMissile(game, playerId, cordinate):
-    print("into sendMissile PlayerDataPRovider")
+    player = Player()
     if playerId == game.Player1.Id:
-        print("player 1 is attacking")
         if game.Player2.Grid.IsCordinateInsideGrid(cordinate):
-            print("cordinate is inside grid")
             game.Player2.Grid.AddMissile(Missile(startCordinate=cordinate))
-        #print("status of cord with missile = {}".format(game.Player2.Grid.GetCordById(cordinate.Id).Status))
             game.Player1.GridPlay.SetCordinateStatus(cordinate, game.Player2.Grid.GetCordById(cordinate.Id).Status)
+        player = game.Player1
     if playerId == game.Player2.Id:
-        print("player 2 is attacking")
         game.Player1.Grid.AddMissile(Missile(cordinate))
         game.Player2.GridPlay.SetCordinateStatus(cordinate, game.Player1.Grid.GetCordById(cordinate.Id).Status)
-
-    return game
+        player = game.Player2
+    print(game.Player2.Grid.Boats)
+    return player

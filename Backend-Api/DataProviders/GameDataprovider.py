@@ -27,6 +27,12 @@ class GameDataprovider(object):
         self._Context.Games.append(newGame)
         return newGame
 
+    def AddPlayer2(self, gameId, player2):
+        game = self.GetGameById(gameId)
+        game.Player2 = player2
+        return game
+
+
     def GetGameById(self, id):
         findedGame = None
         for game in self._Context.Games:

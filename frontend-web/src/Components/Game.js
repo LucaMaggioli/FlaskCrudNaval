@@ -14,15 +14,19 @@ const GameView = React.lazy(() =>
 );
 
 export default function Game() {
-  const { currentGame, stopGame } = useNavalBattleContext();
+  const { currentGame, stopGame, currentPlayer, gameState } =
+    useNavalBattleContext();
   const history = useHistory();
+
+  console.log("player in Game");
+  console.log(currentPlayer);
 
   if (!currentGame || !currentGame.gameState) {
     history.push("/");
     return null;
   }
 
-  const { gameState } = currentGame;
+  // const { gameState } = currentGame;
 
   return (
     <Box flexDirection="column" alignItems="center">

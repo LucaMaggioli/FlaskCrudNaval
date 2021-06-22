@@ -1,18 +1,22 @@
 import React from "react";
 import {
-  createGame,
-  StartGameVsIa,
+  CreateGame,
+  // StartGameVsIa,
   AddPlayer,
   PlaceRandomBoats,
   SendMissile,
+  StartGameVsIa,
 } from "../api/game-api";
 import { useHistory } from "react-router-dom";
+import { GameStates } from "../services/GameService";
 
 const NavalBattleContext = React.createContext({});
 
 export function NavalBattleContextProvider({ children }) {
   const [currentGame, setCurrentGame] = React.useState();
   const [currentPlayer, setCurrentPlayer] = React.useState();
+  const [gameState, setGameState] = React.useState();
+
   const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
 
@@ -33,7 +37,6 @@ export function NavalBattleContextProvider({ children }) {
   }
 
   function startNewGame() {
-    setCurrentGame("newGame");
     createGame().then((result) => {
       console.log(result);
       setCurrentGame(result);
@@ -41,10 +44,10 @@ export function NavalBattleContextProvider({ children }) {
     });
   }
 
-  function startNewGameVsIa(playerId) {
-    StartGameVsIa(playerId).then((result) => {
-      console.log(result);
+  function createGame(playerId) {
+    CreateGame(playerId).then((result) => {
       setCurrentGame(result);
+      setGameState(GameStates.PLACE_BOAT);
       history.push("/game");
     });
   }
@@ -52,6 +55,7 @@ export function NavalBattleContextProvider({ children }) {
   function placeRandomBoats() {
     PlaceRandomBoats(currentGame.id, currentPlayer.id).then((result) => {
       setCurrentGame(result);
+      // setCurrentPlayer(result);
     });
   }
 
@@ -61,26 +65,42 @@ export function NavalBattleContextProvider({ children }) {
     console.log(cordinate);
     SendMissile(gameId, playerId, cordinate).then((result) => {
       // setCurrentPlayer(result);
-      setCurrentGame(result);
+      // setCurrentGame(result);
+      setCurrentPlayer(result);
       console.log(currentGame);
+      console.log(currentPlayer);
     });
   }
 
   function stopGame() {
+    //TODO call and endpoint to set the status of the game at FINISHED
     history.push("/");
+  }
+
+  function playVsIa() {
+    StartGameVsIa(currentGame.id).then((result) => {
+      console.log(`player after api call`);
+      console.log(result);
+      setCurrentPlayer(result);
+    });
+    setGameState(GameStates.PLAYER1_TURN);
   }
 
   const values = {
     currentGame,
+    currentPlayer,
+    gameState,
+    setGameState,
     setCurrentGame,
     startNewGame,
-    startNewGameVsIa,
+    createGame,
+    // startNewGameVsIa,
     createPlayer,
-    currentPlayer,
     setCurrentPlayer,
     placeRandomBoats,
     sendMissile,
     stopGame,
+    playVsIa,
   };
   return (
     <NavalBattleContext.Provider value={values}>

@@ -19,10 +19,7 @@ _playerDataProvider = PlayerDataProvider
 @cross_origin()
 def startGamevsIa(playerId):
     player1 = _playerDataProvider.getPlayerById(playerId)
-    player2 = _playerDataProvider.addPlayer("IA")
-    player2 = _playerDataProvider.AddRandomBoats(player2.Id)
-
-    game = _gameDataProvider.Add(player1=player1, player2=player2)#TODO: add the game name from the frontend
+    game = _gameDataProvider.Add(player1=player1)#TODO: add the game name from the frontend
     return game.ToJson(), 200
 
 #Call this endpoint to place random boats in a Grid of a player
@@ -80,12 +77,19 @@ def addBoatToGrid(currentGameId):
 
     return (game.ToJson()), 200
 
-@NavalCrudApp.route("/game/<int:currentGameId>/start", methods=['POST'])
+@NavalCrudApp.route("/game/<int:currentGameId>/start/vsia", methods=['POST'])
 @cross_origin()
 def startGame(currentGameId):
-    game = _gameDataProvider.GetGameById(currentGameId)
+    player2 = _playerDataProvider.AddPlayer("IA")
+    player2 = _playerDataProvider.AddRandomBoats(player2.Id)
+    print("player2 boats after addrandomBoats{}".format(player2.Grid.Boats))
+    game = _gameDataProvider.AddPlayer2(currentGameId, player2)
+    print("player2 boats after AddPlayerTOGame {}".format(game.Player2.Grid.Boats))
+
     game.GameState = GameStates.PLAYER1TURN
-    return game.ToJson(), 200
+    print('player1 is {}'.format(game.Player1.ToJson()))
+    print("player2 boats {}".format(game.Player2.Grid.Boats))
+    return game.Player1.ToJson(), 200
 
 @NavalCrudApp.route("/game/<int:gameId>/player/<int:playerId>/sendMissile", methods=['POST'])
 @cross_origin()
@@ -94,15 +98,10 @@ def sendMissile(gameId, playerId):
     game = _gameDataProvider.GetGameById(gameId)
     print("get data from front")
     data = request.json
-#    cordinate = data["cordinate"]
     print(data)
     cordinate = Cordinate(data["cordinate"]["x"], data["cordinate"]["y"])
     print("cordinate in controller is {}".format(cordinate.ToJson()))
-    #player = _playerDataProvider.getPlayerById(playerId)
 
-    #if game.Player1.Id == playerId:
-    game = _playerDataProvider.sendMissile(game, playerId, cordinate)
-    #if game.Player2.Id == playerId:
-    #    game.Player2 = player
+    player = _playerDataProvider.sendMissile(game, playerId, cordinate)
     print("returning the game gridplay is: {}".format(game.Player1.GridPlay))
-    return (game.ToJson()), 200
+    return (player.ToJson()), 200

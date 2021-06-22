@@ -2,10 +2,13 @@ import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // 
 import Grid from "./Grid";
 
 export default function GameView() {
-  const { currentGame, currentPlayer, sendMissile } = useNavalBattleContext();
+  const { currentGame, sendMissile, currentPlayer } = useNavalBattleContext();
 
-  let grid = currentGame.player1.grid;
-  let gridPlay = currentGame.player1.gridPlay;
+  // let grid = currentGame.player1.grid;
+  console.log("Currentplayer in GameView");
+  console.log(currentPlayer);
+  let grid = currentPlayer.grid;
+  let gridPlay = currentPlayer.gridPlay;
 
   return (
     <div style={{ display: "flex", flexDirection: "row", gridGap: "20px" }}>
@@ -18,7 +21,7 @@ export default function GameView() {
         <Grid
           cordinates={gridPlay.cordinates}
           onCellClick={(cordinate) =>
-            sendMissile(currentGame.id, currentGame.player1.id, cordinate)
+            sendMissile(currentGame.id, currentPlayer.id, cordinate)
           }
         />
       </div>

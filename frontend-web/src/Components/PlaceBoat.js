@@ -5,8 +5,14 @@ import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
 import Grid from "./Grid";
 
 export default function PlaceBoat() {
-  const { currentGame, setCurrentGame, currenPlayer, placeRandomBoats } =
-    useNavalBattleContext();
+  const {
+    currentGame,
+    setCurrentGame,
+    currenPlayer,
+    setCurrentPlayer,
+    placeRandomBoats,
+    playVsIa,
+  } = useNavalBattleContext();
 
   const cordinates = currentGame.player1.grid.cordinates;
   const [boatToPlace, setBoatToPlace] = useState();
@@ -14,24 +20,7 @@ export default function PlaceBoat() {
   console.log("Player in PlaceBoats");
   console.log(currenPlayer);
 
-  function playVsIa() {
-    fetch(`${API_URL}/game/${currentGame.id}/start`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((game) => {
-        console.log(`game is`);
-        console.log(game);
-        setCurrentGame(game);
-      })
-      .catch(() => {
-        window.alert(`Can't Start Game Vs Ia!`);
-      });
-  }
+
 
   function addBoatAtPosition(cellJson) {
     if (boatToPlace != null) {
@@ -89,7 +78,7 @@ export default function PlaceBoat() {
         <div>
           <button onClick={placeRandomBoats}>Place Random Boats</button>
           <button enabled={true} onClick={playVsIa}>
-            Play !
+            Play VSIA !
           </button>
         </div>
         <div>
