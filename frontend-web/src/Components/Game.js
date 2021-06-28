@@ -2,7 +2,9 @@ import React from "react";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 import { useHistory } from "react-router-dom";
 import Box from "../styled-components/Box";
-import { GameStates } from "../services/GameService";
+// import { GameStates } from "../services/GameService";
+import { GameStatuses } from "./Constants";
+
 import Loader from "../Loader";
 
 const PlaceBoat = React.lazy(() =>
@@ -26,16 +28,15 @@ export default function Game() {
     return null;
   }
 
-  // const { gameState } = currentGame;
-
   return (
     <Box flexDirection="column" alignItems="center">
       <h1>Naval Battle {currentGame.id}</h1>
       <button onClick={stopGame}>Stop</button>
       <React.Suspense fallback={<Loader />}>
-        {gameState === GameStates.PLACE_BOAT ? (
+        {gameState === GameStatuses.PLACINGBOATS ? (
           <PlaceBoat />
-        ) : gameState === GameStates.PLAYER1_TURN ? (
+        ) : gameState === GameStatuses.PLAYER1TURN ||
+          GameStatuses.PLAYER2TURN ? (
           <GameView />
         ) : (
           <h2>waiting</h2>

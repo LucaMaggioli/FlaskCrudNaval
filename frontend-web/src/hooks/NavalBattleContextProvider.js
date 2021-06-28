@@ -1,11 +1,11 @@
 import React from "react";
 import {
   CreateGame,
-  // StartGameVsIa,
   AddPlayer,
   PlaceRandomBoats,
   SendMissile,
   StartGameVsIa,
+  IASendMissile,
 } from "../api/game-api";
 import { useHistory } from "react-router-dom";
 import { GameStates } from "../services/GameService";
@@ -16,6 +16,7 @@ export function NavalBattleContextProvider({ children }) {
   const [currentGame, setCurrentGame] = React.useState();
   const [currentPlayer, setCurrentPlayer] = React.useState();
   const [gameState, setGameState] = React.useState();
+  const [isGameVsIa, setIsGameVsIa] = React.useState(false);
 
   const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
@@ -55,7 +56,6 @@ export function NavalBattleContextProvider({ children }) {
   function placeRandomBoats() {
     PlaceRandomBoats(currentGame.id, currentPlayer.id).then((result) => {
       setCurrentGame(result);
-      // setCurrentPlayer(result);
     });
   }
 
@@ -64,12 +64,19 @@ export function NavalBattleContextProvider({ children }) {
     console.log(playerId);
     console.log(cordinate);
     SendMissile(gameId, playerId, cordinate).then((result) => {
-      // setCurrentPlayer(result);
-      // setCurrentGame(result);
-      setCurrentPlayer(result);
-      console.log(currentGame);
-      console.log(currentPlayer);
+      setGameState(result["gameStatus"]);
+      setCurrentPlayer(result["player"]);
+      console.log("gameStatUS IS  ");
+      console.log(gameState);
     });
+    console.log("missile sent");
+    console.log(`isGameVsIa ? ${isGameVsIa}`);
+    if (isGameVsIa) {
+      IASendMissile(gameId).then((result) => {
+        setGameState(result["gameStatus"]);
+        setCurrentPlayer(result["player"]);
+      });
+    }
   }
 
   function stopGame() {
@@ -79,10 +86,9 @@ export function NavalBattleContextProvider({ children }) {
 
   function playVsIa() {
     StartGameVsIa(currentGame.id).then((result) => {
-      console.log(`player after api call`);
-      console.log(result);
       setCurrentPlayer(result);
     });
+    setIsGameVsIa(true);
     setGameState(GameStates.PLAYER1_TURN);
   }
 
@@ -94,7 +100,6 @@ export function NavalBattleContextProvider({ children }) {
     setCurrentGame,
     startNewGame,
     createGame,
-    // startNewGameVsIa,
     createPlayer,
     setCurrentPlayer,
     placeRandomBoats,

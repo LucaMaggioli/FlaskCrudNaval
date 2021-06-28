@@ -94,14 +94,23 @@ def startGame(currentGameId):
 @NavalCrudApp.route("/game/<int:gameId>/player/<int:playerId>/sendMissile", methods=['POST'])
 @cross_origin()
 def sendMissile(gameId, playerId):
-    print("entering into add Missile endpoint")
     game = _gameDataProvider.GetGameById(gameId)
-    print("get data from front")
     data = request.json
-    print(data)
     cordinate = Cordinate(data["cordinate"]["x"], data["cordinate"]["y"])
-    print("cordinate in controller is {}".format(cordinate.ToJson()))
 
     player = _playerDataProvider.sendMissile(game, playerId, cordinate)
-    print("returning the game gridplay is: {}".format(game.Player1.GridPlay))
-    return (player.ToJson()), 200
+
+    if (game.GameState == GameStates.PLAYER1TURN):
+        game.GameState = GameStates.PLAYER2TURN
+    elif (game.GameState == GameStates.PLAYER2TURN):
+        game.GameState = GameStates.PLAYER1TURN
+    return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
+
+@NavalCrudApp.route("/game/<int:gameId>/IAattack", methods=['PATCH'])
+@cross_origin()
+def IAattack(gameId):
+    game = _gameDataProvider.GetGameById(gameId)
+    player = _playerDataProvider.IaSendMissile(game)
+    game.GameState = GameStates.PLAYER1TURN
+
+    return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
