@@ -9,7 +9,6 @@ export default function PlaceBoat() {
     currentGame,
     setCurrentGame,
     currenPlayer,
-    setCurrentPlayer,
     placeRandomBoats,
     playVsIa,
   } = useNavalBattleContext();

@@ -2,7 +2,6 @@ import React from "react";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 import { useHistory } from "react-router-dom";
 import Box from "../styled-components/Box";
-// import { GameStates } from "../services/GameService";
 import { GameStatuses } from "./Constants";
 
 import Loader from "../Loader";
