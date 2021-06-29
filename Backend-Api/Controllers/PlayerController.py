@@ -15,7 +15,7 @@ _playerDataProvider = PlayerDataProvider
 @cross_origin()
 def addNewPlayer():
     playerNickname = request.json["nickname"]
-    player = _playerDataProvider.addPlayer(playerNickname)
+    player = _playerDataProvider.AddPlayer(playerNickname)
     return player.ToJson(), 200
 
 

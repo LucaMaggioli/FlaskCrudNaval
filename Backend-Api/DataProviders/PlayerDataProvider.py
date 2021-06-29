@@ -2,7 +2,9 @@ from flask import jsonify
 import random
 
 from Models import Context
+from Models.Cordinate import Cordinate
 from Models.Player import Player
+from Models.Missile import Missile
 from Models.Constants import VERTICAL, HORIZONTAL
 
 _Context = Context
@@ -14,7 +16,7 @@ def getPlayerById(id):
             playerToReturn = player
     return playerToReturn
 
-def addPlayer(_nickname):
+def AddPlayer(_nickname):
     id = len(_Context.Players) + 1
     nickname = _nickname
     # player = dict({"id": id, "nickname": nickname, "lobbyOwner": False})
@@ -33,7 +35,8 @@ def AddRandomBoats(playerId):
             randBoat = player.Grid.GetRandomBoat(boatName=randBoat.BoatName, lenght=randBoat.Lenght)
         player.Grid.AddBoat(randBoat)
     player.Grid.AvailableBoats = []
-
+    print("adding random boats for player with Id {}".format(player.Id))
+    print(player.Grid.Boats)
     return player
 
 
@@ -63,7 +66,25 @@ def savePlayer(player):
     print(_Context.Players[playerIndex])
     _Context.Players[playerIndex] = player
 
-# def getLastPlayer():
+def sendMissile(game, playerId, cordinate):
+    player = Player()
+    if playerId == game.Player1.Id:
+        if game.Player2.Grid.IsCordinateInsideGrid(cordinate):
+            game.Player2.Grid.AddMissile(Missile(startCordinate=cordinate))
+            game.Player1.GridPlay.SetCordinateStatus(cordinate, game.Player2.Grid.GetCordById(cordinate.Id).Status)
+        player = game.Player1
+    if playerId == game.Player2.Id:
+        game.Player1.Grid.AddMissile(Missile(cordinate))
+        game.Player2.GridPlay.SetCordinateStatus(cordinate, game.Player1.Grid.GetCordById(cordinate.Id).Status)
+        player = game.Player2
+    return player
 
-# def getLastPlayerId():
-#     return _Context.Players[len(_Context.Players)]['id']
+def IaSendMissile(game):
+    randomMissile = getRandomMissile()
+    print("randomMissile to be added is:")
+    print(randomMissile.ToJson())
+    game.Player1.Grid.AddMissile(randomMissile)
+    return game.Player1
+
+def getRandomMissile():
+    return Missile(startCordinate=Cordinate(random.randint(1, 10), random.randint(1, 10)))

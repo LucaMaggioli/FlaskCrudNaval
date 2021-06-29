@@ -1,17 +1,23 @@
 import React from "react";
 import {
-  createGame,
-  StartGameVsIa,
+  CreateGame,
   AddPlayer,
   PlaceRandomBoats,
+  SendMissile,
+  StartGameVsIa,
+  IASendMissile,
 } from "../api/game-api";
 import { useHistory } from "react-router-dom";
+import { GameStates } from "../services/GameService";
 
 const NavalBattleContext = React.createContext({});
 
 export function NavalBattleContextProvider({ children }) {
   const [currentGame, setCurrentGame] = React.useState();
   const [currentPlayer, setCurrentPlayer] = React.useState();
+  const [gameState, setGameState] = React.useState();
+  const [isGameVsIa, setIsGameVsIa] = React.useState(false);
+
   const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
 
@@ -32,7 +38,6 @@ export function NavalBattleContextProvider({ children }) {
   }
 
   function startNewGame() {
-    setCurrentGame("newGame");
     createGame().then((result) => {
       console.log(result);
       setCurrentGame(result);
@@ -40,10 +45,10 @@ export function NavalBattleContextProvider({ children }) {
     });
   }
 
-  function startNewGameVsIa(playerId) {
-    StartGameVsIa(playerId).then((result) => {
-      console.log(result);
+  function createGame(playerId) {
+    CreateGame(playerId).then((result) => {
       setCurrentGame(result);
+      setGameState(GameStates.PLACE_BOAT);
       history.push("/game");
     });
   }
@@ -51,24 +56,56 @@ export function NavalBattleContextProvider({ children }) {
   function placeRandomBoats() {
     PlaceRandomBoats(currentGame.id, currentPlayer.id).then((result) => {
       setCurrentGame(result);
-      console.log("new Game is ");
-      console.log(currentGame);
     });
   }
+
+  function sendMissile(gameId, playerId, cordinate) {
+    console.log(gameId);
+    console.log(playerId);
+    console.log(cordinate);
+    SendMissile(gameId, playerId, cordinate).then((result) => {
+      setGameState(result["gameStatus"]);
+      setCurrentPlayer(result["player"]);
+      console.log("gameStatUS IS  ");
+      console.log(gameState);
+    });
+    console.log("missile sent");
+    console.log(`isGameVsIa ? ${isGameVsIa}`);
+    if (isGameVsIa) {
+      IASendMissile(gameId).then((result) => {
+        setGameState(result["gameStatus"]);
+        setCurrentPlayer(result["player"]);
+      });
+    }
+  }
+
   function stopGame() {
+    //TODO call and endpoint to set the status of the game at FINISHED
     history.push("/");
+  }
+
+  function playVsIa() {
+    StartGameVsIa(currentGame.id).then((result) => {
+      setCurrentPlayer(result);
+    });
+    setIsGameVsIa(true);
+    setGameState(GameStates.PLAYER1_TURN);
   }
 
   const values = {
     currentGame,
+    currentPlayer,
+    gameState,
+    setGameState,
     setCurrentGame,
     startNewGame,
-    startNewGameVsIa,
+    createGame,
     createPlayer,
-    currentPlayer,
     setCurrentPlayer,
     placeRandomBoats,
+    sendMissile,
     stopGame,
+    playVsIa,
   };
   return (
     <NavalBattleContext.Provider value={values}>

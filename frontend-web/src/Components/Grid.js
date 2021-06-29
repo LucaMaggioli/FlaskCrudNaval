@@ -6,7 +6,7 @@ function sortCordinates(cordinates) {
   return cordinates;
 }
 
-export default function Grid({ cordinates, onCellClick = (cellJson) => {} }) {
+export default function Grid({ cordinates, onCellClick = (cordinate) => {} }) {
   const grid = [];
   cordinates = sortCordinates(cordinates);
 

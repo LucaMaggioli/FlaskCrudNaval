@@ -2,7 +2,7 @@ import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
 import { Box, Button } from "@material-ui/core";
 
 export default function PlayerPage() {
-  const { startNewGameVsIa, currentPlayer } = useNavalBattleContext();
+  const { createGame, currentPlayer } = useNavalBattleContext();
 
   console.log("current player in PlayerPage");
   console.log(currentPlayer);
@@ -14,7 +14,10 @@ export default function PlayerPage() {
           <Button
             variant="contained"
             onClick={() => {
-              startNewGameVsIa(currentPlayer["id"]);
+              console.log(
+                `calling start a new Game vs ia, player id is ${currentPlayer["id"]}`
+              );
+              createGame(currentPlayer["id"]);
             }}
           >
             Play vs Ia
