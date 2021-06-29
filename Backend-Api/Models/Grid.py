@@ -121,16 +121,6 @@ class Grid(object):
             else:
                 self.SetCordinateStatus(missileToAdd.StartCordinate, Constants.CordinateStatus.MISS)
 
-
-
-        #self.Missiles.append(missileToAdd)
-     #   for cordinate in self.Cordinates:
-    #        if cordinate.__eq__(missileToAdd.StartCordinate):
-   #             if cordinate.Status == Boat
-  #      for cordinate in self.Cordinates:
- #           if cordinate.__eq__(missileToAdd.StartCordinate):
-#                pass
-
     def GetBoatOverlappedBy(self, shape):
         boatOverlapped = None
         for boat in self.Boats:

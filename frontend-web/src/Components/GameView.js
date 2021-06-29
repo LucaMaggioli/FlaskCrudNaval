@@ -6,7 +6,6 @@ import { Box } from "@material-ui/core";
 export default function GameView() {
   const { currentGame, sendMissile, currentPlayer } = useNavalBattleContext();
 
-  // let grid = currentGame.player1.grid;
   let grid = currentPlayer.grid;
   let gridPlay = currentPlayer.gridPlay;
 

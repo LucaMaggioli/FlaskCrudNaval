@@ -8,11 +8,6 @@ class Boat(Shape):
     def __init__(self, boatName="", startCordinate=Cordinate(0, 0), lenght=0, orientation=VERTICAL):
         Shape.__init__(self, startCordinate=startCordinate, lenght=lenght, orientation=orientation)
         self.__BoatName = boatName
-        #self.__StartCordinate = startCordinate
-        #self.__Lenght = lenght
-        #self.__Orientation = orientation
-
-        #self.__Cordinates = self.__SetCordinates()
 
 
     def __SetCordinates(self):
@@ -31,39 +26,6 @@ class Boat(Shape):
             cordsToDict.append(cordinate.ToJson())
         return { "boatName": self.BoatName, "lenght": self.Lenght, "orientation": self.Orientation, "startCordinate": self.StartCordinate.ToJson(), "cordinates": cordsToDict}
 
-    # def Overlap(self, boat):#TODO: a class from where boat and missiles extends and define this method there
-    #     print("boat Overlap Method")
-    #     result = False
-    #     for cordinate in self.Cordinates:
-    #         for boatToPlaceCord in boat.Cordinates:
-    #             if cordinate.__eq__(boatToPlaceCord):
-    #                 result = True
-    #     return result
-    #
-    # @property
-    # def Lenght(self):
-    #     return self.__Lenght
-    #
-    # @Lenght.setter
-    # def Lenght(self, newValue):
-    #     self.__Lenght = newValue
-    #
-    # @property
-    # def Orientation(self):
-    #     return self.__Orientation
-    #
-    # @Orientation.setter
-    # def Orientation(self, newValue):
-    #     self.__Orientation = newValue
-    #
-    # @property
-    # def StartCordinate(self):
-    #     return self.__StartCordinate
-    #
-    # @StartCordinate.setter
-    # def StartCordinate(self, newValue):
-    #     self.__StartCordinate = newValue
-
     @property
     def BoatName(self):
         return self.__BoatName
@@ -71,7 +33,3 @@ class Boat(Shape):
     @BoatName.setter
     def BoatName(self, newValue):
         self.__BoatName = newValue
-
-    # @property
-    # def Cordinates(self):
-    #     return self.__Cordinates
