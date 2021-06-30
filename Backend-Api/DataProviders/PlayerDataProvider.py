@@ -71,11 +71,13 @@ def sendMissile(game, playerId, cordinate):
     if playerId == game.Player1.Id:
         if game.Player2.Grid.IsCordinateInsideGrid(cordinate):
             game.Player2.Grid.AddMissile(Missile(startCordinate=cordinate))
-            game.Player1.GridPlay.SetCordinateStatus(cordinate, game.Player2.Grid.GetCordById(cordinate.Id).Status)
+            #game.Player1.GridPlay.SetCordinateStatus(cordinate, game.Player2.Grid.GetCordById(cordinate.Id).Status)
+            game.Player1.GridPlay.SetCordinatesStatusesFromEnemyGrid(game.Player2.Grid)
         player = game.Player1
     if playerId == game.Player2.Id:
         game.Player1.Grid.AddMissile(Missile(cordinate))
-        game.Player2.GridPlay.SetCordinateStatus(cordinate, game.Player1.Grid.GetCordById(cordinate.Id).Status)
+        #game.Player2.GridPlay.SetCordinateStatus(cordinate, game.Player1.Grid.GetCordById(cordinate.Id).Status)
+        game.Player2.GridPlay.SetCordinatesStatusesFromEnemyGrid(game.Player1.Grid)
         player = game.Player2
     return player
 

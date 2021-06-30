@@ -90,36 +90,45 @@ class Grid(object):
         self.__Boats.append(boat)
 
     def AddMissile(self, missileToAdd=Missile()):
-        print("entering in Add Missile, missile cord is : {}".format(missileToAdd.StartCordinate.ToJson()))
+        print("entering in addMissile")
         for gridCordinate in self.Cordinates:
             if gridCordinate.__eq__(missileToAdd.StartCordinate):
-                print("find the grid cordinate of missileCordinate")
                 if gridCordinate.Status == CordinateStatus.WATER:
                     gridCordinate.Status = CordinateStatus.MISS
                 if gridCordinate.Status == CordinateStatus.BOAT:
                     gridCordinate.Status = CordinateStatus.HIT
-                print("GridCOrdinate status after adding missile: {}".format(gridCordinate.Status))
+                    boatHitted = self.GetBoatOverlappedBy(missileToAdd)
+                    boatHitted.HitCord(gridCordinate)
+                    print("Hit a cord! {}".format(gridCordinate.Id))
+                    if boatHitted.IsSunk:
+                        print("you sunk a boat!")
+                        self.SetSunkBoatCellsStatusInGrid(boatHitted)
+
+
+
 
         self.Missiles.append(missileToAdd)
 
+    def SetSunkBoatCellsStatusInGrid(self, boatSunk):
+        for cord in self.Cordinates:
+            for bCord in boatSunk.Cordinates:
+                if cord.__eq__(bCord):
+                    cord.Status = CordinateStatus.SUNK
+
+
     def SetCordinateStatus(self, cordinate, status):
-        print("Status in setcordinateStatus : {}".format(status))
         for gridCord in self.Cordinates:
             if gridCord.__eq__(cordinate):
                 gridCord.Status = status
-                print("gridplay cordinate new status {}".format(gridCord.Status))
 
-
-    def AddMissile2(self, missileToAdd=Missile()):
-        print("adding a missile!")
-        if self.IsCordinateInsideGrid(missileToAdd.StartCordinate):
-            print("missile inside grid !")
-            self.Missiles.append(missileToAdd)
-            if self.CheckIfOverlapAnyBoat(missileToAdd):
-                print("missile overlap a boat!")
-                self.SetCordinateStatus(missileToAdd.StartCordinate, Constants.CordinateStatus.HIT)
-            else:
-                self.SetCordinateStatus(missileToAdd.StartCordinate, Constants.CordinateStatus.MISS)
+    def SetCordinatesStatusesFromEnemyGrid(self, gridToCopyStatus):
+        for cord in gridToCopyStatus.Cordinates:
+            for selfCord in self.Cordinates:
+                if selfCord.__eq__(cord):
+                    if cord.Status == CordinateStatus.BOAT:
+                        selfCord.Status = CordinateStatus.WATER
+                    else:
+                        selfCord.Status = cord.Status
 
     def GetBoatOverlappedBy(self, shape):
         boatOverlapped = None
