@@ -86,7 +86,6 @@ class Grid(object):
             for gridCordinate in self.Cordinates:
                 if gridCordinate.__eq__(boatCordinate):
                     gridCordinate.Status = CordinateStatus.BOAT
-
         self.__Boats.append(boat)
 
     def AddMissile(self, missileToAdd=Missile()):
@@ -100,10 +99,6 @@ class Grid(object):
                     boatHitted.HitCord(gridCordinate)
                     if boatHitted.IsSunk:
                         self.SetSunkBoatCellsStatusInGrid(boatHitted)
-
-
-
-
         self.Missiles.append(missileToAdd)
 
     def SetSunkBoatCellsStatusInGrid(self, boatSunk):
@@ -112,7 +107,7 @@ class Grid(object):
                 if cord.__eq__(bCord):
                     cord.Status = CordinateStatus.SUNK
 
-
+    #Unused if in future is not usefull is TODO delete method
     def SetCordinateStatus(self, cordinate, status):
         for gridCord in self.Cordinates:
             if gridCord.__eq__(cordinate):
@@ -164,7 +159,6 @@ class Grid(object):
         for cordinate in self.Cordinates:
             if cordinate.__eq__(extCordinate):
                 return cordinate.Status
-
 
     @property
     def Id(self):
