@@ -11,7 +11,7 @@ class CordinateStatus(Enum):
      BOAT = 2
      HIT = 3
      MISS = 4
-     SUNK = 4
+     SUNK = 5
 
 class GameStates(Enum):
      WAITING = -1
