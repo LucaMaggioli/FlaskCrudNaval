@@ -26,7 +26,7 @@ class Boat(Shape):
         cordsToDict = []
         for cordinate in self.Cordinates:
             cordsToDict.append(cordinate.ToJson())
-        return { "boatName": self.BoatName, "lenght": self.Lenght, "orientation": self.Orientation, "startCordinate": self.StartCordinate.ToJson(), "cordinates": cordsToDict}
+        return {"boatName": self.BoatName, "lenght": self.Lenght, "orientation": self.Orientation, "startCordinate": self.StartCordinate.ToJson(), "cordinates": cordsToDict}
 
     @property
     def IsSunk(self):

@@ -90,7 +90,6 @@ class Grid(object):
         self.__Boats.append(boat)
 
     def AddMissile(self, missileToAdd=Missile()):
-        print("entering in addMissile")
         for gridCordinate in self.Cordinates:
             if gridCordinate.__eq__(missileToAdd.StartCordinate):
                 if gridCordinate.Status == CordinateStatus.WATER:
@@ -99,9 +98,7 @@ class Grid(object):
                     gridCordinate.Status = CordinateStatus.HIT
                     boatHitted = self.GetBoatOverlappedBy(missileToAdd)
                     boatHitted.HitCord(gridCordinate)
-                    print("Hit a cord! {}".format(gridCordinate.Id))
                     if boatHitted.IsSunk:
-                        print("you sunk a boat!")
                         self.SetSunkBoatCellsStatusInGrid(boatHitted)
 
 

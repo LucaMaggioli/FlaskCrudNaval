@@ -1,4 +1,4 @@
-from Models.Grid import Grid
+    from Models.Grid import Grid
 
 class Player(object):
 
