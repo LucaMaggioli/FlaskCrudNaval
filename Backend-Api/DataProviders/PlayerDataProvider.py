@@ -2,6 +2,7 @@ from flask import jsonify
 import random
 
 from Models import Context
+from Models.Constants import CordinateStatus
 from Models.Cordinate import Cordinate
 from Models.Player import Player
 from Models.Missile import Missile
@@ -69,9 +70,17 @@ def sendMissile(game, playerId, cordinate):
     return player
 
 def IaSendMissile(game):
-    randomMissile = getRandomMissile()
+    randomMissile = getRandomMissile(game.Player1.Grid)
     game.Player1.Grid.AddMissile(randomMissile)
     return game.Player1
 
-def getRandomMissile():
-    return Missile(startCordinate=Cordinate(random.randint(1, 10), random.randint(1, 10)))
+def getRandomMissile(player1Grid):
+    missile = Missile(startCordinate=Cordinate(random.randint(1, 10), random.randint(1, 10)))
+    validMissile = False
+    while not validMissile:
+        statusForMissileCord = player1Grid.GetStatusForExtCordinate(missile.StartCordinate)
+        if statusForMissileCord == CordinateStatus.MISS or statusForMissileCord == CordinateStatus.HIT or statusForMissileCord == CordinateStatus.SUNK:
+            missile = Missile(startCordinate=Cordinate(random.randint(1, 10), random.randint(1, 10)))
+        else:
+            validMissile = True
+    return missile
