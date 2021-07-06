@@ -19,6 +19,10 @@ class Grid(object):
         self.__SetCordinates()
         self.__Id = id
         self.__SetAvailableBoats()
+        self.__LastHitCoordinate = None
+        self.__FirstHitCordinate = None
+        self.__HittingDirection = None
+        self.__LastLaunchMissile = Missile(startCordinate=Cordinate(-2, -2))
 
     def ToJson(self):
         boatsToDict = []
@@ -51,7 +55,7 @@ class Grid(object):
         return jsonCord
 
     def IsCordinateInsideGrid(self, cordinate):
-        return cordinate.X <= self.CordinateMax.X and cordinate.Y <= self.CordinateMax.Y and cordinate.X >= 0 and cordinate.Y >= 0
+        return cordinate.X <= self.CordinateMax.X and cordinate.Y <= self.CordinateMax.Y and cordinate.X > 0 and cordinate.Y > 0
 
     def CanPlaceBoat(self, boatToPlace=Boat()):
         result = True
@@ -156,9 +160,19 @@ class Grid(object):
         return Boat(boatName=boatName, startCordinate=Cordinate(cordX, cordY), lenght=lenght, orientation=randOrientation)
 
     def GetStatusForExtCordinate(self, extCordinate):
+        statusToReturn = None
         for cordinate in self.Cordinates:
             if cordinate.__eq__(extCordinate):
-                return cordinate.Status
+                statusToReturn = cordinate.Status
+        return statusToReturn
+
+    @property
+    def FreeHitCord(self):
+        freeCord = None
+        for cord in self.Cordinates:
+            if self.GetStatusForExtCordinate(cord) == CordinateStatus.HIT:
+                freeCord = cord
+        return freeCord
 
     @property
     def Id(self):
@@ -197,3 +211,34 @@ class Grid(object):
     @AvailableBoats.setter
     def AvailableBoats(self, newValue):
         self.__AvailableBoats = newValue
+
+    @property
+    def LastHitCoordinate(self):
+        return self.__LastHitCoordinate
+
+    @LastHitCoordinate.setter
+    def LastHitCoordinate(self, newValue):
+        self.__LastHitCoordinate = newValue
+
+    @property
+    def LastLaunchMissile(self):
+        return self.__LastLaunchMissile
+
+    @LastLaunchMissile.setter
+    def LastLaunchMissile(self, newValue):
+        self.__LastLaunchMissile = newValue
+
+    @property
+    def HittingDirection(self):
+        return self.__HittingDirection
+
+    @HittingDirection.setter
+    def HittingDirection(self, newValue):
+        self.__HittingDirection = newValue
+    @property
+    def FirstHitCordinate(self):
+        return self.__FirstHitCordinate
+
+    @FirstHitCordinate.setter
+    def FirstHitCordinate(self, newValue):
+        self.__FirstHitCordinate = newValue

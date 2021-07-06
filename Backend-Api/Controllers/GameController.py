@@ -113,4 +113,5 @@ def IAattack(gameId):
     player = _playerDataProvider.IaSendMissile(game)
     game.GameState = GameStates.PLAYER1TURN
 
+
     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200

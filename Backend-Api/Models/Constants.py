@@ -6,6 +6,12 @@ HORIZONTAL = 1
 #AVAILABLEGAMEBOATS = [Boat(boatName="torpilleur-1", lenght=3), Boat(boatName="torpilleur-2", lenght=3), Boat(boatName="contre-avion", lenght=4), Boat(boatName="porte-avion", lenght=5)]
 AVAILABLEGAMEBOATS = [{"boatName": "torpilleur-1", "lenght": 3}, {"boatName": "torpilleur-2", "lenght": 3}, {"boatName": "contre-avion", "lenght": 4}, {"boatName": "porte-avion", "lenght": 5}]
 
+class Direction(Enum):
+     N = 1
+     E = 2
+     S = 3
+     W = 4
+
 class CordinateStatus(Enum):
      WATER = 1
      BOAT = 2
