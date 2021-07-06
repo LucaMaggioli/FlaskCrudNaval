@@ -23,23 +23,14 @@ export function NavalBattleContextProvider({ children }) {
 
   function createPlayer(playerName) {
     AddPlayer(playerName).then((result) => {
-      console.log("result from backend after adding player is:");
-      console.log(result);
-      console.log("new player ID is:");
-      console.log(result.playerId);
       setCurrentPlayerId(result["id"]);
-      console.log("currentPlayer ID is");
-      console.log(currentPlayerId);
       setCurrentPlayer(result);
-      console.log("currentPlayer is");
-      console.log(currentPlayer);
       history.push("/player");
     });
   }
 
   function startNewGame() {
     createGame().then((result) => {
-      console.log(result);
       setCurrentGame(result);
       history.push("/game");
     });
@@ -60,17 +51,10 @@ export function NavalBattleContextProvider({ children }) {
   }
 
   function sendMissile(gameId, playerId, cordinate) {
-    console.log(gameId);
-    console.log(playerId);
-    console.log(cordinate);
     SendMissile(gameId, playerId, cordinate).then((result) => {
       setGameState(result["gameStatus"]);
       setCurrentPlayer(result["player"]);
-      console.log("gameStatUS IS  ");
-      console.log(gameState);
     });
-    console.log("missile sent");
-    console.log(`isGameVsIa ? ${isGameVsIa}`);
     if (isGameVsIa) {
       IASendMissile(gameId).then((result) => {
         setGameState(result["gameStatus"]);
@@ -80,11 +64,10 @@ export function NavalBattleContextProvider({ children }) {
   }
 
   function stopGame() {
-    //TODO call and endpoint to set the status of the game at FINISHED
     history.push("/");
   }
 
-  function playVsIa() {
+  function startGameVsIa() {
     StartGameVsIa(currentGame.id).then((result) => {
       setCurrentPlayer(result);
     });
@@ -105,7 +88,7 @@ export function NavalBattleContextProvider({ children }) {
     placeRandomBoats,
     sendMissile,
     stopGame,
-    playVsIa,
+    startGameVsIa,
   };
   return (
     <NavalBattleContext.Provider value={values}>

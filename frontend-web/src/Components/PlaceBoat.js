@@ -10,7 +10,7 @@ export default function PlaceBoat() {
     setCurrentGame,
     currenPlayer,
     placeRandomBoats,
-    playVsIa,
+    startGameVsIa,
   } = useNavalBattleContext();
 
   const cordinates = currentGame.player1.grid.cordinates;
@@ -18,8 +18,6 @@ export default function PlaceBoat() {
 
   console.log("Player in PlaceBoats");
   console.log(currenPlayer);
-
-
 
   function addBoatAtPosition(cellJson) {
     if (boatToPlace != null) {
@@ -76,7 +74,7 @@ export default function PlaceBoat() {
         </div>
         <div>
           <button onClick={placeRandomBoats}>Place Random Boats</button>
-          <button enabled={true} onClick={playVsIa}>
+          <button enabled={true} onClick={startGameVsIa}>
             Play VSIA !
           </button>
         </div>

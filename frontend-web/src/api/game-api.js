@@ -1,6 +1,5 @@
 import { ACCEPTED_STATUS, API_URL } from "./api-settings";
 
-
 export function AddPlayer(nickname) {
   return fetch(`${API_URL}/player/add`, {
     method: "POST",
@@ -63,7 +62,7 @@ export function PlaceRandomBoats(gameId, playerId) {
 
 export function StartGameVsIa(gameId) {
   if (!gameId) {
-    return "game Id must not be null";
+    return "error game Id must not be null";
   } else {
     return fetch(`${API_URL}/game/${gameId}/start/vsia`, {
       method: "POST",
@@ -80,9 +79,29 @@ export function StartGameVsIa(gameId) {
     });
   }
 }
+/*
+export function StartGameVsIa(gameId) {
+  if (!gameId) {
+    return "game Id must not be null";
+  } else {
+    return fetch(`${API_URL}/game/${gameId}/start/vsia`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then((result) => {
+      if (ACCEPTED_STATUS.includes(result.status)) {
+        return result.json();
+      } else {
+        return result;
+      }
+    });
+  }
+}*/
 
 export function SendMissile(gameId, playerId, cordinate) {
-  if (!playerId && !gameId) {
+  if (!playerId || !gameId) {
     return "error player Id or GameId must not be null";
   } else {
     return fetch(`${API_URL}/game/${gameId}/player/${playerId}/sendMissile`, {
