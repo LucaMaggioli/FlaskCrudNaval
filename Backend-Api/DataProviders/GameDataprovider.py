@@ -18,7 +18,7 @@ class GameDataprovider(object):
     _Context = Context
 
     def Add(self, gameName="DefaultNameGame", player1=Player(), player2=None):
-        id = len(self._Context.Games)
+        id = len(self._Context.Games) + 1 
 
         if (player2 is None):
             newGame = Game(id, gameName, player1)
