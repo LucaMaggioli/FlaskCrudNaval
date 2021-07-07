@@ -55,7 +55,7 @@ export default function GameView() {
       </Box>
       <Box style={{ textAlign: "center", margin: "50px" }}>
         <Button variant="contained" onClick={leaveGame}>
-          Go to Lobby page
+          Leave the game
         </Button>
       </Box>
     </Box>

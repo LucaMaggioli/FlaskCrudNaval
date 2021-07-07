@@ -12,8 +12,6 @@ const PlayerPage = React.lazy(() =>
   import(/* webpackChunkName: "PlayerPage" */ "./Components/Pages/PlayerPage")
 );
 
-// const Home = React.lazy(() => import(/* webpackChunkName: "Home" */ "./Home"));
-
 function Routes() {
   return (
     <React.Suspense fallback={<Loader />}>
