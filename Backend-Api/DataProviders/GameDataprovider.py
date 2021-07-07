@@ -45,5 +45,11 @@ class GameDataprovider(object):
         games = []
         for game in self._Context.Games:
             games.append(game.ToJson())
+        return games
 
+    def GetGamesForPlayer(self, playerId):
+        games = []
+        for game in self._Context.Games:
+            if game.Player1.Id == playerId or game.Player2.Id == playerId:
+                games.append(game.ToJson())
         return games

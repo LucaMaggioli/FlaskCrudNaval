@@ -47,6 +47,12 @@ def placeboats():
 def getGames():
     return jsonify(_gameDataProvider.GetGames())
 
+@NavalCrudApp.route("/games/player/<int:playerId>", methods=['GET'])
+@cross_origin()
+def getGamesForPlayer(playerId):
+    games = _gameDataProvider.GetGamesForPlayer(playerId)
+    return jsonify(games)
+
 # for now players are hardcoded, this should be /game/ia
 @NavalCrudApp.route("/game",  methods=['POST'])
 @cross_origin()
