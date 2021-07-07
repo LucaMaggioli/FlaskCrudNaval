@@ -53,7 +53,15 @@ def createGame():
     gameName = request.json
     player1 = Player(nickname="Luca")
     game = _gameDataProvider.Add(gameName, player1)
-    return game.ToJson()
+    return game.ToJson(), 200
+
+@NavalCrudApp.route("/game/<int:gameId>", methods=['GET'])
+@cross_origin()
+def getGameById(gameId):
+    game = _gameDataProvider.GetGameById(gameId)
+    print("game is :")
+    print(game.ToJson())
+    return game.ToJson(), 200
 
 @NavalCrudApp.route("/game/<int:currentGameId>/grid/addboat", methods=['POST'])
 @cross_origin()

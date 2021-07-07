@@ -2,7 +2,7 @@ import React from "react";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 import { useHistory } from "react-router-dom";
 import Box from "../styled-components/Box";
-import { GameStatuses } from "./Constants";
+import { GameStates } from "./Constants";
 
 import Loader from "../Loader";
 
@@ -14,11 +14,13 @@ const GameView = React.lazy(() =>
   import(/* webpackChunkName: "PlaceBoat" */ "./GameView")
 );
 
+const FinishView = React.lazy(() =>
+  import(/* webpackChunkName: "PlaceBoat" */ "./FinishView")
+);
+
 export default function Game() {
   const { currentGame, stopGame, gameState } = useNavalBattleContext();
   const history = useHistory();
-
-  console.log(`gameState in game = ${gameState}`);
 
   if (!currentGame || !currentGame.gameState) {
     history.push("/");
@@ -30,13 +32,13 @@ export default function Game() {
       <h1>Naval Battle {currentGame.id}</h1>
       <button onClick={stopGame}>Stop</button>
       <React.Suspense fallback={<Loader />}>
-        {gameState === GameStatuses.PLACINGBOATS ? (
+        {gameState === GameStates.PLACINGBOATS ? (
           <PlaceBoat />
-        ) : gameState === GameStatuses.PLAYER1WIN ||
-          gameState === GameStatuses.PLAYER2WIN ? (
-          <h1>Player {GameStatuses.PLAYER1WIN ? "1" : "2"} Win!</h1>
-        ) : gameState === GameStatuses.PLAYER1TURN ||
-          GameStatuses.PLAYER2TURN ? (
+        ) : gameState === GameStates.PLAYER1WIN ||
+          gameState === GameStates.PLAYER2WIN ? (
+          <FinishView />
+        ) : gameState === GameStates.PLAYER1TURN ||
+          GameStates.PLAYER2TURN ? (
           <GameView />
         ) : (
           <h2>waiting</h2>

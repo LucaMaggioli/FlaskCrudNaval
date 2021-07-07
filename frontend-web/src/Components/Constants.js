@@ -6,7 +6,7 @@ export const CordinateStatus = {
   SUNK: 5,
 };
 
-export const GameStatuses = {
+export const GameStates = {
   WAITING: -1,
   PLACINGBOATS: 1,
   PLAYING: 2,

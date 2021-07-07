@@ -6,6 +6,7 @@ import {
   SendMissile,
   StartGameVsIa,
   IASendMissile,
+  UpdateGame as GetUpdateGame,
 } from "../api/game-api";
 import { useHistory } from "react-router-dom";
 import { GameStates } from "../services/GameService";
@@ -63,6 +64,10 @@ export function NavalBattleContextProvider({ children }) {
     }
   }
 
+  function updateGame() {
+    GetUpdateGame(currentGame.id).then((result) => setCurrentGame(result));
+  }
+
   function stopGame() {
     history.push("/");
   }
@@ -89,6 +94,7 @@ export function NavalBattleContextProvider({ children }) {
     sendMissile,
     stopGame,
     startGameVsIa,
+    updateGame,
   };
   return (
     <NavalBattleContext.Provider value={values}>
