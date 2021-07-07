@@ -14,6 +14,10 @@ const GameView = React.lazy(() =>
   import(/* webpackChunkName: "PlaceBoat" */ "./GameView")
 );
 
+const FinishView = React.lazy(() =>
+  import(/* webpackChunkName: "PlaceBoat" */ "./FinishView")
+);
+
 export default function Game() {
   const { currentGame, stopGame, gameState } = useNavalBattleContext();
   const history = useHistory();
@@ -34,7 +38,7 @@ export default function Game() {
           <PlaceBoat />
         ) : gameState === GameStatuses.PLAYER1WIN ||
           gameState === GameStatuses.PLAYER2WIN ? (
-          <h1>Player {GameStatuses.PLAYER1WIN ? "1" : "2"} Win!</h1>
+          <FinishView />
         ) : gameState === GameStatuses.PLAYER1TURN ||
           GameStatuses.PLAYER2TURN ? (
           <GameView />
