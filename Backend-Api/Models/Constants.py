@@ -27,6 +27,7 @@ class GameStates(Enum):
      PLAYER1WIN = 11
      PLAYER2TURN = 20
      PLAYER2WIN = 22
+     FINISHED = 30
 
 class GameMode(Enum):
      VSPLAYER = 1

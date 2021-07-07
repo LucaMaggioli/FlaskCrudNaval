@@ -14,6 +14,7 @@ export const GameStates = {
   PLAYER1WIN: 11,
   PLAYER2TURN: 20,
   PLAYER2WIN: 22,
+  FINISHED: 30,
 };
 
 export const VERTICAL = 0;

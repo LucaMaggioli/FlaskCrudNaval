@@ -19,7 +19,7 @@ const FinishView = React.lazy(() =>
 );
 
 export default function Game() {
-  const { currentGame, stopGame, gameState } = useNavalBattleContext();
+  const { currentGame, leaveGame, gameState } = useNavalBattleContext();
   const history = useHistory();
 
   if (!currentGame || !currentGame.gameState) {
@@ -30,15 +30,14 @@ export default function Game() {
   return (
     <Box flexDirection="column" alignItems="center">
       <h1>Naval Battle {currentGame.id}</h1>
-      <button onClick={stopGame}>Stop</button>
+      <button onClick={leaveGame}>Leave Game</button>
       <React.Suspense fallback={<Loader />}>
         {gameState === GameStates.PLACINGBOATS ? (
           <PlaceBoat />
         ) : gameState === GameStates.PLAYER1WIN ||
           gameState === GameStates.PLAYER2WIN ? (
           <FinishView />
-        ) : gameState === GameStates.PLAYER1TURN ||
-          GameStates.PLAYER2TURN ? (
+        ) : gameState === GameStates.PLAYER1TURN || GameStates.PLAYER2TURN ? (
           <GameView />
         ) : (
           <h2>waiting</h2>

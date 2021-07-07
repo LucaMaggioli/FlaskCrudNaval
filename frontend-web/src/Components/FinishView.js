@@ -1,10 +1,11 @@
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 import Grid from "./Grid";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, Button } from "@material-ui/core";
 import { GameStates } from "./Constants";
 
 export default function GameView() {
-  const { currentGame, updateGame, currentPlayer } = useNavalBattleContext();
+  const { currentGame, updateGame, currentPlayer, leaveGame } =
+    useNavalBattleContext();
   const enemyPlayer =
     currentGame.player1.id === currentPlayer.id
       ? currentGame.player2
@@ -51,6 +52,11 @@ export default function GameView() {
           </Typography>
           <Grid cordinates={enemyPlayer.grid.cordinates} />
         </Box>
+      </Box>
+      <Box style={{ textAlign: "center", margin: "50px" }}>
+        <Button variant="contained" onClick={leaveGame}>
+          Leave the game
+        </Button>
       </Box>
     </Box>
   );

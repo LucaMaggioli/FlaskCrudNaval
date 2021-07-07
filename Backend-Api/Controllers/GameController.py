@@ -9,6 +9,7 @@ from Models.Boat import Boat
 from Models.Cordinate import Cordinate
 from Models.Game import Game
 from Models.Player import Player
+from Models.Grid import Grid
 from Models.Constants import GameStates, GameMode
 
 _gameDataProvider = GameDataprovider()
@@ -59,9 +60,19 @@ def createGame():
 @cross_origin()
 def getGameById(gameId):
     game = _gameDataProvider.GetGameById(gameId)
-    print("game is :")
-    print(game.ToJson())
     return game.ToJson(), 200
+
+@NavalCrudApp.route("/game/<int:gameId>/leave/player/<int:playerId>", methods=['PATCH'])
+@cross_origin()
+def leaveGame(gameId, playerId):
+    game = _gameDataProvider.GetGameById(gameId)
+    game.Status = GameStates.FINISHED
+    player = _playerDataProvider.getPlayerById(playerId)
+    player.Grid = Grid()
+    player.GridPlay = Grid()
+
+    return player.ToJson(), 200
+
 
 @NavalCrudApp.route("/game/<int:currentGameId>/grid/addboat", methods=['POST'])
 @cross_origin()
@@ -90,13 +101,9 @@ def addBoatToGrid(currentGameId):
 def startGame(currentGameId):
     player2 = _playerDataProvider.AddPlayer("IA")
     player2 = _playerDataProvider.AddRandomBoats(player2.Id)
-    print("player2 boats after addrandomBoats{}".format(player2.Grid.Boats))
     game = _gameDataProvider.AddPlayer2(currentGameId, player2)
-    print("player2 boats after AddPlayerTOGame {}".format(game.Player2.Grid.Boats))
 
     game.GameState = GameStates.PLAYER1TURN
-    print('player1 is {}'.format(game.Player1.ToJson()))
-    print("player2 boats {}".format(game.Player2.Grid.Boats))
     return game.Player1.ToJson(), 200
 
 @NavalCrudApp.route("/game/<int:gameId>/player/<int:playerId>/sendMissile", methods=['POST'])
