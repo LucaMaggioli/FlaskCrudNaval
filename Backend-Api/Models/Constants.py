@@ -24,7 +24,9 @@ class GameStates(Enum):
      PLACINGBOATS = 1
      PLAYING = 2
      PLAYER1TURN = 10
+     PLAYER1WIN = 11
      PLAYER2TURN = 20
+     PLAYER2WIN = 22
 
 class GameMode(Enum):
      VSPLAYER = 1

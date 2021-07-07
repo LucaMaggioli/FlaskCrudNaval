@@ -15,12 +15,10 @@ const GameView = React.lazy(() =>
 );
 
 export default function Game() {
-  const { currentGame, stopGame, currentPlayer, gameState } =
-    useNavalBattleContext();
+  const { currentGame, stopGame, gameState } = useNavalBattleContext();
   const history = useHistory();
 
-  console.log("player in Game");
-  console.log(currentPlayer);
+  console.log(`gameState in game = ${gameState}`);
 
   if (!currentGame || !currentGame.gameState) {
     history.push("/");
@@ -34,6 +32,9 @@ export default function Game() {
       <React.Suspense fallback={<Loader />}>
         {gameState === GameStatuses.PLACINGBOATS ? (
           <PlaceBoat />
+        ) : gameState === GameStatuses.PLAYER1WIN ||
+          gameState === GameStatuses.PLAYER2WIN ? (
+          <h1>Player {GameStatuses.PLAYER1WIN ? "1" : "2"} Win!</h1>
         ) : gameState === GameStatuses.PLAYER1TURN ||
           GameStatuses.PLAYER2TURN ? (
           <GameView />

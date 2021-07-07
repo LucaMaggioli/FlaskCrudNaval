@@ -175,6 +175,14 @@ class Grid(object):
         return freeCord
 
     @property
+    def AllBoatsAreSunk(self):
+        sunkBoats = self.Boats.__len__()
+        for boat in self.Boats:
+            if boat.IsSunk:
+                sunkBoats -= 1
+        return sunkBoats == 0
+
+    @property
     def Id(self):
         return self.__Id
     @property

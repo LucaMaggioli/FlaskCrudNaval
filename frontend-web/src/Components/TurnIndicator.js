@@ -13,6 +13,12 @@ export default function TurnIndicator() {
     case GameStatuses.PLAYER2TURN:
       text = "It's player 2 turn !";
       break;
+    case GameStatuses.PLAYER1WIN:
+      text = "Player 1 Win !!!";
+      break;
+    case GameStatuses.PLAYER2WIN:
+      text = "Player 2 Win !!!";
+      break;
     default:
     // code block in case
   }
