@@ -29,6 +29,7 @@ export default function Grid({ cordinates, onCellClick = (cordinate) => {} }) {
         display: "grid",
         gridTemplateColumns: "repeat(10, 1fr)",
         height: "fit-content",
+        width: "fit-content",
       }}
     >
       {grid}
