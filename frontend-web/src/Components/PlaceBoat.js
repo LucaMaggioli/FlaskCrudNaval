@@ -8,16 +8,13 @@ export default function PlaceBoat() {
   const {
     currentGame,
     setCurrentGame,
-    currenPlayer,
+    // currenPlayer,
     placeRandomBoats,
     startGameVsIa,
   } = useNavalBattleContext();
 
   const cordinates = currentGame.player1.grid.cordinates;
   const [boatToPlace, setBoatToPlace] = useState();
-
-  console.log("Player in PlaceBoats");
-  console.log(currenPlayer);
 
   function addBoatAtPosition(cellJson) {
     if (boatToPlace != null) {

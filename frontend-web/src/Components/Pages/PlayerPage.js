@@ -4,8 +4,6 @@ import { Box, Button } from "@material-ui/core";
 export default function PlayerPage() {
   const { createGame, currentPlayer } = useNavalBattleContext();
 
-  console.log("current player in PlayerPage");
-  console.log(currentPlayer);
   return (
     <>
       <Box style={{ display: "flex", flexDirection: "column" }}>

@@ -13,6 +13,7 @@ export default function Grid({ cordinates, onCellClick = (cordinate) => {} }) {
   cordinates.forEach((cordinate) => {
     grid.push(
       <Cell
+        key={cordinate.id}
         cellId={cordinate.id}
         cellStatus={cordinate.status}
         onClick={() => {

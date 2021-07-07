@@ -100,10 +100,6 @@ def sendMissile(gameId, playerId):
 
     player = _playerDataProvider.sendMissile(game, playerId, cordinate)
 
-    if (game.GameState == GameStates.PLAYER1TURN):
-        game.GameState = GameStates.PLAYER2TURN
-    elif (game.GameState == GameStates.PLAYER2TURN):
-        game.GameState = GameStates.PLAYER1TURN
     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
 
 @NavalCrudApp.route("/game/<int:gameId>/IAattack", methods=['PATCH'])
@@ -111,7 +107,5 @@ def sendMissile(gameId, playerId):
 def IAattack(gameId):
     game = _gameDataProvider.GetGameById(gameId)
     player = _playerDataProvider.IaSendMissile(game)
-    game.GameState = GameStates.PLAYER1TURN
-
 
     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
