@@ -12,9 +12,6 @@ export default function PlayerPage() {
           <Button
             variant="contained"
             onClick={() => {
-              console.log(
-                `calling start a new Game vs ia, player id is ${currentPlayer["id"]}`
-              );
               createGame(currentPlayer["id"]);
             }}
           >

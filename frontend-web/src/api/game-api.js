@@ -140,3 +140,23 @@ export function UpdateGame(gameId) {
     });
   }
 }
+
+export function LeaveGame(gameId, playerId) {
+  if (!gameId) {
+    return "error player GameId must not be null";
+  } else {
+    return fetch(`${API_URL}/game/${gameId}/leave/player/${playerId}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then((result) => {
+      if (ACCEPTED_STATUS.includes(result.status)) {
+        return result.json();
+      } else {
+        return result;
+      }
+    });
+  }
+}

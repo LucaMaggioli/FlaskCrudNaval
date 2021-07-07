@@ -5,13 +5,8 @@ import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
 import Grid from "./Grid";
 
 export default function PlaceBoat() {
-  const {
-    currentGame,
-    setCurrentGame,
-    // currenPlayer,
-    placeRandomBoats,
-    startGameVsIa,
-  } = useNavalBattleContext();
+  const { currentGame, setCurrentGame, placeRandomBoats, startGameVsIa } =
+    useNavalBattleContext();
 
   const cordinates = currentGame.player1.grid.cordinates;
   const [boatToPlace, setBoatToPlace] = useState();

@@ -7,6 +7,7 @@ import {
   StartGameVsIa,
   IASendMissile,
   UpdateGame as GetUpdateGame,
+  LeaveGame,
 } from "../api/game-api";
 import { useHistory } from "react-router-dom";
 import { GameStates } from "../services/GameService";
@@ -39,7 +40,11 @@ export function NavalBattleContextProvider({ children }) {
 
   function createGame(playerId) {
     CreateGame(playerId).then((result) => {
+      console.log("currentGame is ");
+      console.log(currentGame);
       setCurrentGame(result);
+      console.log("currentGame after new Creation of game is ");
+      console.log(result);
       setGameState(GameStates.PLACE_BOAT);
       history.push("/game");
     });
@@ -80,6 +85,15 @@ export function NavalBattleContextProvider({ children }) {
     setGameState(GameStates.PLAYER1_TURN);
   }
 
+  function leaveGame() {
+    LeaveGame(currentGame.id, currentPlayer.id).then((result) => {
+      console.log("player afte leave the game is : ");
+      console.log(result);
+      setCurrentPlayer(result);
+    });
+    history.push("/player");
+  }
+
   const values = {
     currentGame,
     currentPlayer,
@@ -95,6 +109,7 @@ export function NavalBattleContextProvider({ children }) {
     stopGame,
     startGameVsIa,
     updateGame,
+    leaveGame,
   };
   return (
     <NavalBattleContext.Provider value={values}>
