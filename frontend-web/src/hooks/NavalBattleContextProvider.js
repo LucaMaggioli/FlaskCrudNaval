@@ -8,6 +8,7 @@ import {
   IASendMissile,
   UpdateGame as GetUpdateGame,
   LeaveGame,
+  GetPlayerGames,
 } from "../api/game-api";
 import { useHistory } from "react-router-dom";
 import { GameStates } from "../services/GameService";
@@ -19,6 +20,7 @@ export function NavalBattleContextProvider({ children }) {
   const [currentPlayer, setCurrentPlayer] = React.useState();
   const [gameState, setGameState] = React.useState();
   const [isGameVsIa, setIsGameVsIa] = React.useState(false);
+  const [currentPlayerGames, setCurrentPlayerGames] = React.useState([]);
 
   const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
@@ -40,11 +42,7 @@ export function NavalBattleContextProvider({ children }) {
 
   function createGame(playerId) {
     CreateGame(playerId).then((result) => {
-      console.log("currentGame is ");
-      console.log(currentGame);
       setCurrentGame(result);
-      console.log("currentGame after new Creation of game is ");
-      console.log(result);
       setGameState(GameStates.PLACE_BOAT);
       history.push("/game");
     });
@@ -73,10 +71,6 @@ export function NavalBattleContextProvider({ children }) {
     GetUpdateGame(currentGame.id).then((result) => setCurrentGame(result));
   }
 
-  function stopGame() {
-    history.push("/");
-  }
-
   function startGameVsIa() {
     StartGameVsIa(currentGame.id).then((result) => {
       setCurrentPlayer(result);
@@ -87,16 +81,21 @@ export function NavalBattleContextProvider({ children }) {
 
   function leaveGame() {
     LeaveGame(currentGame.id, currentPlayer.id).then((result) => {
-      console.log("player afte leave the game is : ");
-      console.log(result);
       setCurrentPlayer(result);
     });
     history.push("/player");
   }
 
+  function getPlayerGames() {
+    GetPlayerGames(currentPlayer.id).then((result) => {
+      setCurrentPlayerGames(result);
+    });
+  }
+
   const values = {
     currentGame,
     currentPlayer,
+    currentPlayerGames,
     gameState,
     setGameState,
     setCurrentGame,
@@ -106,10 +105,10 @@ export function NavalBattleContextProvider({ children }) {
     setCurrentPlayer,
     placeRandomBoats,
     sendMissile,
-    stopGame,
     startGameVsIa,
     updateGame,
     leaveGame,
+    getPlayerGames,
   };
   return (
     <NavalBattleContext.Provider value={values}>

@@ -51,6 +51,7 @@ def getGames():
 @cross_origin()
 def getGamesForPlayer(playerId):
     games = _gameDataProvider.GetGamesForPlayer(playerId)
+    print("Games of player id {}".format(playerId))
     return jsonify(games)
 
 # for now players are hardcoded, this should be /game/ia

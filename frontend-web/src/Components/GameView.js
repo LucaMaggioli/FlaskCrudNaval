@@ -14,7 +14,7 @@ export default function GameView() {
       <Box>
         <TurnIndicator />
       </Box>
-      <div style={{ display: "flex", flexDirection: "row", gridGap: "20px" }}>
+      <Box style={{ display: "flex", flexDirection: "row", gridGap: "20px" }}>
         <div>
           <h2>Grille du joueur</h2>
           <Grid cordinates={grid.cordinates} />
@@ -28,7 +28,7 @@ export default function GameView() {
             }
           />
         </div>
-      </div>
+      </Box>
     </Box>
   );
 }
