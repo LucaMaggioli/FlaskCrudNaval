@@ -1,11 +1,11 @@
+import copy
 import random
 
 from flask import jsonify
 
 from Models import Context
-from Models.Constants import VERTICAL, HORIZONTAL
+from Models.Constants import VERTICAL, HORIZONTAL, GameStatuses
 from Models.Game import Game
-from Models.Lobby import Lobby
 from Models.Player import Player
 
 
@@ -47,9 +47,27 @@ class GameDataprovider(object):
             games.append(game.ToJson())
         return games
 
-    def GetGamesForPlayer(self, playerId):
+    def GetArchivedGamesForPlayer(self, playerId):
         games = []
-        for game in self._Context.Games:
+        for game in self._Context.ArchivedGames:
             if game.Player1.Id == playerId or game.Player2.Id == playerId:
                 games.append(game.ToJson())
         return games
+
+    def SetWinnerForGame(self, game, playerId):
+        game.PlayerWinnerId = playerId
+
+    def SetLoserForGame(self, game, playerId):
+        if game.PlayerWinnerId == -1:
+            if (game.Player1.Id == playerId):
+                game.PlayerWinnerId = game.Player2.Id
+            else:
+                game.PlayerWinnerId = game.Player1.Id
+
+    def FinishGame(self, game):
+        game.GameState = GameStatuses.FINISHED
+        self.ArchiveGame(game)
+
+    def ArchiveGame(self, game):
+        archivedGame = copy.deepcopy(game)
+        self._Context.ArchivedGames.append(archivedGame)

@@ -1,6 +1,6 @@
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
-from Models.Constants import GameStates
+from Models.Constants import GameStatuses
 from Models.Player import Player
 
 
@@ -11,14 +11,23 @@ class Game(object):
         self.__Player1 = player1
         self.__Player2 = player2
         self.__GameName = gameName
-        self.__GameState = GameStates.PLACINGBOATS
+        self.__GameState = GameStatuses.PLACINGBOATS
+        self.__PlayerWinnerId = -1
 
     def ToJson(self):
-        return {"id": self.Id, "name": self.GameName, "gameState": self.GameState.value, "player1": self.Player1.ToJson(), "player2": self.Player2.ToJson()}
+        return {"id": self.Id, "name": self.GameName, "gameState": self.GameState.value, "playerWinnerId": self.PlayerWinnerId, "player1": self.Player1.ToJson(), "player2": self.Player2.ToJson()}
 
     @property
     def Id(self):
         return self.__Id
+
+    @property
+    def PlayerWinnerId(self):
+        return self.__PlayerWinnerId
+
+    @PlayerWinnerId.setter
+    def PlayerWinnerId(self, newValue):
+        self.__PlayerWinnerId = newValue
 
     @property
     def Player1(self):

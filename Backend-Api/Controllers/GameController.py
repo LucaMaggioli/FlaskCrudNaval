@@ -10,7 +10,7 @@ from Models.Cordinate import Cordinate
 from Models.Game import Game
 from Models.Player import Player
 from Models.Grid import Grid
-from Models.Constants import GameStates, GameMode
+from Models.Constants import GameStatuses, GameMode
 
 _gameDataProvider = GameDataprovider()
 _playerDataProvider = PlayerDataProvider
@@ -50,8 +50,12 @@ def getGames():
 @NavalCrudApp.route("/games/player/<int:playerId>", methods=['GET'])
 @cross_origin()
 def getGamesForPlayer(playerId):
-    games = _gameDataProvider.GetGamesForPlayer(playerId)
+    games = _gameDataProvider.GetArchivedGamesForPlayer(playerId)
+    for game in games:
+        print("Boats for archived game for player1")
+        print(game["player1"]["grid"]["boats"])
     print("Games of player id {}".format(playerId))
+    print(games)
     return jsonify(games)
 
 # for now players are hardcoded, this should be /game/ia
@@ -73,7 +77,10 @@ def getGameById(gameId):
 @cross_origin()
 def leaveGame(gameId, playerId):
     game = _gameDataProvider.GetGameById(gameId)
-    game.Status = GameStates.FINISHED
+
+    _gameDataProvider.SetLoserForGame(game, playerId)
+    _gameDataProvider.FinishGame(game)
+
     player = _playerDataProvider.getPlayerById(playerId)
     player.Grid = Grid()
     player.GridPlay = Grid()
@@ -110,7 +117,7 @@ def startGame(currentGameId):
     player2 = _playerDataProvider.AddRandomBoats(player2.Id)
     game = _gameDataProvider.AddPlayer2(currentGameId, player2)
 
-    game.GameState = GameStates.PLAYER1TURN
+    game.GameState = GameStatuses.PLAYER1TURN
     return game.Player1.ToJson(), 200
 
 @NavalCrudApp.route("/game/<int:gameId>/player/<int:playerId>/sendMissile", methods=['POST'])
