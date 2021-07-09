@@ -1,8 +1,15 @@
+import React from "react";
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
 import { Box, Button } from "@material-ui/core";
+import GamesDisplayer from "../GamesDisplayer";
 
 export default function PlayerPage() {
-  const { createGame, currentPlayer } = useNavalBattleContext();
+  const { createGame, currentPlayer, currentPlayerGames, getPlayerGames } =
+    useNavalBattleContext();
+
+  React.useEffect(() => {
+    getPlayerGames();
+  }, [currentPlayer]);
 
   return (
     <>
@@ -19,6 +26,7 @@ export default function PlayerPage() {
           </Button>
           <Button variant="contained">Invite Friend (todo)</Button>
         </Box>
+        <GamesDisplayer games={currentPlayerGames} />
       </Box>
     </>
   );

@@ -160,3 +160,25 @@ export function LeaveGame(gameId, playerId) {
     });
   }
 }
+
+export function GetPlayerGames(playerId) {
+  if (!playerId) {
+    return "error player GameId must not be null";
+  } else {
+    return fetch(`${API_URL}/games/player/${playerId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then((result) => {
+      if (ACCEPTED_STATUS.includes(result.status)) {
+        console.log("Result from server in game-api: ");
+        console.log(result);
+        return result.json();
+      } else {
+        return result;
+      }
+    });
+  }
+}

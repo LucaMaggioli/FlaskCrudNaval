@@ -1,7 +1,7 @@
 import random
 
 from Models import Context, Constants
-from Models.Constants import CordinateStatus, GameStates
+from Models.Constants import CordinateStatus, GameStatuses
 from Models.Cordinate import Cordinate
 from Models.Player import Player
 from Models.Missile import Missile
@@ -68,14 +68,16 @@ def sendMissile(game, playerId, cordinate):
         player = game.Player2
 
     if game.Player2.Grid.AllBoatsAreSunk:
-        game.GameState = GameStates.PLAYER1WIN
+        game.GameState = GameStatuses.PLAYER1WIN
+        game.PlayerWinnerId = game.Player1.Id
     if game.Player1.Grid.AllBoatsAreSunk:
-        game.GameState = GameStates.PLAYER2WIN
+        game.GameState = GameStatuses.PLAYER2WIN
+        game.PlayerWinnerId = game.Player2.Id
 
-    if game.GameState == GameStates.PLAYER1TURN:
-        game.GameState = GameStates.PLAYER2TURN
-    elif game.GameState == GameStates.PLAYER2TURN:
-        game.GameState = GameStates.PLAYER1TURN
+    if game.GameState == GameStatuses.PLAYER1TURN:
+        game.GameState = GameStatuses.PLAYER2TURN
+    elif game.GameState == GameStatuses.PLAYER2TURN:
+        game.GameState = GameStatuses.PLAYER1TURN
 
     return player
 
@@ -90,9 +92,11 @@ def IaSendMissile(game):
     game.Player2.GridPlay.SetCordinatesStatusesFromEnemyGrid(game.Player1.Grid) #Useless for Ia but we use it to know in gridPlay.Cordstatus is miss and  boat not sunk so the boat is in the opposite direction
 
     if game.Player1.Grid.AllBoatsAreSunk:
-        game.GameState = GameStates.PLAYER2WIN
-    if game.GameState == GameStates.PLAYER2TURN:
-        game.GameState = GameStates.PLAYER1TURN
+        game.GameState = GameStatuses.PLAYER2WIN
+        game.PlayerWinnerId = game.Player2.Id
+
+    if game.GameState == GameStatuses.PLAYER2TURN:
+        game.GameState = GameStatuses.PLAYER1TURN
 
     return game.Player1
 

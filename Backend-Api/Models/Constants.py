@@ -19,7 +19,7 @@ class CordinateStatus(Enum):
      MISS = 4
      SUNK = 5
 
-class GameStates(Enum):
+class GameStatuses(Enum):
      WAITING = -1
      PLACINGBOATS = 1
      PLAYING = 2

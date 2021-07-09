@@ -7,4 +7,6 @@ Players = []
 Lobbys = []
 Games = []
 
+ArchivedGames = []
+
     # def __init__(self):

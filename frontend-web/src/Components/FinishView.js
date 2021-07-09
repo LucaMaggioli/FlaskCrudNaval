@@ -3,7 +3,7 @@ import Grid from "./Grid";
 import { Box, Typography, Button } from "@material-ui/core";
 import { GameStates } from "./Constants";
 
-export default function GameView() {
+export default function FinishView() {
   const { currentGame, updateGame, currentPlayer, leaveGame } =
     useNavalBattleContext();
   const enemyPlayer =
