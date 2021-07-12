@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
-import { Box, TextField, Button } from "@material-ui/core";
+import { Typography, Box, TextField, Button } from "@material-ui/core";
 
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
 import Chatter from "../MessagesChat/Chatter";
@@ -23,14 +23,13 @@ export default function HomePage() {
   return (
     <Box style={columnStyle}>
       <Box style={rowStyle}>
-        <h1>Welcome to the battlenavalGame</h1>
-        <AccessibilityNewIcon></AccessibilityNewIcon>
+        <Typography variant="h2">Welcome to the battlenavalGame</Typography>
       </Box>
       <Box style={{ display: "flex", flexDirection: "column", gridGap: "5px" }}>
         <TextField
           id="standard-basic"
           variant="outlined"
-          label="choose a Username"
+          label="choose a Nickname"
           value={playerName}
           onChange={(e) => {
             setReady(false);
@@ -44,22 +43,10 @@ export default function HomePage() {
             setReady(true);
             createPlayer(playerName);
           }}
+          endIcon={<AccessibilityNewIcon />}
         >
-          Create my Lobby!
+          Create your Player !
         </Button>
-        <Button
-          variant="contained"
-          disabled={playerName === "" || ready}
-          onClick={() => {
-            setReady(true);
-            console.log("Work in progress to join a lobby");
-          }}
-        >
-          Join a Friend Lobby!
-        </Button>
-      </Box>
-      <Box style={{ marginTop: "10px" }}>
-        <Chatter />
       </Box>
     </Box>
   );

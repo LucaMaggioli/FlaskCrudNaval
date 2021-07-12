@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {Typography, Box, Button, Paper, TextField} from "@material-ui/core";
-import SendIcon from '@material-ui/icons/Send';
+import { Typography, Box, Button, Paper, TextField } from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
 
 import io from "socket.io-client";
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
-
 
 let endPoint = "http://localhost:5555";
 let socket = io.connect(`${endPoint}`);
@@ -45,7 +44,7 @@ const Chatter = () => {
   };
 
   return (
-    <Paper elevation={3} style={{padding:"30px"}}>
+    <Paper elevation={3} style={{ padding: "30px", margin: "1em 0 1em 0" }}>
       <Typography component="h2">Welcome in the Chat!</Typography>
       {messages.length > 0 &&
         messages.map((msg) => (
@@ -53,9 +52,26 @@ const Chatter = () => {
             <p>{msg}</p>
           </div>
         ))}
-      <Box display="flex" flexDirection="row" gridGap="15px" alignItems="center">
-        <TextField variant="outlined" value={message} name="message" onChange={(e) => onChange(e)} />
-        <Button style={{height:"40px"}} variant="contained" onClick={() => onClick()}  endIcon={<SendIcon/>}>Send Message </Button>
+      <Box
+        display="flex"
+        flexDirection="row"
+        gridGap="15px"
+        alignItems="center"
+      >
+        <TextField
+          variant="outlined"
+          value={message}
+          name="message"
+          onChange={(e) => onChange(e)}
+        />
+        <Button
+          style={{ height: "40px" }}
+          variant="contained"
+          onClick={() => onClick()}
+          endIcon={<SendIcon />}
+        >
+          Send Message{" "}
+        </Button>
       </Box>
     </Paper>
   );
