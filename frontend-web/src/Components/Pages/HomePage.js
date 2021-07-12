@@ -3,6 +3,7 @@ import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import { Box, TextField, Button } from "@material-ui/core";
 
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
+import Chatter from "../MessagesChat/Chatter";
 
 const rowStyle = {
   display: "flex",
@@ -56,6 +57,9 @@ export default function HomePage() {
         >
           Join a Friend Lobby!
         </Button>
+      </Box>
+      <Box style={{ marginTop: "10px" }}>
+        <Chatter />
       </Box>
     </Box>
   );
