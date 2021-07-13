@@ -5,12 +5,23 @@ import GamesDisplayer from "../GamesDisplayer";
 import Chatter from "../MessagesChat/Chatter";
 
 export default function PlayerPage() {
-  const { createGame, currentPlayer, currentPlayerGames, getPlayerGames } =
-    useNavalBattleContext();
+  // _isMounted = false;
+  const {
+    createGame,
+    currentLobby,
+    currentPlayer,
+    currentPlayerGames,
+    getPlayerGames,
+  } = useNavalBattleContext();
 
   React.useEffect(() => {
     getPlayerGames();
   }, [currentPlayer]);
+
+  // componentDidMount(){
+  //   this._isMounted = true;
+
+  // }
 
   return (
     <Box>
@@ -36,14 +47,14 @@ export default function PlayerPage() {
             Play vs Ia
           </Button>
           <Button variant="contained" style={{ width: "30%" }}>
-            Invite Friend (todo)
+            Invite Friend (todo) {currentLobby.url}
           </Button>
           <Button variant="contained" style={{ width: "30%" }}>
             Join Friend Lobby (todo)
           </Button>
         </Box>
         <GamesDisplayer games={currentPlayerGames} />
-        <Chatter />
+        {/* <Chatter /> */}
       </Box>
     </Box>
   );

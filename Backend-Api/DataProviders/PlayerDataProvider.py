@@ -43,7 +43,7 @@ def setLobbyOwner(playerId):
         return dict({"id": playerId, "nickname": None, "lobbyOwner": None})
     player.LobbyOwner = True
     savePlayer(player)
-    return player.ToJson()
+    return player
 
 def getAllPlayers():
     playersJsonized = []

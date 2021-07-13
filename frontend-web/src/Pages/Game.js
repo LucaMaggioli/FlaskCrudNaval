@@ -1,3 +1,4 @@
+import React from "react";
 import { getDefaultCompilerOptions } from "typescript";
 import Grid from "../Components/Grid";
 let grid;

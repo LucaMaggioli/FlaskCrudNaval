@@ -17,6 +17,41 @@ export function AddPlayer(nickname) {
   });
 }
 
+export function CreateLobby(nickname) {
+  return fetch(`${API_URL}/lobby`, {
+    method: "POST",
+    // body: JSON.stringify({ playerId }),
+    body: JSON.stringify({ nickname }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((result) => {
+    if (ACCEPTED_STATUS.includes(result.status)) {
+      return result.json();
+    } else {
+      return result;
+    }
+  });
+}
+
+export function JoinLobby(lobbyUrl, playerId) {
+  return fetch(`${API_URL}/lobby/join/${playerId}/${lobbyUrl}`, {
+    method: "POST",
+    // body: JSON.stringify({ playerId }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((result) => {
+    if (ACCEPTED_STATUS.includes(result.status)) {
+      return result.json();
+    } else {
+      return result;
+    }
+  });
+}
+
 export function CreateGame(playerId) {
   if (!playerId) {
     return "error";

@@ -2,6 +2,8 @@ import json
 
 import flask
 from flask import request, jsonify
+from flask_cors import cross_origin
+
 
 from DataProviders import PlayerDataProvider, LobbyDataProvider
 from FlaskApp import NavalCrudApp
@@ -15,31 +17,32 @@ from Models.Player import Player
 
 #__Context = Context
 
-_game = Game
 _playerDataProvider = PlayerDataProvider
 _lobbyDataProvider = LobbyDataProvider
 
-@NavalCrudApp.route('/lobby/new', methods=['POST'])
-def gameTemplate():
+@NavalCrudApp.route('/lobby', methods=['POST'])
+@cross_origin()
+def createLobby():
+    playerNickname = request.json["nickname"]
+    player = _playerDataProvider.AddPlayer(playerNickname)
+    player = _playerDataProvider.setLobbyOwner(player.Id)
 
-    if request.method == 'POST':
-        player_str = request.form['player']
-        playerId = request.form['playerId']
-        playerNickname = request.form['playerNickname']
-        playerLobbyOwner = request.form['playerLobbyOwner']
-        print(playerId)
-        # player = None
-        player = _playerDataProvider.setLobbyOwner(playerId)
-        print(player)
-        # player = dict({"id":playerId, "nickname":playerNickname, "lobbyOwner":playerLobbyOwner})
+    lobby = _lobbyDataProvider.newLobby(player)
+    return lobby.ToJson(), 200
 
-            
-        #here you have to set the player as owner
-        #then you have to create the lobby as u did for player, and add lobby to context
-        lobby = _lobbyDataProvider.newLobby(player)
-        return flask.render_template("html/lobbyPage.html", lobby=lobby.ToJson())
-        #_playerDataProvider.setLobbyOwner(playerId)
-        #lobby =_lobbyDataProvider.createLobby(player)
+@NavalCrudApp.route('/lobby/<int:lobbyUrl>', methods=['GET'])
+@cross_origin()
+def getLobby(lobbyUrl):
+    lobby = _lobbyDataProvider.getLobbyByUrl(lobbyUrl)
+    return lobby.ToJson(), 200
+
+
+@NavalCrudApp.route('/lobby/join/<int:playerId>/<int:lobbyUrl>', methods=['GET'])
+@cross_origin()
+def joinLobby(playerId, lobbyUrl):
+    playerGuest = _playerDataProvider.getPlayerById(playerId)
+    lobby = _lobbyDataProvider.joinLobby(lobbyUrl, playerGuest)
+    return lobby.ToJson(), 200
 
 
 

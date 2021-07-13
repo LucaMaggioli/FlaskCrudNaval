@@ -1,5 +1,4 @@
-// import React, { useState } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
 import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";

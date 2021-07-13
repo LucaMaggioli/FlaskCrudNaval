@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, NavLink, HashRouter } from "react-router-dom";
 import Home from "./Home";
-import Play from "./Play";
+// import Play from "./Play";
 import "./index.css";
 import Game from "./Pages/Game";
 
@@ -21,7 +21,7 @@ export default function Main() {
       <div style={{ marginTop: "34px" }}>
         <div className="content">
           <Route exact path="/" component={Home} />
-          <Route path="/play" component={Play} />
+          {/* <Route path="/play" component={Play} /> */}
           <Route path="/game" component={Game} />
         </div>
       </div>

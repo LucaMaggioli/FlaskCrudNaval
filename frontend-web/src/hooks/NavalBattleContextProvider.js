@@ -2,6 +2,7 @@ import React from "react";
 import {
   CreateGame,
   AddPlayer,
+  CreateLobby,
   PlaceRandomBoats,
   SendMissile,
   StartGameVsIa,
@@ -18,6 +19,7 @@ const NavalBattleContext = React.createContext({});
 export function NavalBattleContextProvider({ children }) {
   const [currentGame, setCurrentGame] = React.useState();
   const [currentPlayer, setCurrentPlayer] = React.useState();
+  const [currentLobby, setCurrentLobby] = React.useState();
   const [gameState, setGameState] = React.useState();
   const [isGameVsIa, setIsGameVsIa] = React.useState(false);
   const [currentPlayerGames, setCurrentPlayerGames] = React.useState([]);
@@ -31,8 +33,23 @@ export function NavalBattleContextProvider({ children }) {
       setCurrentPlayer(result);
       history.push("/player");
     });
+    // createLobby();
   }
 
+  function createLobby(playerName) {
+    console.log(`Playername is: ${playerName}`);
+    CreateLobby(playerName).then((result) => {
+      console.log(`result afte api call is:`);
+      console.log(result);
+      setCurrentPlayer(result["host"]);
+      setCurrentLobby(result);
+      console.log(
+        `so currentplayer :${currentPlayer} and lobby: ${currentLobby}`
+      );
+      console.log(currentPlayer);
+      console.log(currentLobby);
+    });
+  }
   function startNewGame() {
     createGame().then((result) => {
       setCurrentGame(result);
@@ -95,8 +112,10 @@ export function NavalBattleContextProvider({ children }) {
   const values = {
     currentGame,
     currentPlayer,
+    currentLobby,
     currentPlayerGames,
     gameState,
+    history,
     setGameState,
     setCurrentGame,
     startNewGame,
@@ -109,6 +128,7 @@ export function NavalBattleContextProvider({ children }) {
     updateGame,
     leaveGame,
     getPlayerGames,
+    createLobby,
   };
   return (
     <NavalBattleContext.Provider value={values}>

@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useNavalBattleContext } from "./hooks/NavalBattleContextProvider";
 
 function Home() {

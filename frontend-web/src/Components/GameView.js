@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 import Grid from "./Grid";
 import TurnIndicator from "./TurnIndicator";
