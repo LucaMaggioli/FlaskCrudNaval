@@ -14,8 +14,7 @@ import {
 } from "../api/game-api";
 import { useHistory } from "react-router-dom";
 import { GameStates } from "../services/GameService";
-import { API_URL } from "../api/api-settings";
-import io from "socket.io-client";
+import { useSocketContext } from "../hooks/SocketContextProvider";
 
 const NavalBattleContext = React.createContext({});
 
@@ -30,8 +29,10 @@ export function NavalBattleContextProvider({ children }) {
 
   const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
-  let socket = io.connect({ API_URL });
-  let connectSocket = io(`${API_URL}/connect`);
+
+  const { connectSocket } = useSocketContext();
+
+  // let connectSocket = io(`${API_URL}/connect`);
 
   function login(username) {
     connectSocket.emit("login", username);
@@ -45,17 +46,16 @@ export function NavalBattleContextProvider({ children }) {
       setCurrentLobby(result["lobby"]);
     });
     connectSocket.on("updateLobbyJoiner", (result) => {
-      let player = result["player"];
       console.log("receiving a lobby Update, someoneJoin Your Lobby");
       console.log(result);
       setCurrentEnemyPlayer(result["player"]);
       setCurrentLobby(result["lobby"]);
     });
     connectSocket.on("updateLobbyJoin", (result) => {
-      let player = result["player"];
       console.log("receiving a lobby Update, you join a Lobby");
       console.log(result);
       setCurrentEnemyPlayer(result["player"]);
+      setCurrentPlayer(result["lobby"]["guest"]);
       setCurrentLobby(result["lobby"]);
     });
   }

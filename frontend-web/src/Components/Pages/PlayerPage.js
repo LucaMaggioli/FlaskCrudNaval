@@ -24,6 +24,8 @@ export default function PlayerPage() {
     joinLobby,
     updateLobby,
   } = useNavalBattleContext();
+  const [lobbyUrlToJoin, setLobbyUrnToJoin] = React.useState("");
+  // const [imOwner, setImOwner] = React.useState(currentPlayer);
 
   React.useEffect(() => {
     getPlayerGames();
@@ -32,8 +34,10 @@ export default function PlayerPage() {
 
   // currentPlayer["lobbyOwner"] ? updateLobbyHost() : updateLobbyGuest();
   updateLobby();
-
-  const [lobbyUrlToJoin, setLobbyUrnToJoin] = React.useState("");
+  console.log(currentPlayer["lobbyOwner"]);
+  console.log(currentPlayer["lobbyOwner"]);
+  console.log(currentPlayer["lobbyOwner"]);
+  console.log(currentPlayer["lobbyOwner"]);
 
   // componentDidMount(){
   //   this._isMounted = true;
@@ -44,7 +48,11 @@ export default function PlayerPage() {
     <Box>
       <Box style={{ display: "flex", flexDirection: "column" }}>
         <Typography variant="h2" style={{ marginBottom: "1em" }}>
-          Welcome to your lobby {currentPlayer["nickname"]} !
+          Welcome to{" "}
+          {currentPlayer["lobbyOwner"]
+            ? currentPlayer["nickname"]
+            : currentEnemyPlayer["nickname"]}
+          's Lobby !
         </Typography>
         <Box
           style={{
@@ -110,5 +118,6 @@ export default function PlayerPage() {
         <Chatter />
       </Box>
     </Box>
+    // : <Box></Box>
   );
 }

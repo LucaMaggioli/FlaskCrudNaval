@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Routes from "./Routes";
 import { NavalBattleContextProvider } from "./hooks/NavalBattleContextProvider";
+import { SocketContextProvider } from "./hooks/SocketContextProvider";
 import Box from "./styled-components/Box";
 import "@fontsource/roboto";
 
@@ -18,11 +19,13 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <NavalBattleContextProvider>
-          <Box justifyContent="center">
-            <Routes />
-          </Box>
-        </NavalBattleContextProvider>
+        <SocketContextProvider>
+          <NavalBattleContextProvider>
+            <Box justifyContent="center">
+              <Routes />
+            </Box>
+          </NavalBattleContextProvider>
+        </SocketContextProvider>
       </Router>
     </ThemeProvider>
   );
