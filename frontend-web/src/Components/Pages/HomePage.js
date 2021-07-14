@@ -16,11 +16,19 @@ const columnStyle = {
   flexDirection: "column",
 };
 export default function HomePage() {
-  const { createPlayer, createLobby, currentLobby, currentPlayer, history } =
-    useNavalBattleContext();
+  const {
+    createPlayer,
+    createLobby,
+    currentLobby,
+    currentPlayer,
+    history,
+    login,
+    updateLobby,
+  } = useNavalBattleContext();
   const [playerName, setPlayerName] = useState("");
   const [ready, setReady] = useState(false);
 
+  updateLobby();
   React.useEffect(() => {
     console.log("========== In HomePagem useFFect");
     console.log(currentLobby);
@@ -29,7 +37,7 @@ export default function HomePage() {
     if (currentLobby !== undefined && currentPlayer !== undefined) {
       history.push("/lobby");
     }
-  }, [currentLobby]);
+  }, [currentLobby, currentPlayer]);
 
   return (
     <Box style={columnStyle}>
@@ -53,7 +61,8 @@ export default function HomePage() {
           onClick={() => {
             setReady(true);
             // createPlayer(playerName);
-            createLobby(playerName);
+            // createLobby(playerName);
+            login(playerName);
           }}
           endIcon={<AccessibilityNewIcon />}
         >

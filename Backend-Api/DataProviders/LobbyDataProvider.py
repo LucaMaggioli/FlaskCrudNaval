@@ -21,7 +21,7 @@ def newLobby(player):
 
 def joinLobby(url, player):
     lobby = getLobbyByUrl(url)
-    if lobby.Guest == None:
+    if lobby is not None:
         lobby.Guest = player
     return lobby
 

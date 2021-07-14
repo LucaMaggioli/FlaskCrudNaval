@@ -1,6 +1,14 @@
 import React from "react";
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
-import { Typography, Box, Button } from "@material-ui/core";
+import {
+  Typography,
+  Box,
+  TextField,
+  Button,
+  CardContent,
+  Card,
+  CardActions,
+} from "@material-ui/core";
 import GamesDisplayer from "../GamesDisplayer";
 import Chatter from "../MessagesChat/Chatter";
 
@@ -10,13 +18,22 @@ export default function PlayerPage() {
     createGame,
     currentLobby,
     currentPlayer,
+    currentEnemyPlayer,
     currentPlayerGames,
     getPlayerGames,
+    joinLobby,
+    updateLobby,
   } = useNavalBattleContext();
 
   React.useEffect(() => {
     getPlayerGames();
-  }, [currentPlayer]);
+    updateLobby();
+  }, [currentPlayer, currentLobby]);
+
+  // currentPlayer["lobbyOwner"] ? updateLobbyHost() : updateLobbyGuest();
+  updateLobby();
+
+  const [lobbyUrlToJoin, setLobbyUrnToJoin] = React.useState("");
 
   // componentDidMount(){
   //   this._isMounted = true;
@@ -46,15 +63,51 @@ export default function PlayerPage() {
           >
             Play vs Ia
           </Button>
-          <Button variant="contained" style={{ width: "30%" }}>
-            Invite Friend (todo) {currentLobby.url}
-          </Button>
-          <Button variant="contained" style={{ width: "30%" }}>
-            Join Friend Lobby (todo)
-          </Button>
+          <Typography
+            variant="body1"
+            style={{
+              width: "30%",
+              alignSelf: "center",
+              textAlign: "center",
+            }}
+          >
+            Invite URL: {currentLobby.url}
+          </Typography>
+          <Box style={{ display: "flex", flexDirection: "row", width: "30%" }}>
+            <TextField
+              variant="outlined"
+              label="Lobby Url"
+              onChange={(e) => {
+                setLobbyUrnToJoin(e.target.value);
+              }}
+            ></TextField>
+            <Button variant="contained" onClick={joinLobby(lobbyUrlToJoin)}>
+              Join
+            </Button>
+          </Box>
         </Box>
+        {currentEnemyPlayer ? (
+          <Card style={{ marginTop: "2em" }}>
+            <CardContent>
+              <Typography variant="h4" component="h2">
+                {currentEnemyPlayer.nickname}
+              </Typography>
+              <Typography variant="body2" component="p">
+                This is your enemy that you want to destroy!
+              </Typography>
+              <CardActions>
+                <Button variant="contained" size="small">
+                  Start Game
+                </Button>
+                <Button variant="contained" size="small">
+                  Send Message
+                </Button>
+              </CardActions>
+            </CardContent>
+          </Card>
+        ) : null}
         <GamesDisplayer games={currentPlayerGames} />
-        {/* <Chatter /> */}
+        <Chatter />
       </Box>
     </Box>
   );

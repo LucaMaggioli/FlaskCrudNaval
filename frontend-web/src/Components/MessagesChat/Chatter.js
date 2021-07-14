@@ -45,7 +45,7 @@ const Chatter = () => {
 
   return (
     <Paper elevation={3} style={{ padding: "30px", margin: "1em 0 1em 0" }}>
-      <Typography component="h2">Welcome in the Chat!</Typography>
+      <Typography component="h2">Welcome in the Global Chat!</Typography>
       {messages.length > 0 &&
         messages.map((msg) => (
           <div>

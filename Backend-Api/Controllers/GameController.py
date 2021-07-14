@@ -113,7 +113,7 @@ def addBoatToGrid(currentGameId):
 @NavalCrudApp.route("/game/<int:currentGameId>/start/vsia", methods=['POST'])
 @cross_origin()
 def startGame(currentGameId):
-    player2 = _playerDataProvider.AddPlayer("IA")
+    player2 = _playerDataProvider.AddPlayer("IA", sessionId="")
     player2 = _playerDataProvider.AddRandomBoats(player2.Id)
     game = _gameDataProvider.AddPlayer2(currentGameId, player2)
 

@@ -15,10 +15,10 @@ def getPlayerById(id):
             playerToReturn = player
     return playerToReturn
 
-def AddPlayer(_nickname):
+def AddPlayer(_nickname, sessionId):
     id = len(_Context.Players) + 1
     nickname = _nickname
-    player = Player(id, nickname)
+    player = Player(id, nickname, sessionId)
     _Context.Players.append(player)
     return player
 

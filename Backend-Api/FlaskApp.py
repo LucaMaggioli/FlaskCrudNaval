@@ -19,6 +19,7 @@ def gridTemplatePage():
     return flask.render_template("html/GridTemplate.html", token="Hello from flask")
 
 socketIo = SocketIO(NavalCrudApp, cors_allowed_origins="*")
+
 @socketIo.on("message")
 def handleMessage(msg):
     print(msg)
