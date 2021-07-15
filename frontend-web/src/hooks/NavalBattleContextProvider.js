@@ -39,19 +39,20 @@ export function NavalBattleContextProvider({ children }) {
   }
 
   function updateLobby() {
-    connectSocket.on("updateLobby", (result) => {
+    connectSocket.addEventListener("updateLobby", (result) => {
+      // connectSocket.on("updateLobby", (result) => {
       console.log("receiving a lobby Update, You create your Lobby");
       console.log(result);
       setCurrentPlayer(result["player"]);
       setCurrentLobby(result["lobby"]);
     });
-    connectSocket.on("updateLobbyJoiner", (result) => {
+    connectSocket.addEventListener("updateLobbyJoiner", (result) => {
       console.log("receiving a lobby Update, someoneJoin Your Lobby");
       console.log(result);
       setCurrentEnemyPlayer(result["player"]);
       setCurrentLobby(result["lobby"]);
     });
-    connectSocket.on("updateLobbyJoin", (result) => {
+    connectSocket.addEventListener("updateLobbyJoin", (result) => {
       console.log("receiving a lobby Update, you join a Lobby");
       console.log(result);
       setCurrentEnemyPlayer(result["player"]);
@@ -64,6 +65,7 @@ export function NavalBattleContextProvider({ children }) {
     AddPlayer(playerName).then((result) => {
       setCurrentPlayerId(result["id"]);
       setCurrentPlayer(result);
+      getPlayerGames();
       history.push("/player");
     });
     // createLobby();
@@ -144,12 +146,15 @@ export function NavalBattleContextProvider({ children }) {
     LeaveGame(currentGame.id, currentPlayer.id).then((result) => {
       setCurrentPlayer(result);
     });
+    getPlayerGames();
     history.push("/player");
   }
 
   function getPlayerGames() {
     GetPlayerGames(currentPlayer.id).then((result) => {
-      setCurrentPlayerGames(result);
+      if (result.lenght !== currentPlayerGames.lenght) {
+        setCurrentPlayerGames(result);
+      }
     });
   }
 

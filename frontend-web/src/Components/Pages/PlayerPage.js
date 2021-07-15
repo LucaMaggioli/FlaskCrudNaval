@@ -28,21 +28,20 @@ export default function PlayerPage() {
   // const [imOwner, setImOwner] = React.useState(currentPlayer);
 
   React.useEffect(() => {
-    getPlayerGames();
     updateLobby();
   }, [currentPlayer, currentLobby]);
 
+  React.useEffect(() => {
+    getPlayerGames();
+  }, [currentPlayerGames]);
+
   // currentPlayer["lobbyOwner"] ? updateLobbyHost() : updateLobbyGuest();
   updateLobby();
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
 
-  // componentDidMount(){
-  //   this._isMounted = true;
-
-  // }
+  console.log(currentPlayer["lobbyOwner"]);
+  console.log(currentPlayer["lobbyOwner"]);
+  console.log(currentPlayer["lobbyOwner"]);
+  console.log(currentPlayer["lobbyOwner"]);
 
   return (
     <Box>
