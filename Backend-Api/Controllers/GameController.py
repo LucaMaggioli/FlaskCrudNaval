@@ -108,9 +108,19 @@ def addBoatToGrid(currentGameId):
 
     return (game.ToJson()), 200
 
+@NavalCrudApp.route("/game/<int:gameId>/start")
+@cross_origin()
+def startGame(gameId):
+    game = getGameById(gameId)
+    # Check if players are ready
+    # Set the status of the game to PLAYERTURN
+    # find player 2 and send a websocket with his player(so with grid and gridplay to display in GameView
+    # return player1 game
+    return game.Player1.ToJson(), 200
+
 @NavalCrudApp.route("/game/<int:currentGameId>/start/vsia", methods=['POST'])
 @cross_origin()
-def startGame(currentGameId):
+def startGameVsIa(currentGameId):
     player2 = _playerDataProvider.AddPlayer("IA", sessionId="")
     player2 = _playerDataProvider.AddRandomBoats(player2.Id)
     game = _gameDataProvider.AddPlayer2(currentGameId, player2)
