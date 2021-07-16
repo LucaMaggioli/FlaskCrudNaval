@@ -27,6 +27,8 @@ export function NavalBattleContextProvider({ children }) {
   const [isGameVsIa, setIsGameVsIa] = React.useState(false);
   const [currentPlayerGames, setCurrentPlayerGames] = React.useState([]);
 
+  const [message, setMessage] = React.useState("");
+
   const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
 
@@ -45,12 +47,16 @@ export function NavalBattleContextProvider({ children }) {
       console.log(result);
       setCurrentPlayer(result["player"]);
       setCurrentLobby(result["lobby"]);
+      setMessage("Lobby created succesfully");
+      // window.alert("Lobby created succesfully");
     });
     connectSocket.addEventListener("updateLobbyJoiner", (result) => {
       console.log("receiving a lobby Update, someoneJoin Your Lobby");
       console.log(result);
       setCurrentEnemyPlayer(result["player"]);
       setCurrentLobby(result["lobby"]);
+      setMessage(`${result["player"]} joined your lobby`);
+      // window.alert(`${result["player"]} joined your lobby`);
     });
     connectSocket.addEventListener("updateLobbyJoin", (result) => {
       console.log("receiving a lobby Update, you join a Lobby");
@@ -58,6 +64,8 @@ export function NavalBattleContextProvider({ children }) {
       setCurrentEnemyPlayer(result["player"]);
       setCurrentPlayer(result["lobby"]["guest"]);
       setCurrentLobby(result["lobby"]);
+      setMessage(`you joined ${result["player"]}'s lobby !`);
+      // window.alert(`you joined ${result["player"]}'s lobby !`);
     });
   }
 
@@ -183,6 +191,8 @@ export function NavalBattleContextProvider({ children }) {
     joinLobby,
     login,
     updateLobby,
+    message,
+    setMessage,
   };
   return (
     <NavalBattleContext.Provider value={values}>

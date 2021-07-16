@@ -23,6 +23,8 @@ export default function PlayerPage() {
     getPlayerGames,
     joinLobby,
     updateLobby,
+    message,
+    setMessage,
   } = useNavalBattleContext();
   const [lobbyUrlToJoin, setLobbyUrnToJoin] = React.useState("");
   // const [imOwner, setImOwner] = React.useState(currentPlayer);
@@ -33,6 +35,10 @@ export default function PlayerPage() {
 
   React.useEffect(() => {
     getPlayerGames();
+    if (message) {
+      window.alert(message);
+      setMessage(null);
+    }
   }, [currentPlayerGames]);
 
   // currentPlayer["lobbyOwner"] ? updateLobbyHost() : updateLobbyGuest();
