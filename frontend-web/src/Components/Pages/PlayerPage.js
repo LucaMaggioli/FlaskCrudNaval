@@ -16,6 +16,7 @@ export default function PlayerPage() {
   // _isMounted = false;
   const {
     createGame,
+    createGameVsIa,
     currentLobby,
     currentPlayer,
     currentEnemyPlayer,
@@ -23,6 +24,7 @@ export default function PlayerPage() {
     getPlayerGames,
     joinLobby,
     updateLobby,
+    currentGame,
     message,
     setMessage,
   } = useNavalBattleContext();
@@ -31,7 +33,7 @@ export default function PlayerPage() {
 
   React.useEffect(() => {
     updateLobby();
-  }, [currentPlayer, currentLobby]);
+  }, [currentPlayer, currentLobby, currentGame]);
 
   React.useEffect(() => {
     getPlayerGames();
@@ -71,7 +73,7 @@ export default function PlayerPage() {
             variant="contained"
             style={{ width: "30%" }}
             onClick={() => {
-              createGame(currentPlayer["id"]);
+              createGameVsIa(currentPlayer["id"]);
             }}
           >
             Play vs Ia
@@ -109,7 +111,7 @@ export default function PlayerPage() {
                 This is your enemy that you want to destroy!
               </Typography>
               <CardActions>
-                <Button variant="contained" size="small">
+                <Button variant="contained" size="small" onClick={createGame}>
                   Start Game
                 </Button>
                 <Button variant="contained" size="small">

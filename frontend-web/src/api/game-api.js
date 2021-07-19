@@ -54,7 +54,7 @@ export function JoinLobby(lobbyUrl, playerId) {
   });
 }
 
-export function CreateGame(playerId) {
+export function CreateGameVsIa(playerId) {
   if (!playerId) {
     return "error";
   } else {
@@ -88,6 +88,41 @@ export function PlaceRandomBoats(gameId, playerId) {
         },
       }
     ).then((result) => {
+      if (ACCEPTED_STATUS.includes(result.status)) {
+        return result.json();
+      } else {
+        return result;
+      }
+    });
+  }
+}
+export function CreateGame(player1Id, player2Id) {
+  return fetch(`${API_URL}/game/${player1Id}/vs/${player2Id}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((result) => {
+    if (ACCEPTED_STATUS.includes(result.status)) {
+      return result.json();
+    } else {
+      return result;
+    }
+  });
+}
+
+export function StartGame(gameId) {
+  if (!gameId) {
+    return "error game Id must not be null";
+  } else {
+    return fetch(`${API_URL}/game/${gameId}/start`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then((result) => {
       if (ACCEPTED_STATUS.includes(result.status)) {
         return result.json();
       } else {

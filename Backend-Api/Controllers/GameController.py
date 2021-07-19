@@ -1,6 +1,8 @@
 import flask
 from flask import request, jsonify
 from flask_cors import cross_origin
+from flask_socketio import emit
+
 
 from DataProviders import PlayerDataProvider
 from DataProviders.GameDataprovider import GameDataprovider
@@ -48,7 +50,7 @@ def getGameById(gameId):
 
 
 # Call this endpoint to start a game player vs player
-@NavalCrudApp.route("/game/create/<int:player1Id>/vs/<int:player2Id>", methods=['GET'])
+@NavalCrudApp.route("/game/<int:player1Id>/vs/<int:player2Id>", methods=['POST'])
 @cross_origin()
 def createGameVsPlayer(player1Id, player2Id):
     player1 = _playerDataProvider.getPlayerById(player1Id)
@@ -56,8 +58,13 @@ def createGameVsPlayer(player1Id, player2Id):
     gameName = ("Game of {} VS {}".format(player1.Nickname, player2.Nickname))
 
     game = _gameDataProvider.Add(gameName, player1, player2)
+    game.GameState = GameStatuses.PLACINGBOATS
 
-    return game.ToJson(), 200
+    emit("createGame", game.ToJson(), room=player1.SessionId, namespace='/connect')
+    emit("createGame", game.ToJson(), room=player2.SessionId, namespace='/connect')
+
+
+    return 200
 
 @NavalCrudApp.route("/game/<int:gameId>/leave/player/<int:playerId>", methods=['PATCH'])
 @cross_origin()
@@ -108,10 +115,12 @@ def addBoatToGrid(currentGameId):
 
     return (game.ToJson()), 200
 
-@NavalCrudApp.route("/game/<int:gameId>/start")
+@NavalCrudApp.route("/game/<int:gameId>/start", methods=["GET"])
 @cross_origin()
 def startGame(gameId):
     game = getGameById(gameId)
+    emit("startGame", game.Player1.ToJson(), room=game.Player1.SessionId)
+    emit("startGame", game.Player2.ToJson(), room=game.Player2.SessionId)
     # Check if players are ready
     # Set the status of the game to PLAYERTURN
     # find player 2 and send a websocket with his player(so with grid and gridplay to display in GameView
