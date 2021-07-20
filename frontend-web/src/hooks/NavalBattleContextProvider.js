@@ -44,7 +44,7 @@ export function NavalBattleContextProvider({ children }) {
   }
 
   function updateLobby() {
-    connectSocket.on("updateLobby", (result) => {
+    connectSocket.addEventListener("updateLobby", (result) => {
       // connectSocket.on("updateLobby", (result) => {
       console.log("receiving a lobby Update, You create your Lobby");
       console.log(result);
@@ -77,6 +77,14 @@ export function NavalBattleContextProvider({ children }) {
       setCurrentGame(result);
       setGameState(result["gameState"]);
       history.push("/game");
+    });
+    connectSocket.addEventListener("startGame", (result) => {
+      setCurrentPlayer(result["player"]);
+      setGameState(result["gameState"]);
+    });
+    connectSocket.addEventListener("nextTurn", (result) => {
+      setCurrentPlayer(result["player"]);
+      setGameState(result["gameState"]);
     });
   }
 
@@ -178,8 +186,9 @@ export function NavalBattleContextProvider({ children }) {
   }
 
   function startGame() {
-    StartGame(currentPlayer.id).then((result) => {
-      setCurrentGame(result);
+    StartGame(currentGame.id, currentPlayer.id).then((result) => {
+      // setCurrentGame(result);
+      console.log("Waiting for other player to be ready! ");
     });
   }
 
@@ -234,6 +243,7 @@ export function NavalBattleContextProvider({ children }) {
     login,
     updateLobby,
     createGame,
+    startGame,
     message,
     setMessage,
   };

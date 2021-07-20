@@ -64,7 +64,7 @@ def createGameVsPlayer(player1Id, player2Id):
     emit("createGame", game.ToJson(), room=player2.SessionId, namespace='/connect')
 
 
-    return 200
+    return game.ToJson(), 200
 
 @NavalCrudApp.route("/game/<int:gameId>/leave/player/<int:playerId>", methods=['PATCH'])
 @cross_origin()
@@ -122,17 +122,34 @@ def addBoatToGrid(currentGameId, playerId):
 
     return (player.ToJson()), 200
 
-@NavalCrudApp.route("/game/<int:gameId>/start", methods=["GET"])
+@NavalCrudApp.route("/game/<int:gameId>/<int:playerId>/ready", methods=["GET"])
 @cross_origin()
-def startGame(gameId):
-    game = getGameById(gameId)
-    emit("startGame", game.Player1.ToJson(), room=game.Player1.SessionId)
-    emit("startGame", game.Player2.ToJson(), room=game.Player2.SessionId)
+def startGame(gameId, playerId):
+    game = _gameDataProvider.GetGameById(gameId)
+
+    player = _playerDataProvider.getPlayerById(playerId)
+    player.Ready = True
+
+    if game.Player1.Id == playerId:
+        game.Player1 = player
+        if game.Player2.Ready:
+            game.GameState = GameStatuses.PLAYER2TURN
+            emit("startGame", {"player": game.Player1.ToJson(), "gameState": game.GameState.value}, room=game.Player1.SessionId, namespace='/connect')
+            emit("startGame", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
+    if game.Player2.Id == playerId:
+        game.Player2 = player
+        if game.Player1.Ready:
+            game.GameState = GameStatuses.PLAYER1TURN
+            emit("startGame", {"player": game.Player1.ToJson(), "gameState": game.GameState.value}, room=game.Player1.SessionId, namespace='/connect')
+            emit("startGame", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
+
+
     # Check if players are ready
     # Set the status of the game to PLAYERTURN
     # find player 2 and send a websocket with his player(so with grid and gridplay to display in GameView
     # return player1 game
-    return game.Player1.ToJson(), 200
+    # return game.Player1.ToJson(), 200
+    return {"message": "ok"}, 200
 
 @NavalCrudApp.route("/game/<int:currentGameId>/start/vsia", methods=['POST'])
 @cross_origin()
@@ -152,6 +169,11 @@ def sendMissile(gameId, playerId):
     cordinate = Cordinate(data["cordinate"]["x"], data["cordinate"]["y"])
 
     player = _playerDataProvider.sendMissile(game, playerId, cordinate)
+
+    if game.Player1.Id == playerId:
+        emit("nextTurn", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
+    if game.Player2.Id == playerId:
+        emit("nextTurn", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
 
     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
 

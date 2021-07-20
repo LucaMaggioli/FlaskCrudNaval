@@ -14,6 +14,7 @@ export default function PlaceBoat() {
     placeRandomBoats,
     addBoatAtPosition,
     startGameVsIa,
+    startGame,
   } = useNavalBattleContext();
 
   const cordinates = currentPlayer.grid.cordinates;
@@ -44,7 +45,7 @@ export default function PlaceBoat() {
           <button enabled={true} onClick={startGameVsIa}>
             Play VSIA !
           </button>
-          <Button variant="contained">
+          <Button variant="contained" onClick={startGame}>
             Play vs {currentEnemyPlayer.nickname}
           </Button>
         </div>

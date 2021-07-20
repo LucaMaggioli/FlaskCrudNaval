@@ -147,11 +147,11 @@ export function CreateGame(player1Id, player2Id) {
   });
 }
 
-export function StartGame(gameId) {
+export function StartGame(gameId, playerId) {
   if (!gameId) {
     return "error game Id must not be null";
   } else {
-    return fetch(`${API_URL}/game/${gameId}/start`, {
+    return fetch(`${API_URL}/game/${gameId}/${playerId}/ready`, {
       method: "GET",
       headers: {
         Accept: "application/json",
