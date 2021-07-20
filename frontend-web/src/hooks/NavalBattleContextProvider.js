@@ -6,6 +6,7 @@ import {
   CreateLobby,
   CreateLobbySocket,
   PlaceRandomBoats,
+  AddBoatAtPosition,
   SendMissile,
   StartGameVsIa,
   IASendMissile,
@@ -43,7 +44,7 @@ export function NavalBattleContextProvider({ children }) {
   }
 
   function updateLobby() {
-    connectSocket.addEventListener("updateLobby", (result) => {
+    connectSocket.on("updateLobby", (result) => {
       // connectSocket.on("updateLobby", (result) => {
       console.log("receiving a lobby Update, You create your Lobby");
       console.log(result);
@@ -76,11 +77,6 @@ export function NavalBattleContextProvider({ children }) {
       setCurrentGame(result);
       setGameState(result["gameState"]);
       history.push("/game");
-      // setCurrentEnemyPlayer(result["player"]);
-      // setCurrentPlayer(result["lobby"]["guest"]);
-      // setCurrentLobby(result["lobby"]);
-      // setMessage(`you joined ${result["player"]}'s lobby !`);
-      // window.alert(`you joined ${result["player"]}'s lobby !`);
     });
   }
 
@@ -89,7 +85,7 @@ export function NavalBattleContextProvider({ children }) {
       setCurrentPlayerId(result["id"]);
       setCurrentPlayer(result);
       getPlayerGames();
-      history.push("/player");
+      history.push("/lobby");
     });
     // createLobby();
   }
@@ -147,7 +143,20 @@ export function NavalBattleContextProvider({ children }) {
 
   function placeRandomBoats() {
     PlaceRandomBoats(currentGame.id, currentPlayer.id).then((result) => {
-      setCurrentGame(result);
+      // setCurrentGame(result);
+      setCurrentPlayer(result);
+    });
+  }
+
+  function addBoatAtPosition(boatToPlace, cellJson) {
+    AddBoatAtPosition(
+      currentGame.id,
+      currentPlayer.id,
+      cellJson,
+      boatToPlace
+    ).then((result) => {
+      console.log(result);
+      setCurrentPlayer(result);
     });
   }
 
@@ -187,7 +196,7 @@ export function NavalBattleContextProvider({ children }) {
       setCurrentPlayer(result);
     });
     getPlayerGames();
-    history.push("/player");
+    history.push("/lobby");
   }
 
   function getPlayerGames() {
@@ -214,6 +223,7 @@ export function NavalBattleContextProvider({ children }) {
     setCurrentPlayer,
     setCurrentEnemyPlayer,
     placeRandomBoats,
+    addBoatAtPosition,
     sendMissile,
     startGameVsIa,
     updateGame,

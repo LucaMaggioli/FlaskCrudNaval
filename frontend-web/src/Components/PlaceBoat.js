@@ -3,46 +3,21 @@ import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
 import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
 import Grid from "./Grid";
+import { Button, Box, Typography } from "@material-ui/core";
 
 export default function PlaceBoat() {
-  const { currentGame, setCurrentGame, placeRandomBoats, startGameVsIa } =
-    useNavalBattleContext();
+  const {
+    currentGame,
+    setCurrentGame,
+    currentPlayer,
+    currentEnemyPlayer,
+    placeRandomBoats,
+    addBoatAtPosition,
+    startGameVsIa,
+  } = useNavalBattleContext();
 
-  const cordinates = currentGame.player1.grid.cordinates;
+  const cordinates = currentPlayer.grid.cordinates;
   const [boatToPlace, setBoatToPlace] = useState();
-
-  function addBoatAtPosition(cellJson) {
-    if (boatToPlace != null) {
-      if (
-        window.confirm(
-          `Confirm place boat on cordinate 'x:${cellJson.x},y:${cellJson.y}'`
-        )
-      ) {
-        fetch(`${API_URL}/game/${currentGame.id}/grid/addboat`, {
-          method: "POST",
-          body: JSON.stringify({
-            boatToPlace: boatToPlace,
-            cellJson: cellJson,
-          }),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            setCurrentGame(data);
-            return data;
-          })
-          .catch(() => {
-            window.alert(`Can't place boat at that position!`);
-          });
-      }
-    } else {
-      window.alert("Select a boat to place in that cordinate");
-    }
-  }
 
   return (
     <div>
@@ -59,7 +34,7 @@ export default function PlaceBoat() {
             <Grid
               cordinates={cordinates}
               onCellClick={(cellJson) => {
-                addBoatAtPosition(cellJson);
+                addBoatAtPosition(boatToPlace, cellJson);
               }}
             />
           </div>
@@ -69,12 +44,15 @@ export default function PlaceBoat() {
           <button enabled={true} onClick={startGameVsIa}>
             Play VSIA !
           </button>
+          <Button variant="contained">
+            Play vs {currentEnemyPlayer.nickname}
+          </Button>
         </div>
         <div>
           <div>
             <h2>Bateaux disponibles</h2>
             <AvailableBoatsContainer
-              availableBoats={currentGame.player1.grid.availableBoats}
+              availableBoats={currentPlayer.grid.availableBoats}
               boatToBePlaced={boatToPlace}
               onBoatToPlaceClick={(boatToPlace) => setBoatToPlace(boatToPlace)}
             />

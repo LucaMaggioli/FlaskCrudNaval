@@ -91,11 +91,11 @@ def placeRandomBoats(gameId, playerId):
     if game.Player2.Id == playerId:
         game.Player2 = player
 
-    return (game.ToJson()), 200
+    return (player.ToJson()), 200
 
-@NavalCrudApp.route("/game/<int:currentGameId>/grid/addboat", methods=['POST'])
+@NavalCrudApp.route("/game/<int:currentGameId>/player/<int:playerId>/addboat", methods=['POST'])
 @cross_origin()
-def addBoatToGrid(currentGameId):
+def addBoatToGrid(currentGameId, playerId):
     game = _gameDataProvider.GetGameById(currentGameId)
     data = request.json
     boatToAddJson = data['boatToPlace']
@@ -103,17 +103,24 @@ def addBoatToGrid(currentGameId):
 
     boatToAdd = Boat(boatName=boatToAddJson['boatName'], lenght=boatToAddJson['lenght'], orientation=boatToAddJson['orientation'], startCordinate=Cordinate(cellJson['x'], cellJson['y']))
 
-    if game.Player1.Grid.CanPlaceBoat(boatToAdd):
-        for availableBoat in game.Player1.Grid.AvailableBoats:
+    player = _playerDataProvider.getPlayerById(playerId)
+
+    if player.Grid.CanPlaceBoat(boatToAdd):
+        for availableBoat in player.Grid.AvailableBoats:
             if boatToAdd.Lenght == availableBoat.Lenght:
-                game.Player1.Grid.AvailableBoats.remove(availableBoat)
-                game.Player1.Grid.AddBoat(boatToAdd)
-        if game.Player1.Grid.AvailableBoats == []:
-            game.Player1.Ready = True
+                player.Grid.AvailableBoats.remove(availableBoat)
+                player.Grid.AddBoat(boatToAdd)
+        if player.Grid.AvailableBoats == []:
+            player.Ready = True
     else:
         return "can't add boat {}".format(boatToAdd), 400
 
-    return (game.ToJson()), 200
+    if game.Player1.Id == playerId:
+        game.Player1 = player
+    if game.Player2.Id == playerId:
+        game.Player2 = player
+
+    return (player.ToJson()), 200
 
 @NavalCrudApp.route("/game/<int:gameId>/start", methods=["GET"])
 @cross_origin()

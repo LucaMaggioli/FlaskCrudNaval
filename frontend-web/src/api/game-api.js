@@ -96,6 +96,41 @@ export function PlaceRandomBoats(gameId, playerId) {
     });
   }
 }
+
+export function AddBoatAtPosition(gameId, playerId, boatToPlace, cellJson) {
+  if (boatToPlace != null) {
+    if (
+      window.confirm(
+        `Confirm place boat on cordinate 'x:${cellJson.x},y:${cellJson.y}'`
+      )
+    ) {
+      fetch(`${API_URL}/game/${gameId}/player/${playerId}/addboat`, {
+        method: "POST",
+        body: JSON.stringify({
+          boatToPlace: boatToPlace,
+          cellJson: cellJson,
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((result) => {
+          if (ACCEPTED_STATUS.includes(result.status)) {
+            return result.json();
+          } else {
+            return result;
+          }
+        })
+        .catch(() => {
+          window.alert(`Can't place boat at that position!`);
+        });
+    }
+  } else {
+    window.alert("Select a boat to place in that cordinate");
+  }
+}
+
 export function CreateGame(player1Id, player2Id) {
   return fetch(`${API_URL}/game/${player1Id}/vs/${player2Id}`, {
     method: "POST",
