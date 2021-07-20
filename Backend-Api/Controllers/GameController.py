@@ -173,7 +173,7 @@ def sendMissile(gameId, playerId):
     if game.Player1.Id == playerId:
         emit("nextTurn", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
     if game.Player2.Id == playerId:
-        emit("nextTurn", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
+        emit("nextTurn", {"player": game.Player1.ToJson(), "gameState": game.GameState.value}, room=game.Player1.SessionId, namespace='/connect')
 
     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
 

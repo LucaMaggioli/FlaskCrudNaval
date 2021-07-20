@@ -36,6 +36,7 @@ export function NavalBattleContextProvider({ children }) {
   const history = useHistory();
 
   const { connectSocket } = useSocketContext();
+  let [amIPlayer1, setAmIPlayer1] = React.useState();
 
   // let connectSocket = io(`${API_URL}/connect`);
 
@@ -50,6 +51,7 @@ export function NavalBattleContextProvider({ children }) {
       console.log(result);
       setCurrentPlayer(result["player"]);
       setCurrentLobby(result["lobby"]);
+      setAmIPlayer1(true);
       setMessage("Lobby created succesfully");
       // window.alert("Lobby created succesfully");
     });
@@ -67,6 +69,7 @@ export function NavalBattleContextProvider({ children }) {
       setCurrentEnemyPlayer(result["player"]);
       setCurrentPlayer(result["lobby"]["guest"]);
       setCurrentLobby(result["lobby"]);
+      setAmIPlayer1(false);
       setMessage(`you joined ${result["player"]}'s lobby !`);
       // window.alert(`you joined ${result["player"]}'s lobby !`);
     });
@@ -244,6 +247,7 @@ export function NavalBattleContextProvider({ children }) {
     updateLobby,
     createGame,
     startGame,
+    amIPlayer1,
     message,
     setMessage,
   };
