@@ -45,9 +45,13 @@ export default function PlaceBoat() {
           <button enabled={true} onClick={startGameVsIa}>
             Play VSIA !
           </button>
-          <Button variant="contained" onClick={startGame}>
-            Play vs {currentEnemyPlayer.nickname}
-          </Button>
+          {currentEnemyPlayer !== undefined ? (
+            <Button variant="contained" onClick={startGame}>
+              Play vs {currentEnemyPlayer.nickname}
+            </Button>
+          ) : (
+            <span></span>
+          )}
         </div>
         <div>
           <div>

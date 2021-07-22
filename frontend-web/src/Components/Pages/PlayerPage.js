@@ -37,11 +37,8 @@ export default function PlayerPage() {
 
   React.useEffect(() => {
     getPlayerGames();
-    if (message) {
-      window.alert(message);
-      setMessage(null);
-    }
   }, [currentPlayerGames]);
+  getPlayerGames();
 
   // currentPlayer["lobbyOwner"] ? updateLobbyHost() : updateLobbyGuest();
   updateLobby();
@@ -101,7 +98,7 @@ export default function PlayerPage() {
             </Button>
           </Box>
         </Box>
-        {currentEnemyPlayer ? (
+        {currentEnemyPlayer !== undefined ? (
           <Card style={{ marginTop: "2em" }}>
             <CardContent>
               <Typography variant="h4" component="h2">
@@ -120,7 +117,9 @@ export default function PlayerPage() {
               </CardActions>
             </CardContent>
           </Card>
-        ) : null}
+        ) : (
+          <span></span>
+        )}
         <GamesDisplayer games={currentPlayerGames} />
         <Chatter />
       </Box>

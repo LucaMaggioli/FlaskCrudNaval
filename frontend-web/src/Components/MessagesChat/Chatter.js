@@ -4,9 +4,9 @@ import SendIcon from "@material-ui/icons/Send";
 
 import io from "socket.io-client";
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
+import { API_URL } from "../../api/api-settings";
 
-let endPoint = "http://localhost:5555";
-let socket = io.connect(`${endPoint}`);
+let socket = io.connect(`${API_URL}`);
 
 const Chatter = () => {
   const { currentPlayer } = useNavalBattleContext();

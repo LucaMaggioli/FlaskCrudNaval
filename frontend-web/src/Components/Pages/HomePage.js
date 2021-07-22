@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
+import AccessibilityIcon from "@material-ui/icons/Accessibility";
 import { Typography, Box, TextField, Button } from "@material-ui/core";
 
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
@@ -64,7 +64,7 @@ export default function HomePage() {
             // createLobby(playerName);
             login(playerName);
           }}
-          endIcon={<AccessibilityNewIcon />}
+          endIcon={<AccessibilityIcon />}
         >
           Create your Player !
         </Button>

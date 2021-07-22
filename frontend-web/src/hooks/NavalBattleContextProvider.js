@@ -214,6 +214,8 @@ export function NavalBattleContextProvider({ children }) {
   function getPlayerGames() {
     GetPlayerGames(currentPlayer.id).then((result) => {
       if (result.lenght !== currentPlayerGames.lenght) {
+        console.log("games of player are:");
+        console.log(result);
         setCurrentPlayerGames(result);
       }
     });
