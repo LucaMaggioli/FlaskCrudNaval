@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import BoatToBePlaced from "./boatToPlace";
 
 export default function AvailableBoatsContainer({

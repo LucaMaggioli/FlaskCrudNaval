@@ -1,4 +1,4 @@
-// import React from "react";
+import React from "react";
 import styled from "styled-components";
 import Box from "./styled-components/Box";
 import BeanSpinner from "./images/bean-spinner.svg";

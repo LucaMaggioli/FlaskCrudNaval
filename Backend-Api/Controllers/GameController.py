@@ -1,16 +1,16 @@
 import flask
 from flask import request, jsonify
 from flask_cors import cross_origin
+from flask_socketio import emit
+
 
 from DataProviders import PlayerDataProvider
 from DataProviders.GameDataprovider import GameDataprovider
 from FlaskApp import NavalCrudApp
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
-from Models.Game import Game
-from Models.Player import Player
 from Models.Grid import Grid
-from Models.Constants import GameStatuses, GameMode
+from Models.Constants import GameStatuses
 
 _gameDataProvider = GameDataprovider()
 _playerDataProvider = PlayerDataProvider
@@ -23,25 +23,6 @@ def startGamevsIa(playerId):
     game = _gameDataProvider.Add(player1=player1)#TODO: add the game name from the frontend
     return game.ToJson(), 200
 
-#Call this endpoint to place random boats in a Grid of a player
-@NavalCrudApp.route("/game/<int:gameId>/player/<int:playerId>/grid/placeRandomBoats", methods=['PATCH'])
-@cross_origin()
-def placeRandomBoats(gameId, playerId):
-    game = _gameDataProvider.GetGameById(gameId)
-    player = _playerDataProvider.AddRandomBoats(playerId)
-    if game.Player1.Id == playerId:
-        game.Player1 = player
-    if game.Player2.Id == playerId:
-        game.Player2 = player
-
-    return (game.ToJson()), 200
-
-@NavalCrudApp.route("/game/placeboats")
-def placeboats():
-    print("Hello from Placeboats ")
-    return {'boat': True}
-
-# for now only below controllers are Used
 @NavalCrudApp.route("/games", methods=['GET'])
 @cross_origin()
 def getGames():
@@ -58,19 +39,27 @@ def getGamesForPlayer(playerId):
     print(games)
     return jsonify(games)
 
-# for now players are hardcoded, this should be /game/ia
-@NavalCrudApp.route("/game",  methods=['POST'])
-@cross_origin()
-def createGame():
-    gameName = request.json
-    player1 = Player(nickname="Luca")
-    game = _gameDataProvider.Add(gameName, player1)
-    return game.ToJson(), 200
-
 @NavalCrudApp.route("/game/<int:gameId>", methods=['GET'])
 @cross_origin()
 def getGameById(gameId):
     game = _gameDataProvider.GetGameById(gameId)
+    return game.ToJson(), 200
+
+
+# Call this endpoint to start a game player vs player
+@NavalCrudApp.route("/game/<int:player1Id>/vs/<int:player2Id>", methods=['POST'])
+@cross_origin()
+def createGameVsPlayer(player1Id, player2Id):
+    player1 = _playerDataProvider.getPlayerById(player1Id)
+    player2 = _playerDataProvider.getPlayerById(player2Id)
+    gameName = ("Game of {} VS {}".format(player1.Nickname, player2.Nickname))
+
+    game = _gameDataProvider.Add(gameName, player1, player2)
+    game.GameState = GameStatuses.PLACINGBOATS
+
+    emit("createGame", game.ToJson(), room=player1.SessionId, namespace='/connect')
+    emit("createGame", game.ToJson(), room=player2.SessionId, namespace='/connect')
+
     return game.ToJson(), 200
 
 @NavalCrudApp.route("/game/<int:gameId>/leave/player/<int:playerId>", methods=['PATCH'])
@@ -84,13 +73,26 @@ def leaveGame(gameId, playerId):
     player = _playerDataProvider.getPlayerById(playerId)
     player.Grid = Grid()
     player.GridPlay = Grid()
+    player.Ready = False
 
     return player.ToJson(), 200
 
-
-@NavalCrudApp.route("/game/<int:currentGameId>/grid/addboat", methods=['POST'])
+#Call this endpoint to place random boats in a Grid of a player
+@NavalCrudApp.route("/game/<int:gameId>/player/<int:playerId>/grid/placeRandomBoats", methods=['PATCH'])
 @cross_origin()
-def addBoatToGrid(currentGameId):
+def placeRandomBoats(gameId, playerId):
+    game = _gameDataProvider.GetGameById(gameId)
+    player = _playerDataProvider.AddRandomBoats(playerId)
+    if game.Player1.Id == playerId:
+        game.Player1 = player
+    if game.Player2.Id == playerId:
+        game.Player2 = player
+
+    return (player.ToJson()), 200
+
+@NavalCrudApp.route("/game/<int:currentGameId>/player/<int:playerId>/addboat", methods=['POST'])
+@cross_origin()
+def addBoatToGrid(currentGameId, playerId):
     game = _gameDataProvider.GetGameById(currentGameId)
     data = request.json
     boatToAddJson = data['boatToPlace']
@@ -98,22 +100,52 @@ def addBoatToGrid(currentGameId):
 
     boatToAdd = Boat(boatName=boatToAddJson['boatName'], lenght=boatToAddJson['lenght'], orientation=boatToAddJson['orientation'], startCordinate=Cordinate(cellJson['x'], cellJson['y']))
 
-    if game.Player1.Grid.CanPlaceBoat(boatToAdd):
-        for availableBoat in game.Player1.Grid.AvailableBoats:
+    player = _playerDataProvider.getPlayerById(playerId)
+
+    if player.Grid.CanPlaceBoat(boatToAdd):
+        for availableBoat in player.Grid.AvailableBoats:
             if boatToAdd.Lenght == availableBoat.Lenght:
-                game.Player1.Grid.AvailableBoats.remove(availableBoat)
-                game.Player1.Grid.AddBoat(boatToAdd)
-        if game.Player1.Grid.AvailableBoats == []:
-            game.Player1.Ready = True
+                player.Grid.AvailableBoats.remove(availableBoat)
+                player.Grid.AddBoat(boatToAdd)
+        if player.Grid.AvailableBoats == []:
+            player.Ready = True
     else:
         return "can't add boat {}".format(boatToAdd), 400
 
-    return (game.ToJson()), 200
+    if game.Player1.Id == playerId:
+        game.Player1 = player
+    if game.Player2.Id == playerId:
+        game.Player2 = player
+
+    return (player.ToJson()), 200
+
+@NavalCrudApp.route("/game/<int:gameId>/<int:playerId>/ready", methods=["GET"])
+@cross_origin()
+def startGame(gameId, playerId):
+    game = _gameDataProvider.GetGameById(gameId)
+
+    player = _playerDataProvider.getPlayerById(playerId)
+    player.Ready = True
+
+    if game.Player1.Id == playerId:
+        game.Player1 = player
+        if game.Player2.Ready:
+            game.GameState = GameStatuses.PLAYER2TURN
+            emit("startGame", {"player": game.Player1.ToJson(), "gameState": game.GameState.value}, room=game.Player1.SessionId, namespace='/connect')
+            emit("startGame", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
+    if game.Player2.Id == playerId:
+        game.Player2 = player
+        if game.Player1.Ready:
+            game.GameState = GameStatuses.PLAYER1TURN
+            emit("startGame", {"player": game.Player1.ToJson(), "gameState": game.GameState.value}, room=game.Player1.SessionId, namespace='/connect')
+            emit("startGame", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
+
+    return {"message": "ok"}, 200
 
 @NavalCrudApp.route("/game/<int:currentGameId>/start/vsia", methods=['POST'])
 @cross_origin()
-def startGame(currentGameId):
-    player2 = _playerDataProvider.AddPlayer("IA")
+def startGameVsIa(currentGameId):
+    player2 = _playerDataProvider.AddIAPlayer("IA", sessionId="")
     player2 = _playerDataProvider.AddRandomBoats(player2.Id)
     game = _gameDataProvider.AddPlayer2(currentGameId, player2)
 
@@ -129,12 +161,14 @@ def sendMissile(gameId, playerId):
 
     player = _playerDataProvider.sendMissile(game, playerId, cordinate)
 
-    return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
-
-@NavalCrudApp.route("/game/<int:gameId>/IAattack", methods=['PATCH'])
-@cross_origin()
-def IAattack(gameId):
-    game = _gameDataProvider.GetGameById(gameId)
-    player = _playerDataProvider.IaSendMissile(game)
+    if (game.IsGameVsIa):
+        player = _playerDataProvider.IaSendMissile(game)
+    else:
+        if game.Player1.Id == playerId:
+            emit("nextTurn", {"player": game.Player2.ToJson(), "gameState": game.GameState.value},
+                 room=game.Player2.SessionId, namespace='/connect')
+        if game.Player2.Id == playerId:
+            emit("nextTurn", {"player": game.Player1.ToJson(), "gameState": game.GameState.value},
+                 room=game.Player1.SessionId, namespace='/connect')
 
     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200

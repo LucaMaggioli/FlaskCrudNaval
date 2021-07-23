@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
-import { Box, TextField, Button } from "@material-ui/core";
+import AccessibilityIcon from "@material-ui/icons/Accessibility";
+import { Typography, Box, TextField, Button } from "@material-ui/core";
 
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
 import Chatter from "../MessagesChat/Chatter";
@@ -16,21 +16,39 @@ const columnStyle = {
   flexDirection: "column",
 };
 export default function HomePage() {
-  const { createPlayer } = useNavalBattleContext();
+  const {
+    createPlayer,
+    createLobby,
+    currentLobby,
+    currentPlayer,
+    history,
+    login,
+    updateLobby,
+  } = useNavalBattleContext();
   const [playerName, setPlayerName] = useState("");
   const [ready, setReady] = useState(false);
+
+  updateLobby();
+  React.useEffect(() => {
+    console.log("========== In HomePagem useFFect");
+    console.log(currentLobby);
+    console.log(currentPlayer);
+
+    if (currentLobby !== undefined && currentPlayer !== undefined) {
+      history.push("/lobby");
+    }
+  }, [currentLobby, currentPlayer]);
 
   return (
     <Box style={columnStyle}>
       <Box style={rowStyle}>
-        <h1>Welcome to the battlenavalGame</h1>
-        <AccessibilityNewIcon></AccessibilityNewIcon>
+        <Typography variant="h2">Welcome to the battlenavalGame</Typography>
       </Box>
       <Box style={{ display: "flex", flexDirection: "column", gridGap: "5px" }}>
         <TextField
           id="standard-basic"
           variant="outlined"
-          label="choose a Username"
+          label="choose a Nickname"
           value={playerName}
           onChange={(e) => {
             setReady(false);
@@ -42,24 +60,14 @@ export default function HomePage() {
           disabled={playerName === "" || ready}
           onClick={() => {
             setReady(true);
-            createPlayer(playerName);
+            // createPlayer(playerName);
+            // createLobby(playerName);
+            login(playerName);
           }}
+          endIcon={<AccessibilityIcon />}
         >
-          Create my Lobby!
+          Create your Player !
         </Button>
-        <Button
-          variant="contained"
-          disabled={playerName === "" || ready}
-          onClick={() => {
-            setReady(true);
-            console.log("Work in progress to join a lobby");
-          }}
-        >
-          Join a Friend Lobby!
-        </Button>
-      </Box>
-      <Box style={{ marginTop: "10px" }}>
-        <Chatter />
       </Box>
     </Box>
   );

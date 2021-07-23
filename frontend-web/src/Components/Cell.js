@@ -1,3 +1,4 @@
+import React from "react";
 import { CordinateStatus } from "./Constants";
 
 function Cell({ cellStatus, cellId, onClick }) {

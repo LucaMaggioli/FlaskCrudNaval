@@ -1,34 +1,44 @@
 from Models.Player import Player
 
+# import random, string
+# letters = string.ascii_lowercase + string.ascii_uppercase
+# .join(random.choice(letters) for i in range(7, 11))
 
 class Lobby(object):
     __Games = []
-    def __init__(self, id, player1):
-        self.__Id = id
-        self.__Player1 = player1
-        self.__Player2 = None
+    def __init__(self, url='', host=Player(), guest=Player()):
+        self.__Url = url
+        self.__Host = host
+        self.__Guest = guest
 
 
     def ToJson(self):
-        return {"id": self.__Id, "player1": self.__Player1, "player2": self.__Player2}
+        return {"url": self.Url, "host": self.Host.ToJson(), "guest": self.Guest.ToJson()}
 
     @property
-    def Player1(self):
-        return self.__Player1
-    @Player1.setter
-    def Player1(self, newValue):
-        self.__Player1 = newValue
+    def Url(self):
+        return self.__Url
+    @Url.setter
+    def Url(self, newValue):
+        self.__Url = newValue
 
     @property
-    def Player2(self):
-        return self.__Player2
-    @Player2.setter
-    def Player2(self, newValue):
-        self.__Player2 = newValue
+    def Host(self):
+        return self.__Host
+    @Host.setter
+    def Host(self, newValue):
+        self.__Host = newValue
 
     @property
-    def Games(self):
-        return self.__Games
-    @Games.setter
-    def Games(self, newValue):
-        self.__Games = newValue
+    def Guest(self):
+        return self.__Guest
+    @Guest.setter
+    def Guest(self, newValue):
+        self.__Guest = newValue
+
+    # @property
+    # def Games(self):
+    #     return self.__Games
+    # @Games.setter
+    # def Games(self, newValue):
+    #     self.__Games = newValue

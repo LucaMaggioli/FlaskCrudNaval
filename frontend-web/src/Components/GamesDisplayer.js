@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Box,
   Accordion,
@@ -110,8 +112,10 @@ export default function GamesDisplayer(games) {
   }
 
   return (
-    <Box>
-      <h1>Games displayer works!!</h1>
+    <Box style={{ margin: "1em 0 1em 0" }}>
+      <Typography variant="h3">
+        {listOfGames.length !== 0 ? "Games" : ""}
+      </Typography>
       <Box>{listOfGames}</Box>
     </Box>
   );

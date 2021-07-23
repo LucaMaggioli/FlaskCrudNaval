@@ -2,13 +2,14 @@ from Models.Grid import Grid
 
 class Player(object):
 
-    def __init__(self, id=-1, nickname=""):
+    def __init__(self, id=-1, nickname="", sessionId=""):
         self.__Id = id
         self.__Nickname = nickname
         self.__Grid = Grid()
         self.__GridPlay = Grid()
         self.__LobbyOwner = False
         self.__Ready = False
+        self.__SessionId = sessionId
 
     def ToJson(self):
         return {"id": self.Id, "nickname": self.Nickname, "lobbyOwner": self.LobbyOwner, "grid": self.Grid.ToJson(), "gridPlay":self.GridPlay.ToJson(), "ready": self.Ready}
@@ -50,3 +51,9 @@ class Player(object):
     @Ready.setter
     def Ready(self, newValue):
         self.__Ready = newValue
+    @property
+    def SessionId(self):
+        return self.__SessionId
+    @SessionId.setter
+    def SessionId(self, newValue):
+        self.__SessionId = newValue

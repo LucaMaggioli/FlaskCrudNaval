@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 import Grid from "./Grid";
 import { Box, Typography, Button } from "@material-ui/core";

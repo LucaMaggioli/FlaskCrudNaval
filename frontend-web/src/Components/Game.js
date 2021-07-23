@@ -6,17 +6,9 @@ import { GameStates } from "./Constants";
 
 import Loader from "../Loader";
 
-const PlaceBoat = React.lazy(() =>
-  import(/* webpackChunkName: "PlaceBoat" */ "./PlaceBoat")
-);
-
-const GameView = React.lazy(() =>
-  import(/* webpackChunkName: "PlaceBoat" */ "./GameView")
-);
-
-const FinishView = React.lazy(() =>
-  import(/* webpackChunkName: "PlaceBoat" */ "./FinishView")
-);
+import PlaceBoat from "./PlaceBoat";
+import GameView from "./GameView";
+import FinishView from "./FinishView";
 
 export default function Game() {
   const { currentGame, leaveGame, gameState } = useNavalBattleContext();

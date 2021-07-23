@@ -1,5 +1,5 @@
-import { Route, Switch } from "react-router-dom";
 import React from "react";
+import { Route, Switch } from "react-router-dom";
 import Loader from "./Loader";
 
 const Game = React.lazy(() =>
@@ -19,7 +19,7 @@ function Routes() {
         <Route path="/game" component={Game} />
         <Route path="/UserPage" component={HomePage} />
         <Route path="/loading" component={Loader} />
-        <Route path="/player" component={PlayerPage} />
+        <Route path="/lobby" component={PlayerPage} />
         <Route path="/" component={HomePage} />
       </Switch>
     </React.Suspense>
