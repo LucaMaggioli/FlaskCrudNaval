@@ -20,7 +20,6 @@ export function AddPlayer(nickname) {
 export function CreateLobby(nickname, sessionId) {
   return fetch(`${API_URL}/lobby`, {
     method: "POST",
-    // body: JSON.stringify({ playerId }),
     body: JSON.stringify({ nickname, sessionId }),
     headers: {
       Accept: "application/json",
@@ -34,13 +33,10 @@ export function CreateLobby(nickname, sessionId) {
     }
   });
 }
-// export function CreateLobbySocket(socket, nickname) {
-// }
 
 export function JoinLobby(lobbyUrl, playerId) {
   return fetch(`${API_URL}/lobby/join/${playerId}/${lobbyUrl}`, {
     method: "POST",
-    // body: JSON.stringify({ playerId }),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

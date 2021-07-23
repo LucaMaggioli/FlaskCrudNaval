@@ -9,10 +9,8 @@ from DataProviders.GameDataprovider import GameDataprovider
 from FlaskApp import NavalCrudApp
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
-from Models.Game import Game
-from Models.Player import Player
 from Models.Grid import Grid
-from Models.Constants import GameStatuses, GameMode
+from Models.Constants import GameStatuses
 
 _gameDataProvider = GameDataprovider()
 _playerDataProvider = PlayerDataProvider
@@ -24,7 +22,6 @@ def startGamevsIa(playerId):
     player1 = _playerDataProvider.getPlayerById(playerId)
     game = _gameDataProvider.Add(player1=player1)#TODO: add the game name from the frontend
     return game.ToJson(), 200
-
 
 @NavalCrudApp.route("/games", methods=['GET'])
 @cross_origin()
@@ -63,7 +60,6 @@ def createGameVsPlayer(player1Id, player2Id):
     emit("createGame", game.ToJson(), room=player1.SessionId, namespace='/connect')
     emit("createGame", game.ToJson(), room=player2.SessionId, namespace='/connect')
 
-
     return game.ToJson(), 200
 
 @NavalCrudApp.route("/game/<int:gameId>/leave/player/<int:playerId>", methods=['PATCH'])
@@ -77,6 +73,7 @@ def leaveGame(gameId, playerId):
     player = _playerDataProvider.getPlayerById(playerId)
     player.Grid = Grid()
     player.GridPlay = Grid()
+    player.Ready = False
 
     return player.ToJson(), 200
 
@@ -143,12 +140,6 @@ def startGame(gameId, playerId):
             emit("startGame", {"player": game.Player1.ToJson(), "gameState": game.GameState.value}, room=game.Player1.SessionId, namespace='/connect')
             emit("startGame", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
 
-
-    # Check if players are ready
-    # Set the status of the game to PLAYERTURN
-    # find player 2 and send a websocket with his player(so with grid and gridplay to display in GameView
-    # return player1 game
-    # return game.Player1.ToJson(), 200
     return {"message": "ok"}, 200
 
 @NavalCrudApp.route("/game/<int:currentGameId>/start/vsia", methods=['POST'])
@@ -181,11 +172,3 @@ def sendMissile(gameId, playerId):
                  room=game.Player1.SessionId, namespace='/connect')
 
     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
-
-# @NavalCrudApp.route("/game/<int:gameId>/IAattack", methods=['PATCH'])
-# @cross_origin()
-# def IAattack(gameId):
-#     game = _gameDataProvider.GetGameById(gameId)
-#     player = _playerDataProvider.IaSendMissile(game)
-#
-#     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200

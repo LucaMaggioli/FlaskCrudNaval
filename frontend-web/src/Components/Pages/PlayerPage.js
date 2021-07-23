@@ -29,18 +29,11 @@ export default function PlayerPage() {
     setMessage,
   } = useNavalBattleContext();
   const [lobbyUrlToJoin, setLobbyUrnToJoin] = React.useState("");
-  // const [imOwner, setImOwner] = React.useState(currentPlayer);
 
   React.useEffect(() => {
     updateLobby();
   }, [currentPlayer, currentLobby, currentGame]);
 
-  React.useEffect(() => {
-    getPlayerGames();
-  }, [currentPlayerGames]);
-  getPlayerGames();
-
-  // currentPlayer["lobbyOwner"] ? updateLobbyHost() : updateLobbyGuest();
   updateLobby();
 
   console.log(currentPlayer["lobbyOwner"]);
