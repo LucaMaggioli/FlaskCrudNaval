@@ -1,6 +1,7 @@
 from Models.Boat import Boat
 from Models.Cordinate import Cordinate
 from Models.Constants import GameStatuses
+from Models.IAPlayer import IAPlayer
 from Models.Player import Player
 
 
@@ -68,3 +69,7 @@ class Game(object):
     @GameMode.setter
     def GameMode(self, newValue):
         self.__GameMode = newValue
+
+    @property
+    def IsGameVsIa(self):
+        return isinstance(self.__Player2, IAPlayer)

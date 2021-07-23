@@ -154,7 +154,7 @@ def startGame(gameId, playerId):
 @NavalCrudApp.route("/game/<int:currentGameId>/start/vsia", methods=['POST'])
 @cross_origin()
 def startGameVsIa(currentGameId):
-    player2 = _playerDataProvider.AddPlayer("IA", sessionId="")
+    player2 = _playerDataProvider.AddIAPlayer("IA", sessionId="")
     player2 = _playerDataProvider.AddRandomBoats(player2.Id)
     game = _gameDataProvider.AddPlayer2(currentGameId, player2)
 
@@ -170,17 +170,22 @@ def sendMissile(gameId, playerId):
 
     player = _playerDataProvider.sendMissile(game, playerId, cordinate)
 
-    if game.Player1.Id == playerId:
-        emit("nextTurn", {"player": game.Player2.ToJson(), "gameState": game.GameState.value}, room=game.Player2.SessionId, namespace='/connect')
-    if game.Player2.Id == playerId:
-        emit("nextTurn", {"player": game.Player1.ToJson(), "gameState": game.GameState.value}, room=game.Player1.SessionId, namespace='/connect')
+    if (game.IsGameVsIa):
+        player = _playerDataProvider.IaSendMissile(game)
+    else:
+        if game.Player1.Id == playerId:
+            emit("nextTurn", {"player": game.Player2.ToJson(), "gameState": game.GameState.value},
+                 room=game.Player2.SessionId, namespace='/connect')
+        if game.Player2.Id == playerId:
+            emit("nextTurn", {"player": game.Player1.ToJson(), "gameState": game.GameState.value},
+                 room=game.Player1.SessionId, namespace='/connect')
 
     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
 
-@NavalCrudApp.route("/game/<int:gameId>/IAattack", methods=['PATCH'])
-@cross_origin()
-def IAattack(gameId):
-    game = _gameDataProvider.GetGameById(gameId)
-    player = _playerDataProvider.IaSendMissile(game)
-
-    return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200
+# @NavalCrudApp.route("/game/<int:gameId>/IAattack", methods=['PATCH'])
+# @cross_origin()
+# def IAattack(gameId):
+#     game = _gameDataProvider.GetGameById(gameId)
+#     player = _playerDataProvider.IaSendMissile(game)
+#
+#     return ({"player": player.ToJson(), "gameStatus": game.GameState.value}), 200

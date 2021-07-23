@@ -3,6 +3,7 @@ import random
 from Models import Context, Constants
 from Models.Constants import CordinateStatus, GameStatuses
 from Models.Cordinate import Cordinate
+from Models.IAPlayer import IAPlayer
 from Models.Player import Player
 from Models.Missile import Missile
 
@@ -19,6 +20,13 @@ def AddPlayer(_nickname, sessionId):
     id = len(_Context.Players) + 1
     nickname = _nickname
     player = Player(id, nickname, sessionId)
+    _Context.Players.append(player)
+    return player
+
+def AddIAPlayer(_nickname, sessionId):
+    id = len(_Context.Players) + 1
+    nickname = _nickname
+    player = IAPlayer(id, nickname, sessionId)
     _Context.Players.append(player)
     return player
 

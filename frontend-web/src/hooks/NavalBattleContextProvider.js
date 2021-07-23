@@ -176,12 +176,6 @@ export function NavalBattleContextProvider({ children }) {
       setGameState(result["gameStatus"]);
       setCurrentPlayer(result["player"]);
     });
-    if (isGameVsIa) {
-      IASendMissile(gameId).then((result) => {
-        setGameState(result["gameStatus"]);
-        setCurrentPlayer(result["player"]);
-      });
-    }
   }
 
   function updateGame() {
@@ -199,7 +193,6 @@ export function NavalBattleContextProvider({ children }) {
     StartGameVsIa(currentGame.id).then((result) => {
       setCurrentPlayer(result);
     });
-    setIsGameVsIa(true);
     setGameState(GameStates.PLAYER1_TURN);
   }
 

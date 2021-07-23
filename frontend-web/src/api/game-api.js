@@ -208,26 +208,6 @@ export function SendMissile(gameId, playerId, cordinate) {
   }
 }
 
-export function IASendMissile(gameId) {
-  if (!gameId) {
-    return "error player GameId must not be null";
-  } else {
-    return fetch(`${API_URL}/game/${gameId}/IAattack`, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }).then((result) => {
-      if (ACCEPTED_STATUS.includes(result.status)) {
-        return result.json();
-      } else {
-        return result;
-      }
-    });
-  }
-}
-
 export function UpdateGame(gameId) {
   if (!gameId) {
     return "error player GameId must not be null";
