@@ -47,8 +47,6 @@ export function NavalBattleContextProvider({ children }) {
   function updateLobby() {
     connectSocket.addEventListener("updateLobby", (result) => {
       // connectSocket.on("updateLobby", (result) => {
-      console.log("receiving a lobby Update, You create your Lobby");
-      console.log(result);
       setCurrentPlayer(result["player"]);
       setCurrentLobby(result["lobby"]);
       setAmIPlayer1(true);
@@ -56,16 +54,12 @@ export function NavalBattleContextProvider({ children }) {
       // window.alert("Lobby created succesfully");
     });
     connectSocket.addEventListener("updateLobbyJoiner", (result) => {
-      console.log("receiving a lobby Update, someoneJoin Your Lobby");
-      console.log(result);
       setCurrentEnemyPlayer(result["player"]);
       setCurrentLobby(result["lobby"]);
       setMessage(`${result["player"]} joined your lobby`);
       // window.alert(`${result["player"]} joined your lobby`);
     });
     connectSocket.addEventListener("updateLobbyJoin", (result) => {
-      console.log("receiving a lobby Update, you join a Lobby");
-      console.log(result);
       setCurrentEnemyPlayer(result["player"]);
       setCurrentPlayer(result["lobby"]["guest"]);
       setCurrentLobby(result["lobby"]);
@@ -74,8 +68,6 @@ export function NavalBattleContextProvider({ children }) {
       // window.alert(`you joined ${result["player"]}'s lobby !`);
     });
     connectSocket.addEventListener("createGame", (result) => {
-      console.log("receiving a creation of the game, redirect to Game page!");
-      console.log("game is : ");
       console.log(result);
       setCurrentGame(result);
       setGameState(result["gameState"]);
@@ -88,6 +80,7 @@ export function NavalBattleContextProvider({ children }) {
     connectSocket.addEventListener("nextTurn", (result) => {
       setCurrentPlayer(result["player"]);
       setGameState(result["gameState"]);
+      console.log(`gameState is gameapi is ${gameState}`);
     });
   }
 

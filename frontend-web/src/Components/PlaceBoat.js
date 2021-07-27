@@ -21,54 +21,75 @@ export default function PlaceBoat() {
   const [boatToPlace, setBoatToPlace] = useState();
 
   return (
-    <div>
-      <p margin="8px 0">
-        Place your boats by clicking on the grey boats then click on "add this
-        boat" when you have finished one.
-      </p>
+    <Box style={{ display: "flex", flexDirection: "column", marginTop: "5em" }}>
+      <Box style={{ display: "flex", flexDirection: "row", gridGap: "15px" }}>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h3">Grille de placement de bateaux</Typography>
 
-      <div style={{ display: "flex", flexDirection: "row", gridGap: "15px" }}>
-        <div>
-          <h2>Grille de placement de bateaux</h2>
-
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <Box style={{ display: "flex", flexDirection: "row" }}>
             <Grid
               cordinates={cordinates}
               onCellClick={(cellJson) => {
                 addBoatAtPosition(boatToPlace, cellJson);
               }}
             />
-          </div>
-        </div>
-        <div>
-          <Button variant="contained" onClick={placeRandomBoats}>
-            Place Random Boats
-          </Button>
-          <Button variant="contained" onClick={startGameVsIa}>
-            Play VSIA !
-          </Button>
-          {currentEnemyPlayer !== undefined ? (
-            <Button variant="contained" onClick={startGame}>
-              Play vs {currentEnemyPlayer.nickname}
-            </Button>
-          ) : (
-            <span></span>
-          )}
-        </div>
-        <div>
-          <div>
-            <h2>Bateaux disponibles</h2>
-            <AvailableBoatsContainer
-              availableBoats={currentPlayer.grid.availableBoats}
-              boatToBePlaced={boatToPlace}
-              onBoatToPlaceClick={(boatToPlace) => {
-                console.log(boatToPlace);
-                setBoatToPlace(boatToPlace);
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+
+        {/* <Box> */}
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h3">Bateaux disponibles</Typography>
+          <AvailableBoatsContainer
+            availableBoats={currentPlayer.grid.availableBoats}
+            boatToBePlaced={boatToPlace}
+            onBoatToPlaceClick={(boatToPlace) => {
+              console.log(boatToPlace);
+              setBoatToPlace(boatToPlace);
+            }}
+          />
+        </Box>
+        {/* </Box> */}
+      </Box>
+      <Box
+        style={{
+          marginTop: "5em",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          gridGap: "1em",
+        }}
+      >
+        <Button variant="contained" onClick={placeRandomBoats}>
+          Place Random Boats
+        </Button>
+        <Button variant="contained" onClick={startGameVsIa}>
+          Play VSIA !
+        </Button>
+        <Button
+          style={{
+            display: currentEnemyPlayer === undefined ? "none" : "true",
+          }}
+          variant="contained"
+          onClick={startGame}
+        >
+          Play vs{" "}
+          {currentEnemyPlayer !== undefined
+            ? currentEnemyPlayer.nickname
+            : "None"}
+        </Button>
+      </Box>
+    </Box>
   );
 }

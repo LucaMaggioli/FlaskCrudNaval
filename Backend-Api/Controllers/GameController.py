@@ -15,14 +15,6 @@ from Models.Constants import GameStatuses
 _gameDataProvider = GameDataprovider()
 _playerDataProvider = PlayerDataProvider
 
-#Call this endpoint to start a game vs IA
-@NavalCrudApp.route('/game/create/player/<int:playerId>/vsia', methods=['POST'])
-@cross_origin()
-def startGamevsIa(playerId):
-    player1 = _playerDataProvider.getPlayerById(playerId)
-    game = _gameDataProvider.Add(player1=player1)#TODO: add the game name from the frontend
-    return game.ToJson(), 200
-
 @NavalCrudApp.route("/games", methods=['GET'])
 @cross_origin()
 def getGames():
@@ -144,6 +136,14 @@ def startGame(gameId, playerId):
 
     return {"message": "ok"}, 200
 
+#Call this endpoint to start a game vs IA
+@NavalCrudApp.route('/game/create/player/<int:playerId>/vsia', methods=['POST'])
+@cross_origin()
+def startGamevsIa(playerId):
+    player1 = _playerDataProvider.getPlayerById(playerId)
+    game = _gameDataProvider.Add(gameName=("Game of {} VS IA".format(player1.Nickname)), player1=player1)#TODO: add the game name from the frontend
+    return game.ToJson(), 200
+
 @NavalCrudApp.route("/game/<int:currentGameId>/start/vsia", methods=['POST'])
 @cross_origin()
 def startGameVsIa(currentGameId):
@@ -165,6 +165,8 @@ def sendMissile(gameId, playerId):
 
     if (game.IsGameVsIa):
         player = _playerDataProvider.IaSendMissile(game)
+        emit("nextTurn", {"player": game.Player1.ToJson(), "gameState": game.GameState.value},
+             room=game.Player1.SessionId, namespace='/connect')
     else:
         if game.Player1.Id == playerId:
             emit("nextTurn", {"player": game.Player2.ToJson(), "gameState": game.GameState.value},

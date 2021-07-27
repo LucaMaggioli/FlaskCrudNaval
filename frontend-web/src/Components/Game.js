@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 import { useHistory } from "react-router-dom";
-import Box from "../styled-components/Box";
+import { Typography, Box, Button } from "@material-ui/core";
 import { GameStates } from "./Constants";
 
 import Loader from "../Loader";
@@ -20,9 +20,24 @@ export default function Game() {
   }
 
   return (
-    <Box flexDirection="column" alignItems="center">
-      <h1>Naval Battle {currentGame.id}</h1>
-      <button onClick={leaveGame}>Leave Game</button>
+    <Box display="flex" flexDirection="column" alignItems="center">
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginBottom: "1em",
+        }}
+      >
+        <Typography variant="h2">Naval Battle {currentGame.name}</Typography>
+        <Button
+          style={{ width: "12em" }}
+          variant="contained"
+          onClick={leaveGame}
+        >
+          Leave Game
+        </Button>
+      </Box>
       <React.Suspense fallback={<Loader />}>
         {gameState === GameStates.PLACINGBOATS ? (
           <PlaceBoat />
@@ -32,7 +47,7 @@ export default function Game() {
         ) : gameState === GameStates.PLAYER1TURN || GameStates.PLAYER2TURN ? (
           <GameView />
         ) : (
-          <h2>waiting</h2>
+          <Typography variant="h2">waiting</Typography>
         )}
       </React.Suspense>
     </Box>
