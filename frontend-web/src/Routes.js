@@ -2,6 +2,12 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Loader from "./Loader";
 
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import { AppBar, Toolbar, Typography, Box } from "@material-ui/core";
+import { useNavalBattleContext } from "./hooks/NavalBattleContextProvider";
+
 const Game = React.lazy(() =>
   import(/* webpackChunkName: "Game" */ "./Components/Game")
 );
@@ -13,16 +19,39 @@ const PlayerPage = React.lazy(() =>
 );
 
 function Routes() {
+  const { currentPlayer } = useNavalBattleContext();
+  // console.
+
   return (
-    <React.Suspense fallback={<Loader />}>
-      <Switch>
-        <Route path="/game" component={Game} />
-        <Route path="/UserPage" component={HomePage} />
-        <Route path="/loading" component={Loader} />
-        <Route path="/lobby" component={PlayerPage} />
-        <Route path="/" component={HomePage} />
-      </Switch>
-    </React.Suspense>
+    <Box>
+      <AppBar color="primary">
+        <Toolbar>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <Typography>
+            {" "}
+            {currentPlayer !== undefined
+              ? `Welcome ${currentPlayer.nickName} !`
+              : "Welcome, create your player !"}{" "}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <React.Suspense fallback={<Loader />}>
+        <Switch>
+          <Route path="/game" component={Game} />
+          <Route path="/UserPage" component={HomePage} />
+          <Route path="/loading" component={Loader} />
+          <Route path="/lobby" component={PlayerPage} />
+          <Route path="/" component={HomePage} />
+        </Switch>
+      </React.Suspense>
+    </Box>
   );
 }
 

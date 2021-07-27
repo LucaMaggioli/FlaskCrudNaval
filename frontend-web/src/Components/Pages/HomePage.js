@@ -3,7 +3,6 @@ import AccessibilityIcon from "@material-ui/icons/Accessibility";
 import { Typography, Box, TextField, Button } from "@material-ui/core";
 
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
-import Chatter from "../MessagesChat/Chatter";
 
 const rowStyle = {
   display: "flex",
@@ -30,10 +29,6 @@ export default function HomePage() {
 
   updateLobby();
   React.useEffect(() => {
-    console.log("========== In HomePagem useFFect");
-    console.log(currentLobby);
-    console.log(currentPlayer);
-
     if (currentLobby !== undefined && currentPlayer !== undefined) {
       history.push("/lobby");
     }
@@ -60,8 +55,6 @@ export default function HomePage() {
           disabled={playerName === "" || ready}
           onClick={() => {
             setReady(true);
-            // createPlayer(playerName);
-            // createLobby(playerName);
             login(playerName);
           }}
           endIcon={<AccessibilityIcon />}

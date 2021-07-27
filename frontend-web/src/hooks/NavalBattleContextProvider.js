@@ -140,12 +140,8 @@ export function NavalBattleContextProvider({ children }) {
       history.push("/game");
     });
   }
-  // currentLobby["player1"]["id"],
-  // currentLobby["player2"]["id"]
-  // function createGame(player1Id, player2Id) {
   function createGame() {
     console.log(currentLobby);
-    // CreateGame(player1Id, player2Id).then((result) => console.log(result));
     CreateGame(currentLobby.host.id, currentLobby.guest.id).then((result) => {
       console.log("after create game");
       console.log(result);
@@ -154,21 +150,29 @@ export function NavalBattleContextProvider({ children }) {
 
   function placeRandomBoats() {
     PlaceRandomBoats(currentGame.id, currentPlayer.id).then((result) => {
-      // setCurrentGame(result);
       setCurrentPlayer(result);
     });
   }
 
   function addBoatAtPosition(boatToPlace, cellJson) {
-    AddBoatAtPosition(
-      currentGame.id,
-      currentPlayer.id,
-      cellJson,
-      boatToPlace
-    ).then((result) => {
-      console.log(result);
-      setCurrentPlayer(result);
-    });
+    if (
+      window.confirm(
+        `Confirm place boat on cordinate 'x:${cellJson.x},y:${cellJson.y}'`
+      )
+    ) {
+      AddBoatAtPosition(
+        currentGame.id,
+        currentPlayer.id,
+        boatToPlace,
+        cellJson
+      ).then((result) => {
+        if (result !== null) {
+          setCurrentPlayer(result);
+        }
+      });
+    } else {
+      window.alert("Select a boat to place in that cordinate");
+    }
   }
 
   function sendMissile(gameId, playerId, cordinate) {

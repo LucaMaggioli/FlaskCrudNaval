@@ -96,9 +96,11 @@ def addBoatToGrid(currentGameId, playerId):
     game = _gameDataProvider.GetGameById(currentGameId)
     data = request.json
     boatToAddJson = data['boatToPlace']
+    print(boatToAddJson)
     cellJson = data['cellJson']
+    print(cellJson)
 
-    boatToAdd = Boat(boatName=boatToAddJson['boatName'], lenght=boatToAddJson['lenght'], orientation=boatToAddJson['orientation'], startCordinate=Cordinate(cellJson['x'], cellJson['y']))
+    boatToAdd = Boat(lenght=boatToAddJson['lenght'], orientation=boatToAddJson['orientation'], startCordinate=Cordinate(cellJson['x'], cellJson['y']))
 
     player = _playerDataProvider.getPlayerById(playerId)
 
@@ -110,7 +112,7 @@ def addBoatToGrid(currentGameId, playerId):
         if player.Grid.AvailableBoats == []:
             player.Ready = True
     else:
-        return "can't add boat {}".format(boatToAdd), 400
+        return "can't add boat {}".format(boatToAdd), 431
 
     if game.Player1.Id == playerId:
         game.Player1 = player

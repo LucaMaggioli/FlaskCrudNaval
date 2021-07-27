@@ -41,10 +41,12 @@ export default function PlaceBoat() {
           </div>
         </div>
         <div>
-          <button onClick={placeRandomBoats}>Place Random Boats</button>
-          <button enabled={true} onClick={startGameVsIa}>
+          <Button variant="contained" onClick={placeRandomBoats}>
+            Place Random Boats
+          </Button>
+          <Button variant="contained" onClick={startGameVsIa}>
             Play VSIA !
-          </button>
+          </Button>
           {currentEnemyPlayer !== undefined ? (
             <Button variant="contained" onClick={startGame}>
               Play vs {currentEnemyPlayer.nickname}
@@ -59,7 +61,10 @@ export default function PlaceBoat() {
             <AvailableBoatsContainer
               availableBoats={currentPlayer.grid.availableBoats}
               boatToBePlaced={boatToPlace}
-              onBoatToPlaceClick={(boatToPlace) => setBoatToPlace(boatToPlace)}
+              onBoatToPlaceClick={(boatToPlace) => {
+                console.log(boatToPlace);
+                setBoatToPlace(boatToPlace);
+              }}
             />
           </div>
         </div>

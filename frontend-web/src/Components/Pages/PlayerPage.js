@@ -8,12 +8,37 @@ import {
   CardContent,
   Card,
   CardActions,
+  AppBar,
+  IconButton,
+  Fab,
+  Toolbar,
 } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import AddIcon from "@material-ui/icons/Add";
+import SearchIcon from "@material-ui/icons/Search";
+
+import { makeStyles } from "@material-ui/core/styles";
 import GamesDisplayer from "../GamesDisplayer";
 import Chatter from "../MessagesChat/Chatter";
+import { classicNameResolver } from "typescript";
+
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: "80%",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: "1em",
+  },
+}));
 
 export default function PlayerPage() {
   // _isMounted = false;
+  const classes = useStyles();
   const {
     createGame,
     createGameVsIa,
@@ -36,13 +61,9 @@ export default function PlayerPage() {
 
   updateLobby();
 
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
-
   return (
     <Box>
+      
       <Box style={{ display: "flex", flexDirection: "column" }}>
         <Typography variant="h2" style={{ marginBottom: "1em" }}>
           Welcome to{" "}
