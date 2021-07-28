@@ -1,3 +1,4 @@
 .idea/
 frontend-web/node_modules/
-frontend-web/build
+frontend-web/build/
+Backend-Api/venv/
