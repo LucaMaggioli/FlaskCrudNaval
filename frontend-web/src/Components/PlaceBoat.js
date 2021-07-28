@@ -7,8 +7,6 @@ import { Button, Box, Typography } from "@material-ui/core";
 
 export default function PlaceBoat() {
   const {
-    currentGame,
-    setCurrentGame,
     currentPlayer,
     currentEnemyPlayer,
     placeRandomBoats,
@@ -21,16 +19,17 @@ export default function PlaceBoat() {
   const [boatToPlace, setBoatToPlace] = useState();
 
   return (
-    <Box style={{ display: "flex", flexDirection: "column", marginTop: "5em" }}>
-      <Box style={{ display: "flex", flexDirection: "row", gridGap: "15px" }}>
+    <Box style={{ display: "flex", flexDirection: "column", marginTop: "4em" }}>
+      <Box style={{ display: "flex", flexDirection: "row", gridGap: "6em" }}>
         <Box
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            gridGap: "2em",
           }}
         >
-          <Typography variant="h3">Grille de placement de bateaux</Typography>
+          <Typography variant="h3">Your Grid</Typography>
 
           <Box style={{ display: "flex", flexDirection: "row" }}>
             <Grid
@@ -42,15 +41,15 @@ export default function PlaceBoat() {
           </Box>
         </Box>
 
-        {/* <Box> */}
         <Box
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            gridGap: "2em",
           }}
         >
-          <Typography variant="h3">Bateaux disponibles</Typography>
+          <Typography variant="h3">Available Boats</Typography>
           <AvailableBoatsContainer
             availableBoats={currentPlayer.grid.availableBoats}
             boatToBePlaced={boatToPlace}
@@ -60,7 +59,6 @@ export default function PlaceBoat() {
             }}
           />
         </Box>
-        {/* </Box> */}
       </Box>
       <Box
         style={{
@@ -75,7 +73,7 @@ export default function PlaceBoat() {
           Place Random Boats
         </Button>
         <Button variant="contained" onClick={startGameVsIa}>
-          Play VSIA !
+          Start VSIA !
         </Button>
         <Button
           style={{

@@ -12,73 +12,54 @@ export default function TurnIndicator() {
   console.log(currentPlayer.id);
   console.log(currentGame.player1.id);
 
-  let text = "";
+  let itsYourTurn = (
+    <Typography variant="h4" style={{ margin: "1em 0 2em 0" }}>
+      It's your turn, come on hit that sieet !
+    </Typography>
+  );
+  let itsEnemyTurn = (
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gridGap: "2em",
+        margin: "1em 0 2em 0",
+      }}
+    >
+      <Typography variant="h4">Waiting on the enemy (soooo slow !)</Typography>
+      <Loader type="Grid" color="#3f51b5" height={30} width={30} />
+    </Box>
+  );
+
+  let turnMessage = "";
   switch (gameState) {
     case GameStates.PLAYER1TURN:
       currentPlayer.id === currentGame.player1.id
-        ? (text = (
-            <Typography variant="h4" style={{ margin: "1em 0 1em 0" }}>
-              It's your turn, come on hit that sieet !
-            </Typography>
-          ))
-        : (text = (
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                gridGap: "2em",
-                margin: "2em 0 2em 0",
-              }}
-            >
-              <Typography variant="h4">
-                Waiting on the enemy (soooo slow !)
-              </Typography>
-              <Loader type="Grid" color="#3f51b5" height={30} width={30} />
-            </Box>
-          ));
+        ? (turnMessage = itsYourTurn)
+        : (turnMessage = itsEnemyTurn);
       break;
     case GameStates.PLAYER2TURN:
       currentPlayer.id === currentGame.player2.id
-        ? (text = (
-            <Typography variant="h4" style={{ margin: "1em 0 1em 0" }}>
-              It's your turn, come on hit that sieet !
-            </Typography>
-          ))
-        : (text = (
-            <Box
-              style={{
-                display: "flex",
-                margin: "2em 0 2em 0",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                gridGap: "2em",
-              }}
-            >
-              <Typography variant="h4">
-                Waiting on the enemy (soooo slow !)
-              </Typography>
-              <Loader type="Grid" color="#3f51b5" height={30} width={30} />
-            </Box>
-          ));
+        ? (turnMessage = itsYourTurn)
+        : (turnMessage = itsEnemyTurn);
       break;
     case GameStates.PLAYER1WIN:
-      text = "Player 1 Win !!!";
+      turnMessage = "Player 1 Win !!!";
       break;
     case GameStates.PLAYER2WIN:
-      text = "Player 2 Win !!!";
+      turnMessage = "Player 2 Win !!!";
       break;
     default:
-      text = "";
+      turnMessage = "";
   }
 
   return (
     <Box
       style={{ marginTop: "5em", display: "flex", justifyContent: "center" }}
     >
-      {text}
+      {turnMessage}
     </Box>
   );
 }

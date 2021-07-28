@@ -10,9 +10,6 @@ export default function GameView() {
     useNavalBattleContext();
 
   let statusOfGame = gameState;
-  // React.useEffect(() => {
-  //   statusOfGame = gameState;
-  // }, [gameState]);
   console.log(`statusOfGame is ${statusOfGame}`);
 
   let grid = currentPlayer.grid;

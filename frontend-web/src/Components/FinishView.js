@@ -24,33 +24,49 @@ export default function FinishView() {
 
   return (
     <Box>
-      <h1>
+      <Typography
+        variant="h3"
+        style={{ margin: "2em 0 1em 0", textAlign: "center" }}
+      >
         The winner is :
-        <Typography variant="h3" component="h3" style={{ color: "#90F150" }}>
+        <Typography variant="p" style={{ color: "#90F150" }}>
           {currentGame.gameState === GameStates.PLAYER1WIN
             ? " " + currentGame.player1.nickname
             : " " + currentGame.player2.nickname}
         </Typography>
-        !
-      </h1>
-      <Box style={{ display: "flex", flexDirection: "row", gridGap: "10px" }}>
-        <Box>
+      </Typography>
+      <Box style={{ display: "flex", flexDirection: "row", gridGap: "6em" }}>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gridGap: "2em",
+          }}
+        >
           <Typography
             variant="h3"
             component="h3"
             style={{ wordBreak: "break-all", color: "#5385FD" }}
           >
-            {currentPlayer.nickname}'s grid :
+            {currentPlayer.nickname}
           </Typography>
           <Grid cordinates={currentPlayer.grid.cordinates} />
         </Box>
-        <Box>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gridGap: "2em",
+          }}
+        >
           <Typography
             variant="h3"
             component="h3"
             style={{ wordBreak: "break-all", color: "#FF5733" }}
           >
-            {enemyPlayer.nickname}'s grid :
+            {enemyPlayer.nickname}
           </Typography>
           <Grid cordinates={enemyPlayer.grid.cordinates} />
         </Box>

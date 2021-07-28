@@ -31,7 +31,7 @@ export default function Game() {
       >
         <Typography variant="h2">Naval Battle {currentGame.name}</Typography>
         <Button
-          style={{ width: "12em" }}
+          style={{ width: "12em", marginTop: "2em" }}
           variant="contained"
           onClick={leaveGame}
         >

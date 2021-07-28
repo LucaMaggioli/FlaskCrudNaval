@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PlayerPage() {
-  // _isMounted = false;
   const classes = useStyles();
   const {
     createGame,
@@ -63,7 +62,6 @@ export default function PlayerPage() {
 
   return (
     <Box>
-      
       <Box style={{ display: "flex", flexDirection: "column" }}>
         <Typography variant="h2" style={{ marginBottom: "1em" }}>
           Welcome to{" "}
@@ -138,6 +136,5 @@ export default function PlayerPage() {
         <Chatter />
       </Box>
     </Box>
-    // : <Box></Box>
   );
 }
