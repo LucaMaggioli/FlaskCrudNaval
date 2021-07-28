@@ -22,6 +22,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import GamesDisplayer from "../GamesDisplayer";
 import Chatter from "../MessagesChat/Chatter";
 import { classicNameResolver } from "typescript";
+import LobbyPlayers from "../LobbyPlayers";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -110,7 +111,7 @@ export default function PlayerPage() {
             </Button>
           </Box>
         </Box>
-        {currentEnemyPlayer !== undefined ? (
+        {/* {currentEnemyPlayer !== undefined ? (
           <Card style={{ marginTop: "2em" }}>
             <CardContent>
               <Typography variant="h4" component="h2">
@@ -131,7 +132,11 @@ export default function PlayerPage() {
           </Card>
         ) : (
           <span></span>
-        )}
+        )} */}
+        <LobbyPlayers
+          player1={currentLobby.player1}
+          player2={currentLobby.player2}
+        ></LobbyPlayers>
         <GamesDisplayer games={currentPlayerGames} />
         <Chatter />
       </Box>
