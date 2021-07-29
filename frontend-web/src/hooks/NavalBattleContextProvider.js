@@ -40,8 +40,8 @@ export function NavalBattleContextProvider({ children }) {
 
   // let connectSocket = io(`${API_URL}/connect`);
 
-  function login(username) {
-    connectSocket.emit("login", username);
+  function login(username, avatarIndex) {
+    connectSocket.emit("login", username, avatarIndex);
   }
 
   function updateLobby() {

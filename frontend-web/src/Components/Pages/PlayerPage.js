@@ -48,6 +48,7 @@ export default function PlayerPage() {
     joinLobby,
     updateLobby,
     currentGame,
+    createGame,
   } = useNavalBattleContext();
   const [lobbyUrlToJoin, setLobbyUrnToJoin] = React.useState("");
 
@@ -129,11 +130,27 @@ export default function PlayerPage() {
         ) : (
           <span></span>
         )} */}
-        <LobbyPlayers
-          player1={currentLobby.player1}
-          player2={currentLobby.player2}
-        ></LobbyPlayers>
-        <GamesDisplayer games={currentPlayerGames} />
+        {/* {console.log(currentLobby.host)} */}
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <LobbyPlayers lobby={currentLobby} currentPlayer={currentPlayer} />
+          <Button
+            variant="contained"
+            onClick={createGame}
+            style={{
+              marginLeft: "10em",
+              height: "4em",
+              display: currentLobby.guest.id !== -1 ? "flex" : "none",
+            }}
+          >
+            Start Game
+          </Button>
+        </Box>
+        {/* <GamesDisplayer games={currentPlayerGames} /> */}
         <Chatter />
       </Box>
     </Box>

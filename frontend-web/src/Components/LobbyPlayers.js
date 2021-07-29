@@ -1,35 +1,36 @@
 import { Box, Card, CardContent, Typography } from "@material-ui/core";
+import PlayerCard from "./PlayerCard";
+import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 
-export default function LobbyPlayers(player1, player2) {
+export default function LobbyPlayers(props) {
+  let lobby = props.lobby;
+  let currentPlayer = props.currentPlayer;
   return (
     <Box
       style={{
-        display: "fley",
+        display: "flex",
+        gridGap: "3em",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "center",
         margin: "1em 0 1em 0",
       }}
     >
-      <Card style={{ marginTop: "2em" }}>
-        <CardContent>
-          <Typography variant="h4" component="h2">
-            {player1.nickname}
-          </Typography>
-          <Typography variant="body2" component="p">
-            Hi
-          </Typography>
-        </CardContent>
-      </Card>
-      <Card style={{ marginTop: "2em" }}>
-        <CardContent>
-          <Typography variant="h4" component="h2">
-            {player2.nickname}
-          </Typography>
-          <Typography variant="body2" component="p">
-            Hi
-          </Typography>
-        </CardContent>
-      </Card>
+      {lobby !== undefined && lobby.host !== undefined ? (
+        <PlayerCard
+          player={lobby.host}
+          imCurrentPlayer={currentPlayer.id === lobby.host.id}
+        ></PlayerCard>
+      ) : (
+        ""
+      )}
+      {lobby !== undefined && lobby.guest.id !== -1 ? (
+        <PlayerCard
+          player={lobby.guest}
+          imCurrentPlayer={currentPlayer.id === lobby.guest.id}
+        ></PlayerCard>
+      ) : (
+        ""
+      )}
     </Box>
   );
 }
