@@ -40,18 +40,14 @@ const useStyles = makeStyles((theme) => ({
 export default function PlayerPage() {
   const classes = useStyles();
   const {
-    createGame,
     createGameVsIa,
     currentLobby,
     currentPlayer,
     currentEnemyPlayer,
     currentPlayerGames,
-    getPlayerGames,
     joinLobby,
     updateLobby,
     currentGame,
-    message,
-    setMessage,
   } = useNavalBattleContext();
   const [lobbyUrlToJoin, setLobbyUrnToJoin] = React.useState("");
 
