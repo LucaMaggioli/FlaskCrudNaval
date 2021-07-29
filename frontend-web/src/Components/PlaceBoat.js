@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { API_URL } from "../api/api-settings";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider"; // import styled from "styled-components";
 import AvailableBoatsContainer from "./AvailableBoats/AvailableBoatContainer";
 import Grid from "./Grid";
@@ -30,7 +29,6 @@ export default function PlaceBoat() {
           }}
         >
           <Typography variant="h3">Your Grid</Typography>
-
           <Box style={{ display: "flex", flexDirection: "row" }}>
             <Grid
               cordinates={cordinates}
@@ -40,7 +38,6 @@ export default function PlaceBoat() {
             />
           </Box>
         </Box>
-
         <Box
           style={{
             display: "flex",

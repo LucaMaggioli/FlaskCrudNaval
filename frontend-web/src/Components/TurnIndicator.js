@@ -7,10 +7,6 @@ import Loader from "react-loader-spinner";
 
 export default function TurnIndicator() {
   const { gameState, currentPlayer, currentGame } = useNavalBattleContext();
-  console.log(`gameState is ${gameState}`);
-  console.log(GameStates.PLAYER1TURN);
-  console.log(currentPlayer.id);
-  console.log(currentGame.player1.id);
 
   let itsYourTurn = (
     <Typography variant="h4" style={{ margin: "1em 0 2em 0" }}>

@@ -9,9 +9,6 @@ export default function GameView() {
   const { currentGame, sendMissile, currentPlayer, gameState } =
     useNavalBattleContext();
 
-  let statusOfGame = gameState;
-  console.log(`statusOfGame is ${statusOfGame}`);
-
   let grid = currentPlayer.grid;
   let gridPlay = currentPlayer.gridPlay;
 

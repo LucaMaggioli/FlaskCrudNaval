@@ -1,15 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   CreateGame,
   CreateGameVsIa,
   AddPlayer,
   CreateLobby,
-  CreateLobbySocket,
   PlaceRandomBoats,
   AddBoatAtPosition,
   SendMissile,
   StartGameVsIa,
-  IASendMissile,
   UpdateGame as GetUpdateGame,
   LeaveGame,
   GetPlayerGames,
@@ -27,12 +25,10 @@ export function NavalBattleContextProvider({ children }) {
   const [currentEnemyPlayer, setCurrentEnemyPlayer] = React.useState();
   const [currentLobby, setCurrentLobby] = React.useState();
   const [gameState, setGameState] = React.useState();
-  const [isGameVsIa, setIsGameVsIa] = React.useState(false);
   const [currentPlayerGames, setCurrentPlayerGames] = React.useState([]);
 
   const [message, setMessage] = React.useState("");
 
-  const [currentPlayerId, setCurrentPlayerId] = React.useState(-1);
   const history = useHistory();
 
   const { connectSocket } = useSocketContext();
@@ -68,7 +64,6 @@ export function NavalBattleContextProvider({ children }) {
       // window.alert(`you joined ${result["player"]}'s lobby !`);
     });
     connectSocket.addEventListener("createGame", (result) => {
-      console.log(result);
       setCurrentGame(result);
       setGameState(result["gameState"]);
       history.push("/game");
@@ -80,41 +75,28 @@ export function NavalBattleContextProvider({ children }) {
     connectSocket.addEventListener("nextTurn", (result) => {
       setCurrentPlayer(result["player"]);
       setGameState(result["gameState"]);
-      console.log(`gameState is gameapi is ${gameState}`);
     });
   }
 
   function createPlayer(playerName) {
     AddPlayer(playerName).then((result) => {
-      setCurrentPlayerId(result["id"]);
       setCurrentPlayer(result);
       getPlayerGames();
       history.push("/lobby");
     });
-    // createLobby();
   }
 
   function createLobby(playerName) {
-    // console.log(`Playername is: ${playerName}`);
-    // socket.emit("createLobby", playerName);
     let sessionId = 0;
     CreateLobby(playerName, sessionId).then((result) => {
-      console.log(`result afte api call is:`);
-      console.log(result);
       setCurrentPlayer(result["host"]);
       setCurrentLobby(result);
-      console.log(
-        `so currentplayer :${currentPlayer} and lobby: ${currentLobby}`
-      );
-      console.log(currentPlayer);
-      console.log(currentLobby);
     });
   }
 
   function joinLobby(lobbyUrl) {
     console.log("Joining with URL");
     if (lobbyUrl !== null && lobbyUrl !== "") {
-      console.log(`Joining lobby with url ${lobbyUrl}`);
       connectSocket.emit("joinLobby", currentPlayer.id, lobbyUrl);
     }
   }
@@ -134,11 +116,9 @@ export function NavalBattleContextProvider({ children }) {
     });
   }
   function createGame() {
-    console.log(currentLobby);
-    CreateGame(currentLobby.host.id, currentLobby.guest.id).then((result) => {
-      console.log("after create game");
-      console.log(result);
-    });
+    CreateGame(currentLobby.host.id, currentLobby.guest.id).then(
+      (result) => {}
+    );
   }
 
   function placeRandomBoats() {
@@ -181,7 +161,6 @@ export function NavalBattleContextProvider({ children }) {
 
   function startGame() {
     StartGame(currentGame.id, currentPlayer.id).then((result) => {
-      // setCurrentGame(result);
       console.log("Waiting for other player to be ready! ");
     });
   }

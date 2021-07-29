@@ -12,9 +12,6 @@ export default function FinishView() {
     currentGame.player1.id === currentPlayer.id
       ? currentGame.player2
       : currentGame.player1;
-  console.log("Gamestate is");
-  console.log(currentGame.gameState);
-
   if (
     currentGame.gameState !== GameStates.PLAYER1WIN &&
     currentGame.gameState !== GameStates.PLAYER2WIN

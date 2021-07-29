@@ -45,7 +45,6 @@ export default function GamesDisplayer(games) {
 
   if (games !== null && games.lenght !== 0) {
     games["games"].forEach((game) => {
-      console.log(game);
       let gamePLayer =
         currentPlayer.id === game["player1"].id
           ? game["player1"]

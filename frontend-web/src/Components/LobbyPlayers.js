@@ -1,6 +1,5 @@
-import { Box, Card, CardContent, Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import PlayerCard from "./PlayerCard";
-import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 
 export default function LobbyPlayers(props) {
   let lobby = props.lobby;
