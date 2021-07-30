@@ -51,10 +51,13 @@ export default function HomePage() {
             setPlayerName(e.target.value);
           }}
         />
-        <AvatarPicker
-          image={profilesPictures[avatarIndex]}
-          onShuffle={nextAvatarPic}
-        />
+
+        <Box style={{ margin: "2em 0 2em 0" }}>
+          <AvatarPicker
+            image={profilesPictures[avatarIndex]}
+            onShuffle={nextAvatarPic}
+          />
+        </Box>
         <Button
           variant="contained"
           disabled={playerName === "" || ready}

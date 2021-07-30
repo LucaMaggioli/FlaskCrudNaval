@@ -1,15 +1,15 @@
-import { Box, Button } from "@material-ui/core";
+import { Box, Button, Tooltip } from "@material-ui/core";
 import ShuffleRoundedIcon from "@material-ui/icons/ShuffleRounded";
 
 export default function AvatarPicker({ image, onShuffle }) {
   return (
-    <Box alignItems="center">
-      <Button onClick={onShuffle}>
-        <ShuffleRoundedIcon
-          data-testid="shuffle-icon"
-          style={{ color: "#FFFFFF", fontSize: 32 }}
-        />
-      </Button>
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+      }}
+    >
       <Box
         border={2}
         display="flex"
@@ -19,8 +19,27 @@ export default function AvatarPicker({ image, onShuffle }) {
         height="10em"
         bgcolor="background.default"
       >
-        <img src={image} alt="Avatar" />
+        <img height="100%" src={image} alt="Avatar" />
       </Box>
+      <Tooltip title="Swap Avatar" placement="right-end">
+        <Button
+          onClick={onShuffle}
+          variant="contained"
+          color="primary"
+          style={{
+            borderRadius: "50%",
+            height: "50px",
+            width: "50px",
+            position: "relative",
+            right: "3em",
+          }}
+        >
+          <ShuffleRoundedIcon
+            data-testid="shuffle-icon"
+            style={{ color: "#FFFFFF", fontSize: "32px" }}
+          />
+        </Button>
+      </Tooltip>
     </Box>
   );
 }

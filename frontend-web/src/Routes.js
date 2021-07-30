@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom";
 import Loader from "./Loader";
 
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { AppBar, Toolbar, Typography, Box } from "@material-ui/core";
 import { useNavalBattleContext } from "./hooks/NavalBattleContextProvider";
@@ -20,7 +19,8 @@ const PlayerPage = React.lazy(() =>
 
 function Routes() {
   const { currentPlayer } = useNavalBattleContext();
-  // console.
+  console.log(`currentPlayer in routes is : ${currentPlayer}`);
+  console.log(currentPlayer);
 
   return (
     <Box>
@@ -35,9 +35,8 @@ function Routes() {
             <AccountCircle />
           </IconButton>
           <Typography>
-            {" "}
             {currentPlayer !== undefined
-              ? `Welcome ${currentPlayer.nickName} !`
+              ? `Welcome ${currentPlayer.nickname} !`
               : "Welcome, create your player !"}{" "}
           </Typography>
         </Toolbar>
