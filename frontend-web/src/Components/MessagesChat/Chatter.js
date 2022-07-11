@@ -19,9 +19,6 @@ const Chatter = () => {
 
   const getMessages = () => {
     socket.on("message", (msg) => {
-      //   let allMessages = messages;
-      //   allMessages.push(msg);
-      //   setMessages(allMessages);
       setMessages([...messages, msg]);
     });
   };
@@ -35,7 +32,6 @@ const Chatter = () => {
   const onClick = () => {
     if (message !== "") {
       socket.emit("message", `${currentPlayer.nickname}: ${message}`);
-      // socket.emit("playerMessage", { "playerId": currentPlayer.id, "message":message });
 
       setMessage("");
     } else {

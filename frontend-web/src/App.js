@@ -5,7 +5,8 @@ import { ThemeProvider } from "styled-components";
 import Routes from "./Routes";
 import { NavalBattleContextProvider } from "./hooks/NavalBattleContextProvider";
 import { SocketContextProvider } from "./hooks/SocketContextProvider";
-import Box from "./styled-components/Box";
+import { Box } from "@material-ui/core";
+
 import "@fontsource/roboto";
 
 const theme = {
@@ -21,8 +22,10 @@ function App() {
       <Router>
         <SocketContextProvider>
           <NavalBattleContextProvider>
-            <Box justifyContent="center">
-              <Routes />
+            <Box style={{ display: "flex", flexDirection: "column" }}>
+              <Box justifyContent="center" style={{ marginTop: "5em" }}>
+                <Routes />
+              </Box>
             </Box>
           </NavalBattleContextProvider>
         </SocketContextProvider>

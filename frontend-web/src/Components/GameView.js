@@ -2,11 +2,11 @@ import React from "react";
 import { useNavalBattleContext } from "../hooks/NavalBattleContextProvider";
 import Grid from "./Grid";
 import TurnIndicator from "./TurnIndicator";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { GameStates } from "../services/GameService";
 
 export default function GameView() {
-  const { currentGame, sendMissile, currentPlayer, amIPlayer1, gameState } =
+  const { currentGame, sendMissile, currentPlayer, gameState } =
     useNavalBattleContext();
 
   let grid = currentPlayer.grid;
@@ -23,35 +23,48 @@ export default function GameView() {
     } else {
       window.alert("It's not your turn!");
     }
-
-    // if (gameState === GameStates.PLAYER1_TURN) {
-    //   amIPlayer1
-    //     ? sendMissile(currentGame.id, currentPlayer.id, cordinate)
-    //     : window.alert("it's not your turn !");
-    // } else {
-    //   !amIPlayer1
-    //     ? sendMissile(currentGame.id, currentPlayer.id, cordinate)
-    //     : window.alert("it's not your turn !");
-    // }
   }
 
   return (
     <Box>
       <Box>
-        <TurnIndicator />
+        <TurnIndicator
+          currentGameP1={currentGame.player1}
+          currentPlayer={currentPlayer}
+        />
       </Box>
-      <Box style={{ display: "flex", flexDirection: "row", gridGap: "20px" }}>
-        <div>
-          <h2>Grille du joueur</h2>
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gridGap: "6em",
+        }}
+      >
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gridGap: "1em",
+          }}
+        >
+          <Typography variant="h3">Your Grid</Typography>
           <Grid cordinates={grid.cordinates} />
-        </div>
-        <div>
-          <h2>Grille de l'adversaire</h2>
+        </Box>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gridGap: "1em",
+          }}
+        >
+          <Typography variant="h3">Enemy Grid</Typography>
           <Grid
             cordinates={gridPlay.cordinates}
             onCellClick={(cordinate) => sendMissileToEnemy(cordinate)}
           />
-        </div>
+        </Box>
       </Box>
     </Box>
   );

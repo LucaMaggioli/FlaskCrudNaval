@@ -25,9 +25,9 @@ _lobbyDataProvider = LobbyDataProvider
 clients = {}
 # @socketIo.on("createLobby")
 @socketIo.on("login", namespace="/connect")
-def receiveConnection(username):
+def receiveConnection(username, avatarIndex):
     sid = request.sid
-    player = _playerDataProvider.AddPlayer(username, sid)
+    player = _playerDataProvider.AddPlayer(username, avatarIndex, sid)
     player = _playerDataProvider.setLobbyOwner(player.Id)
 
     lobby = _lobbyDataProvider.newLobby(player)

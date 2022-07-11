@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import AccessibilityIcon from "@material-ui/icons/Accessibility";
 import { Typography, Box, TextField, Button } from "@material-ui/core";
+import { profilesPictures } from "../Constants";
 
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
-import Chatter from "../MessagesChat/Chatter";
+import AvatarPicker from "../AvatarPicker";
 
 const rowStyle = {
   display: "flex",
@@ -16,24 +17,19 @@ const columnStyle = {
   flexDirection: "column",
 };
 export default function HomePage() {
-  const {
-    createPlayer,
-    createLobby,
-    currentLobby,
-    currentPlayer,
-    history,
-    login,
-    updateLobby,
-  } = useNavalBattleContext();
+  const { currentLobby, currentPlayer, history, login, updateLobby } =
+    useNavalBattleContext();
   const [playerName, setPlayerName] = useState("");
   const [ready, setReady] = useState(false);
+  const [avatarIndex, setAvatarIndex] = useState(0);
+
+  const nextAvatarPic = () => {
+    console.log(profilesPictures.lenght); //you should use profilesPictures.lenght instead of hardcoded 7
+    setAvatarIndex((index) => (index >= 7 ? 0 : index + 1));
+  };
 
   updateLobby();
   React.useEffect(() => {
-    console.log("========== In HomePagem useFFect");
-    console.log(currentLobby);
-    console.log(currentPlayer);
-
     if (currentLobby !== undefined && currentPlayer !== undefined) {
       history.push("/lobby");
     }
@@ -55,14 +51,19 @@ export default function HomePage() {
             setPlayerName(e.target.value);
           }}
         />
+
+        <Box style={{ margin: "2em 0 2em 0" }}>
+          <AvatarPicker
+            image={profilesPictures[avatarIndex]}
+            onShuffle={nextAvatarPic}
+          />
+        </Box>
         <Button
           variant="contained"
           disabled={playerName === "" || ready}
           onClick={() => {
             setReady(true);
-            // createPlayer(playerName);
-            // createLobby(playerName);
-            login(playerName);
+            login(playerName, avatarIndex);
           }}
           endIcon={<AccessibilityIcon />}
         >

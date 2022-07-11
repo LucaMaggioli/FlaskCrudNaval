@@ -1,32 +1,21 @@
 import React from "react";
 import { useNavalBattleContext } from "../../hooks/NavalBattleContextProvider";
-import {
-  Typography,
-  Box,
-  TextField,
-  Button,
-  CardContent,
-  Card,
-  CardActions,
-} from "@material-ui/core";
-import GamesDisplayer from "../GamesDisplayer";
+import { Typography, Box, TextField, Button } from "@material-ui/core";
+
 import Chatter from "../MessagesChat/Chatter";
+import LobbyPlayers from "../LobbyPlayers";
 
 export default function PlayerPage() {
-  // _isMounted = false;
   const {
-    createGame,
     createGameVsIa,
     currentLobby,
     currentPlayer,
     currentEnemyPlayer,
     currentPlayerGames,
-    getPlayerGames,
     joinLobby,
     updateLobby,
     currentGame,
-    message,
-    setMessage,
+    createGame,
   } = useNavalBattleContext();
   const [lobbyUrlToJoin, setLobbyUrnToJoin] = React.useState("");
 
@@ -35,11 +24,6 @@ export default function PlayerPage() {
   }, [currentPlayer, currentLobby, currentGame]);
 
   updateLobby();
-
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
-  console.log(currentPlayer["lobbyOwner"]);
 
   return (
     <Box>
@@ -91,32 +75,28 @@ export default function PlayerPage() {
             </Button>
           </Box>
         </Box>
-        {currentEnemyPlayer !== undefined ? (
-          <Card style={{ marginTop: "2em" }}>
-            <CardContent>
-              <Typography variant="h4" component="h2">
-                {currentEnemyPlayer.nickname}
-              </Typography>
-              <Typography variant="body2" component="p">
-                This is your enemy that you want to destroy!
-              </Typography>
-              <CardActions>
-                <Button variant="contained" size="small" onClick={createGame}>
-                  Start Game
-                </Button>
-                <Button variant="contained" size="small">
-                  Send Message
-                </Button>
-              </CardActions>
-            </CardContent>
-          </Card>
-        ) : (
-          <span></span>
-        )}
-        <GamesDisplayer games={currentPlayerGames} />
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <LobbyPlayers lobby={currentLobby} currentPlayer={currentPlayer} />
+          <Button
+            variant="contained"
+            onClick={createGame}
+            style={{
+              marginLeft: "10em",
+              height: "4em",
+              display: currentLobby.guest.id !== -1 ? "flex" : "none",
+            }}
+          >
+            Start Game
+          </Button>
+        </Box>
+        {/* <GamesDisplayer games={currentPlayerGames} /> */}
         <Chatter />
       </Box>
     </Box>
-    // : <Box></Box>
   );
 }
